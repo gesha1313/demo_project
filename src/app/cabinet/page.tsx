@@ -12,7 +12,7 @@ import { getDb } from "@/lib/db";
 export const metadata: Metadata = {
   title: "Личный кабинет",
   description:
-    "Личный кабинет: контакты для связи, статус заявки и чат с горячей линией пансионата.",
+    "Личный кабинет: контакты для связи, последняя заявка, все заявки и чат с горячей линией пансионата.",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -28,6 +28,8 @@ const STATUS_STYLES: Record<string, string> = {
   done: "bg-emerald-100/80 text-emerald-700",
   cancelled: "bg-slate-200/80 text-slate-500",
 };
+
+const formatPrice = (price: number) => price.toLocaleString("ru-RU");
 
 export default async function CabinetPage({
   searchParams,
@@ -47,9 +49,11 @@ export default async function CabinetPage({
   const db = getDb();
   const request = db
     .prepare(
-      `SELECT r.id, r.status, r.message, r.created_at, r.employee_id,
+      `SELECT r.id, r.status, r.message, r.description, r.ward_name, r.created_at,
+              pl.name AS plan_name, pl.monthly_price,
               e.email AS employee_email
          FROM requests r
+         LEFT JOIN plans pl ON pl.id = r.plan_id
          LEFT JOIN users e ON e.id = r.employee_id
         WHERE r.user_id = ?
         ORDER BY r.id DESC LIMIT 1`,
@@ -59,19 +63,31 @@ export default async function CabinetPage({
         id: number;
         status: string;
         message: string | null;
+        description: string | null;
+        ward_name: string | null;
         created_at: string;
-        employee_id: number | null;
+        plan_name: string | null;
+        monthly_price: number | null;
         employee_email: string | null;
       }
     | undefined;
 
   const displayName = user.fullName?.trim() || user.email;
 
-  // Карточка статуса заявки — одна на обе композиции
+  // Всего заявок — для перехода «Подробнее»
+  const totalCount = (
+    db.prepare(`SELECT COUNT(*) AS count FROM requests WHERE user_id = ?`).get(user.id) as {
+      count: number;
+    }
+  ).count;
+
+  // Карточка статуса последней заявки — одна на обе композиции
   const statusCard = (
     <div className="glass h-full rounded-[2rem] p-7 md:p-8">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-lg font-semibold text-brand">Статус заявки</h2>
+        <h2 className="text-lg font-semibold text-brand">
+          {request ? "Последняя заявка" : "Заявки"}
+        </h2>
         {request ? (
           <span
             className={`rounded-full px-3 py-1 text-xs font-semibold ${
@@ -86,27 +102,69 @@ export default async function CabinetPage({
       {request ? (
         <div className="mt-5 space-y-3 text-sm">
           <div className="glass-strong rounded-2xl px-5 py-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">
-              Заявка №{request.id} · {request.created_at.slice(0, 10)}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">
+                Заявка №{request.id} · {request.created_at.slice(0, 10)}
+              </div>
+              {request.ward_name ? (
+                <span className="rounded-full bg-slate-100/80 px-3 py-0.5 text-xs font-medium text-slate-600">
+                  {request.ward_name}
+                </span>
+              ) : null}
             </div>
-            {request.message ? (
-              <p className="mt-1 leading-6 text-slate-600">{request.message}</p>
-            ) : (
-              <p className="mt-1 text-slate-500">Без комментария</p>
-            )}
+
+            {request.plan_name ? (
+              <div className="mt-2 text-sm font-medium text-brand">
+                Тариф: {request.plan_name}
+                {request.monthly_price ? (
+                  <span className="font-normal text-slate-500">
+                    {" "}· {formatPrice(request.monthly_price)} ₽/мес
+                  </span>
+                ) : null}
+              </div>
+            ) : null}
+
+            {(request.description ?? request.message) ? (
+              <p className="mt-1 leading-6 text-slate-600">
+                {request.description ?? request.message}
+              </p>
+            ) : null}
           </div>
 
           <p className="text-slate-500">
             {request.employee_email
-              ? `Ваш заявкой занимается: ${request.employee_email}`
+              ? `Вашей заявкой занимается: ${request.employee_email}`
               : "Заявка ждёт распределения к сотруднику."}
           </p>
+
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link
+              href="/cabinet/requests"
+              className="inline-flex items-center gap-2 font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+            >
+              Подробнее — все заявки{totalCount > 1 ? ` (${totalCount})` : ""} →
+            </Link>
+            <Link
+              href="/cabinet/new"
+              className="inline-flex items-center gap-2 font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+            >
+              Создать следующую заявку →
+            </Link>
+          </div>
         </div>
       ) : (
-        <p className="mt-5 text-sm leading-6 text-slate-500">
-          Заявок пока нет. Заполните форму на странице «Получить консультацию»,
-          и мы свяжемся с вами.
-        </p>
+        <div className="mt-5">
+          <p className="text-sm leading-6 text-slate-500">
+            Заявок пока нет. Создайте первую — расскажите о подопечном
+            и выберите тариф, а мы перезвоним и всё обсудим.
+          </p>
+          <Link
+            href="/cabinet/new"
+            className="btn-glass-primary mt-5 inline-block rounded-full px-6 py-3 text-sm font-semibold"
+          >
+            Создать заявку
+          </Link>
+        </div>
       )}
     </div>
   );
@@ -162,18 +220,25 @@ export default async function CabinetPage({
               <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
                 Здравствуйте, {displayName}
               </h1>
+              <p className="mt-1 text-sm text-slate-500">Аккаунт: {user.email}</p>
               <p className="mt-2 text-slate-600">
                 {showForm && !user.phone
                   ? "Оставьте номер телефона, чтобы мы могли вам перезвонить."
-                  : "Всё о заявке и связь с пансионатом — в одном месте."}
+                  : "Всё о заявках и связь с пансионатом — в одном месте."}
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href="/cabinet/new"
+                className="btn-glass-primary rounded-full px-6 py-3 text-sm font-semibold"
+              >
+                Создать заявку
+              </Link>
               {isStaff(user) ? (
                 <Link
                   href="/admin"
-                  className="btn-glass-primary rounded-full px-6 py-3 text-sm font-semibold"
+                  className="btn-glass-ghost rounded-full px-6 py-3 text-sm font-semibold"
                 >
                   Админ-панель
                 </Link>
@@ -183,7 +248,7 @@ export default async function CabinetPage({
           </div>
 
           {showForm ? (
-            /* До сохранения контактов: форма + статус рядом, линия во всю ширину */
+            /* До сохранения контактов: форма + заявка рядом, линия во всю ширину */
             <div className="mt-12 grid gap-6 lg:grid-cols-2">
               <Reveal>
                 <ProfileCard initialFullName={user.fullName} initialPhone={user.phone} />
@@ -197,7 +262,7 @@ export default async function CabinetPage({
             </div>
           ) : (
             /* Контакты сохранены: вместо формы — компактная полоска,
-               статус и горячая линия встают рядом */
+               заявка и горячая линия встают рядом */
             <div className="mt-12 space-y-6">
               <div className="glass animate-fade-up flex flex-col gap-4 rounded-[2rem] px-7 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">

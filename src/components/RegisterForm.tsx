@@ -22,7 +22,6 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
-  const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
 
   const [emailTouched, setEmailTouched] = useState(false);
@@ -55,7 +54,7 @@ export default function RegisterForm() {
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, message }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -83,7 +82,7 @@ export default function RegisterForm() {
 
         <p className="mt-3 leading-7 text-slate-600">
           Зарегистрируйтесь — в личном кабинете вы сможете оставить номер
-          для связи, отслеживать заявку и написать в горячую линию.
+          для связи и создать заявку на консультацию.
         </p>
 
         <form className="mt-8 space-y-5" onSubmit={handleSubmit} noValidate>
@@ -168,22 +167,6 @@ export default function RegisterForm() {
             {showRepeatError ? (
               <p className="mt-2 text-sm text-red-600">Пароли не совпадают</p>
             ) : null}
-          </div>
-
-          {/* Комментарий */}
-          <div>
-            <label htmlFor="message" className="mb-2 block text-sm font-medium text-brand">
-              Комментарий <span className="font-normal text-slate-400">(необязательно)</span>
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows={3}
-              placeholder="Коротко о ситуации: возраст, что важно учитывать"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="input-glass resize-none"
-            />
           </div>
 
           {/* Согласие */}

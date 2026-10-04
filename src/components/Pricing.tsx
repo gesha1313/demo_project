@@ -3,7 +3,12 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
-export default function Pricing() {
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
+export default function Pricing({ footer }: SectionProps) {
   return (
     <section id="pricing" className="section-band relative overflow-hidden py-14 md:py-20">
       <div className="absolute -right-32 top-16 h-80 w-80 animate-float rounded-full bg-blue-200/40 blur-3xl" />
@@ -33,20 +38,16 @@ export default function Pricing() {
               </Link>
 
               <Link
-                href="/rooms"
+                href="#faq"
                 className="btn-glass-ghost rounded-full px-7 py-4 text-center font-semibold"
               >
-                Номера и тарифы
+                Частые вопросы
               </Link>
             </div>
           </div>
         </Reveal>
 
-        <SectionFooter
-          href="#faq"
-          next="Частые вопросы"
-          hint="Короткие ответы о первом обращении, питании и связи"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { email?: string; password?: string; message?: string };
+  let body: { email?: string; password?: string };
   try {
     body = await request.json();
   } catch {
@@ -22,7 +22,6 @@ export async function POST(request: Request) {
 
   const email = (body.email ?? "").trim().toLowerCase();
   const password = body.password ?? "";
-  const message = (body.message ?? "").trim() || null;
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ error: "Некорректный email" }, { status: 400 });
@@ -46,7 +45,7 @@ export async function POST(request: Request) {
     );
   }
 
-  // Аккаунт + пустой профиль + заявка на консультацию одним заходом
+  // Аккаунт + пустой профиль (заявки клиент создаёт сам в кабинете)
   const register = db.transaction(() => {
     const info = db
       .prepare(`INSERT INTO users (email, password_hash, role) VALUES (?, ?, 'user')`)
@@ -54,9 +53,6 @@ export async function POST(request: Request) {
     const userId = Number(info.lastInsertRowid);
 
     db.prepare(`INSERT INTO user_profiles (user_id) VALUES (?)`).run(userId);
-    db.prepare(
-      `INSERT INTO requests (user_id, employee_id, status, message) VALUES (?, NULL, 'new', ?)`,
-    ).run(userId, message);
 
     return userId;
   });

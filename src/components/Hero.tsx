@@ -3,10 +3,10 @@ import Link from "next/link";
 const advantages = ["Круглосуточный уход", "Опытные специалисты", "Индивидуальный подход"];
 
 const chain = [
-  { href: "#life", label: "Обычный день" },
-  { href: "#services", label: "Услуги" },
-  { href: "/rooms", label: "Номера и тарифы" },
-  { href: "#faq", label: "Частые вопросы" },
+  { href: "/about", label: "О пансионате" },
+  { href: "/services", label: "Услуги и условия" },
+  { href: "/services#pricing", label: "Стоимость" },
+  { href: "/services#faq", label: "Частые вопросы" },
 ];
 
 export default function Hero() {
@@ -43,7 +43,7 @@ export default function Hero() {
             </Link>
 
             <Link
-              href="#life"
+              href="/about"
               className="btn-glass-ghost rounded-full px-7 py-4 text-center font-semibold"
             >
               Как устроен день

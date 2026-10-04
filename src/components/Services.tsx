@@ -3,6 +3,11 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
 const services = [
   {
     title: "Постоянный уход",
@@ -18,7 +23,7 @@ const services = [
   },
 ];
 
-export default function Services() {
+export default function Services({ footer }: SectionProps) {
   return (
     <section id="services" className="section-band relative overflow-hidden py-14 md:py-20">
       <div className="absolute -left-32 top-24 h-80 w-80 animate-float-slow rounded-full bg-blue-200/40 blur-3xl" />
@@ -54,11 +59,7 @@ export default function Services() {
           ))}
         </div>
 
-        <SectionFooter
-          href="#how"
-          next="Как начинается знакомство"
-          hint="Три шага: разговор, подбор варианта, решение"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

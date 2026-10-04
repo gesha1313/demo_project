@@ -2,9 +2,14 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
 const points = ["Опытные сотрудники", "Понятные правила работы", "Индивидуальное отношение"];
 
-export default function About() {
+export default function About({ footer }: SectionProps) {
   return (
     <section id="about" className="relative py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
@@ -40,11 +45,7 @@ export default function About() {
           </Reveal>
         </div>
 
-        <SectionFooter
-          href="#safety"
-          next="Как устроена безопасность"
-          hint="Контроль состояния и связь с родственниками"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

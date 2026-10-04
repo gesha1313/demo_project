@@ -271,6 +271,34 @@ body {
   color: #ffffff;
 }
 
+/* Мобильные устройства: убираем тяжёлые для GPU эффекты,
+   чтобы скролл оставался плавным (fixed-фон, постоянные
+   анимации и сильный blur — главные источники лагов) */
+@media (max-width: 767px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .animate-float,
+  .animate-float-slow {
+    animation: none;
+  }
+
+  .glass,
+  .glass-strong,
+  .glass-dark,
+  .btn-glass-ghost,
+  .input-glass {
+    -webkit-backdrop-filter: blur(10px) saturate(1.3);
+    backdrop-filter: blur(10px) saturate(1.3);
+  }
+
+  .icon-glow::before {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
 /* Уважение к настройкам пользователя: без анимаций при prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   html {

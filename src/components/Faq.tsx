@@ -3,6 +3,12 @@
 import { useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import SectionFooter from "./SectionFooter";
+
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
 
 const faqs = [
   {
@@ -32,7 +38,7 @@ const faqs = [
   },
 ];
 
-export default function Faq() {
+export default function Faq({ footer }: SectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
@@ -86,6 +92,8 @@ export default function Faq() {
             );
           })}
         </div>
+
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

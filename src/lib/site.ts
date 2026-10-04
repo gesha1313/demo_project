@@ -7,9 +7,7 @@ export const site = {
 } as const;
 
 export const navLinks = [
-  { href: "/#about", label: "О компании" },
-  { href: "/#services", label: "Услуги" },
-  { href: "/rooms", label: "Номера и тарифы" },
-  { href: "/#conditions", label: "Условия" },
+  { href: "/about", label: "О пансионате" },
+  { href: "/services", label: "Услуги и условия" },
   { href: "/#contacts", label: "Контакты" },
 ] as const;

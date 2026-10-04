@@ -2,13 +2,18 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
 const reviews = [
   { text: "Здесь будет настоящий отзыв клиента.", author: "Имя клиента" },
   { text: "Здесь будет настоящий отзыв клиента.", author: "Имя клиента" },
   { text: "Здесь будет настоящий отзыв клиента.", author: "Имя клиента" },
 ];
 
-export default function Reviews() {
+export default function Reviews({ footer }: SectionProps) {
   return (
     <section id="reviews" className="relative py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
@@ -30,11 +35,7 @@ export default function Reviews() {
           ))}
         </div>
 
-        <SectionFooter
-          href="#pricing"
-          next="Условия и стоимость"
-          hint="Прозрачный расчёт — что входит в оплату"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

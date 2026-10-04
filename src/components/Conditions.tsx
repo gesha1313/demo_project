@@ -2,6 +2,11 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
 const conditions = [
   "Условия проживания",
   "Питание",
@@ -9,7 +14,7 @@ const conditions = [
   "Взаимодействие с родственниками",
 ];
 
-export default function Conditions() {
+export default function Conditions({ footer }: SectionProps) {
   return (
     <section id="conditions" className="section-band relative overflow-hidden py-14 md:py-20">
       <div className="absolute -right-32 bottom-10 h-80 w-80 animate-float rounded-full bg-indigo-200/40 blur-3xl" />
@@ -39,11 +44,7 @@ export default function Conditions() {
           ))}
         </div>
 
-        <SectionFooter
-          href="/rooms"
-          next="Номера и тарифы"
-          hint="Три категории проживания — на отдельной странице"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

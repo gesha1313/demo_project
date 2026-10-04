@@ -13,6 +13,11 @@ type RequestRow = {
   phone: string | null;
   full_name: string | null;
   employee_email: string | null;
+  ward_name: string | null;
+  passport: string | null;
+  description: string | null;
+  plan_name: string | null;
+  monthly_price: number | null;
 };
 
 type UserRow = {
@@ -202,13 +207,40 @@ export default function AdminDashboard({
               </div>
 
               <div className="mt-4 space-y-1 text-sm text-slate-600">
+                {request.ward_name ? (
+                  <div>
+                    <span className="text-slate-400">Подопечный: </span>
+                    <span className="font-medium text-brand">{request.ward_name}</span>
+                  </div>
+                ) : null}
+
+                {request.plan_name ? (
+                  <div>
+                    <span className="text-slate-400">Тариф: </span>
+                    <span className="rounded-full bg-blue-100/80 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
+                      {request.plan_name}
+                      {request.monthly_price
+                        ? ` · ${request.monthly_price.toLocaleString("ru-RU")} ₽/мес`
+                        : ""}
+                    </span>
+                  </div>
+                ) : null}
+
                 <div>
                   <span className="text-slate-400">Телефон: </span>
                   {request.phone ?? <span className="text-slate-400">не оставлен</span>}
                 </div>
-                {request.message ? (
+
+                {request.passport ? (
+                  <div>
+                    <span className="text-slate-400">Паспорт: </span>
+                    {request.passport}
+                  </div>
+                ) : null}
+
+                {(request.description ?? request.message) ? (
                   <p className="glass-strong mt-2 rounded-2xl px-4 py-3 leading-6">
-                    {request.message}
+                    {request.description ?? request.message}
                   </p>
                 ) : null}
               </div>

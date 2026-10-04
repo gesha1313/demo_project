@@ -3,6 +3,11 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
 const steps = [
   {
     number: "01",
@@ -21,7 +26,7 @@ const steps = [
   },
 ];
 
-export default function HowToStart() {
+export default function HowToStart({ footer }: SectionProps) {
   return (
     <section id="how" className="relative py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
@@ -63,11 +68,7 @@ export default function HowToStart() {
           </div>
         </div>
 
-        <SectionFooter
-          href="#conditions"
-          next="Что входит в проживание"
-          hint="Заранее понятные условия — без скрытых деталей"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

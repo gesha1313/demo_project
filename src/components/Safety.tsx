@@ -2,9 +2,14 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
 const items = ["Контроль состояния", "Организация ухода", "Связь с родственниками"];
 
-export default function Safety() {
+export default function Safety({ footer }: SectionProps) {
   return (
     <section id="safety" className="section-band relative overflow-hidden py-14 md:py-20">
       <div className="absolute -left-32 bottom-0 h-80 w-80 animate-float-slow rounded-full bg-blue-200/40 blur-3xl" />
@@ -30,11 +35,7 @@ export default function Safety() {
           ))}
         </div>
 
-        <SectionFooter
-          href="#reviews"
-          next="Истории семей"
-          hint="Отзывы тех, кто уже доверил нам близкого человека"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

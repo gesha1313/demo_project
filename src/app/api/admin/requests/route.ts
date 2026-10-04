@@ -15,6 +15,11 @@ type RequestRow = {
   phone: string | null;
   full_name: string | null;
   employee_email: string | null;
+  ward_name: string | null;
+  passport: string | null;
+  description: string | null;
+  plan_name: string | null;
+  monthly_price: number | null;
 };
 
 /** Список заявок: админ видит все, сотрудник — только свои. */
@@ -27,12 +32,15 @@ export async function GET() {
   const db = getDb();
   const base = `
     SELECT r.id, r.user_id, r.employee_id, r.status, r.message, r.created_at,
+           r.ward_name, r.passport, r.description,
+           pl.name AS plan_name, pl.monthly_price,
            u.email,
            p.phone, p.full_name,
            e.email AS employee_email
       FROM requests r
       JOIN users u ON u.id = r.user_id
       LEFT JOIN user_profiles p ON p.user_id = r.user_id
+      LEFT JOIN plans pl ON pl.id = r.plan_id
       LEFT JOIN users e ON e.id = r.employee_id
   `;
 

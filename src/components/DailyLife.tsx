@@ -2,6 +2,11 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
 
+type SectionProps = {
+  /** Переход к следующему блоку — задаётся страницей, а не секцией */
+  footer?: { href: string; next: string; hint?: string };
+};
+
 const partsOfDay = [
   {
     time: "Утро",
@@ -20,7 +25,7 @@ const partsOfDay = [
   },
 ];
 
-export default function DailyLife() {
+export default function DailyLife({ footer }: SectionProps) {
   return (
     <section id="life" className="relative py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
@@ -59,11 +64,7 @@ export default function DailyLife() {
           ))}
         </div>
 
-        <SectionFooter
-          href="#services"
-          next="Какую помощь мы оказываем"
-          hint="Форматы ухода — от постоянного до индивидуального"
-        />
+        {footer ? <SectionFooter {...footer} /> : null}
       </div>
     </section>
   );

@@ -9,13 +9,16 @@ import bcrypt from "bcryptjs";
  * users          — аккаунты: email + хеш пароля + роль (user | employee | admin)
  * user_profiles  — профиль клиента (1:1 с users): имя, телефон для связи
  * sessions       — сессии авторизации (token в httpOnly-cookie)
- * requests       — заявки на консультацию: клиент → назначенный сотрудник
+ * plans          — тарифы проживания: название, цена в месяц, примечание
+ * plan_features  — характеристики тарифа (1:N к plans, упорядочены)
+ * requests       — заявки: подопечный, паспорт, описание, выбранный тариф,
+ *                  статус, назначенный сотрудник
  * conversations  — диалоги горячей линии (клиент ↔ сотрудник поддержки)
  * messages       — сообщения в диалогах
  *
  * Каждая неключевая характеристика зависит только от ключа своей таблицы:
- * например, телефон зависит от пользователя (user_profiles.user_id),
- * а не от заявки; текст и статус — только от конкретной заявки.
+ * телефон — у профиля, цена и условия — у тарифа, состояние заявки —
+ * только у заявки (тариф подставляется по plan_id).
  */
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -45,6 +48,21 @@ const SCHEMA = `
     expires_at TEXT NOT NULL
   );
 
+  CREATE TABLE IF NOT EXISTS plans (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    name          TEXT NOT NULL UNIQUE,
+    monthly_price INTEGER NOT NULL,
+    note          TEXT,
+    is_popular    INTEGER NOT NULL DEFAULT 0
+  );
+
+  CREATE TABLE IF NOT EXISTS plan_features (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    plan_id    INTEGER NOT NULL REFERENCES plans(id) ON DELETE CASCADE,
+    feature    TEXT NOT NULL,
+    sort_order INTEGER NOT NULL DEFAULT 0
+  );
+
   CREATE TABLE IF NOT EXISTS requests (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id     INTEGER NOT NULL REFERENCES users(id),
@@ -52,6 +70,10 @@ const SCHEMA = `
     status      TEXT NOT NULL DEFAULT 'new'
                 CHECK (status IN ('new', 'in_progress', 'done', 'cancelled')),
     message     TEXT,
+    ward_name   TEXT,
+    passport    TEXT,
+    description TEXT,
+    plan_id     INTEGER REFERENCES plans(id),
     created_at  TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
   );
@@ -77,6 +99,7 @@ const SCHEMA = `
   CREATE INDEX IF NOT EXISTS idx_requests_user     ON requests(user_id);
   CREATE INDEX IF NOT EXISTS idx_requests_employee ON requests(employee_id);
   CREATE INDEX IF NOT EXISTS idx_messages_convo    ON messages(conversation_id);
+  CREATE INDEX IF NOT EXISTS idx_plan_features     ON plan_features(plan_id);
 `;
 
 /** Демо-администратор и демо-сотрудник поддержки создаются при первом запуске. */
@@ -85,15 +108,103 @@ const SEED_USERS = [
   { email: "employee@patronage.ru", password: "Employee123!", role: "employee" as const },
 ];
 
+/** Три тарифа проживания — справочник, на который ссылается заявка. */
+const SEED_PLANS = [
+  {
+    name: "Стандарт",
+    monthlyPrice: 45000,
+    note: "Базовый уход и комфорт",
+    isPopular: 0,
+    features: [
+      "Место в двухместной комнате",
+      "Пятиразовое питание",
+      "Ежедневный уход и присмотр",
+      "Врачебный осмотр раз в неделю",
+      "Прогулки и досуг с группой",
+    ],
+  },
+  {
+    name: "Комфорт",
+    monthlyPrice: 65000,
+    note: "Оптимальное сочетание цены и заботы",
+    isPopular: 1,
+    features: [
+      "Комната на двоих с санузлом",
+      "Питание с выбором блюд",
+      "Уход 24/7 и помощь с гигиеной",
+      "Врачебный осмотр дважды в неделю",
+      "Индивидуальные занятия",
+      "Видеосвязь с родственниками",
+    ],
+  },
+  {
+    name: "Премиум",
+    monthlyPrice: 95000,
+    note: "Максимальное внимание и сервис",
+    isPopular: 0,
+    features: [
+      "Одноместный номер повышенной комфортности",
+      "Индивидуальное меню по рекомендациям врача",
+      "Персональный сотрудник по уходу",
+      "Ежедневный врачебный контроль",
+      "Физиопроцедуры и реабилитация",
+      "Приоритетная связь с руководством",
+    ],
+  },
+];
+
+/** Добавляет отсутствующие колонки requests (миграция старой базы без потерь). */
+function ensureRequestColumns(db: Database.Database) {
+  const columns = new Set(
+    (db.prepare(`PRAGMA table_info(requests)`).all() as { name: string }[]).map((c) => c.name),
+  );
+
+  const add = (name: string, ddl: string) => {
+    if (!columns.has(name)) {
+      db.exec(`ALTER TABLE requests ADD COLUMN ${name} ${ddl}`);
+    }
+  };
+
+  add("ward_name", "TEXT");
+  add("passport", "TEXT");
+  add("description", "TEXT");
+  add("plan_id", "INTEGER REFERENCES plans(id)");
+}
+
+function seedPlans(db: Database.Database) {
+  const insertPlan = db.prepare(
+    `INSERT OR IGNORE INTO plans (name, monthly_price, note, is_popular) VALUES (?, ?, ?, ?)`,
+  );
+  for (const plan of SEED_PLANS) {
+    insertPlan.run(plan.name, plan.monthlyPrice, plan.note, plan.isPopular);
+  }
+
+  const featureCount = (db.prepare(`SELECT COUNT(*) AS c FROM plan_features`).get() as { c: number }).c;
+  if (featureCount === 0) {
+    const plans = db.prepare(`SELECT id, name FROM plans`).all() as { id: number; name: string }[];
+    const insertFeature = db.prepare(
+      `INSERT INTO plan_features (plan_id, feature, sort_order) VALUES (?, ?, ?)`,
+    );
+    for (const plan of SEED_PLANS) {
+      const row = plans.find((p) => p.name === plan.name);
+      if (!row) continue;
+      plan.features.forEach((feature, index) => insertFeature.run(row.id, feature, index));
+    }
+  }
+}
+
 function initDb(db: Database.Database) {
   db.exec(SCHEMA);
+  ensureRequestColumns(db);
 
-  const seed = db.prepare(
+  const seedUser = db.prepare(
     `INSERT OR IGNORE INTO users (email, password_hash, role) VALUES (?, ?, ?)`,
   );
   for (const user of SEED_USERS) {
-    seed.run(user.email, bcrypt.hashSync(user.password, 10), user.role);
+    seedUser.run(user.email, bcrypt.hashSync(user.password, 10), user.role);
   }
+
+  seedPlans(db);
 }
 
 const globalForDb = globalThis as unknown as { __patronageDb?: Database.Database };

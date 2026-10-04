@@ -17,13 +17,13 @@ const steps = [
   },
   {
     number: "02",
-    title: "Мы перезвоним",
-    text: "Обсудим ситуацию и ответим на все вопросы.",
+    title: "Создайте заявку",
+    text: "ФИО подопечного, описание ситуации и тариф проживания.",
   },
   {
     number: "03",
-    title: "Спокойное решение",
-    text: "Вместе подберём формат ухода, который подойдёт вашему близкому.",
+    title: "Мы перезвоним",
+    text: "Обсудим детали и ответим на все вопросы.",
   },
 ];
 
@@ -50,8 +50,8 @@ export default function RegisterSuccessPage() {
               </h1>
 
               <p className="mx-auto mt-4 max-w-md animate-fade-up leading-7 text-slate-600 [animation-delay:200ms]">
-                Заявка на консультацию уже в работе. Осталось оставить телефон —
-                сделаем это в личном кабинете.
+                Аккаунт создан. Осталось оставить телефон и создать первую
+                заявку на консультацию.
               </p>
 
               {/* Что дальше */}
@@ -79,10 +79,10 @@ export default function RegisterSuccessPage() {
                 </Link>
 
                 <Link
-                  href="/rooms"
+                  href="/cabinet/new"
                   className="btn-glass-ghost rounded-full px-7 py-4 text-center font-semibold"
                 >
-                  Посмотреть номера
+                  Создать заявку
                 </Link>
               </div>
 
