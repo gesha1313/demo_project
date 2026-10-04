@@ -22,7 +22,17 @@ import seedSnapshotJson from "./db-seed.json";
  * только у заявки (тариф подставляется по plan_id).
  */
 
-const DATA_DIR = path.join(process.cwd(), "data");
+/**
+ * Где лежит файл базы.
+ *  — локально: data/patronage.db в корне проекта;
+ *  — на Vercel (serverless): файловая система проекта доступна только для
+ *    чтения, единственное writable-место — /tmp. База живёт в рамках
+ *    инстанса функции и при каждом холодном старте автоматически
+ *    восстанавливается из снапшота src/lib/db-seed.json.
+ */
+const DATA_DIR = process.env.VERCEL
+  ? "/tmp/patronage-data"
+  : path.join(process.cwd(), "data");
 
 const SCHEMA = `
   CREATE TABLE IF NOT EXISTS users (
