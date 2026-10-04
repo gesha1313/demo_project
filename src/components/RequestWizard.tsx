@@ -192,12 +192,20 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                     type="button"
                     onClick={() => setPlanId(plan.id)}
                     aria-pressed={selected}
-                    className={`w-full rounded-[1.75rem] p-5 text-left transition-all duration-300 md:p-6 ${
+                    className={`relative w-full rounded-[1.75rem] border-2 p-5 text-left transition-all duration-300 md:p-6 ${
                       selected
-                        ? "glass-strong shadow-[0_16px_40px_rgba(13,36,74,0.15)] ring-2 ring-blue-500/50"
-                        : "glass hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
+                        ? "glass-strong border-blue-600 shadow-[0_16px_44px_rgba(37,99,235,0.22)] ring-4 ring-blue-500/25"
+                        : "glass border-transparent hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
                     }`}
                   >
+                    {/* Бейдж выбранного тарифа */}
+                    <span
+                      className={`absolute right-5 top-5 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 px-3 py-1 text-xs font-semibold text-white shadow-md transition-all duration-300 ${
+                        selected ? "scale-100 opacity-100" : "scale-75 opacity-0"
+                      }`}
+                    >
+                      ✓ Выбран
+                    </span>
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">

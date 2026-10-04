@@ -17,7 +17,7 @@ export default function Hero() {
       <div className="absolute -right-32 -top-32 h-96 w-96 animate-float rounded-full bg-blue-300/35 blur-3xl" />
       <div className="absolute -left-24 bottom-0 h-80 w-80 animate-float-slow rounded-full bg-indigo-200/45 blur-3xl" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 md:grid-cols-2">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 md:grid-cols-2 md:gap-14">
         {/* Текст */}
         <div>
           <div className="mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full glass px-4 py-2 text-sm font-medium text-blue-700">
@@ -84,11 +84,11 @@ export default function Hero() {
         </div>
 
         {/* Фото */}
-        <div className="relative animate-fade-up [animation-delay:250ms]">
-          <div className="absolute -inset-6 animate-float-slow rounded-[3rem] bg-gradient-to-br from-blue-300/40 to-indigo-300/40 blur-2xl" />
+        <div className="relative mt-2 animate-fade-up [animation-delay:250ms] md:mt-0">
+          <div className="absolute -inset-6 hidden animate-float-slow rounded-[3rem] bg-gradient-to-br from-blue-300/40 to-indigo-300/40 blur-2xl md:block" />
 
-          <div className="glass-strong relative overflow-hidden rounded-[2rem] p-2">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.7rem]">
+          <div className="glass relative overflow-hidden rounded-[1.5rem] md:glass-strong md:rounded-[2rem] md:p-2">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4rem] md:rounded-[1.7rem]">
               <Image
                 src="/photos/hero.jpg"
                 alt="Сиделка и пожилая женщина рассматривают семейные фотографии в светлом уютном зале"
@@ -97,6 +97,13 @@ export default function Hero() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
+              {/* Подпись на фото */}
+              <div className="absolute inset-x-3 bottom-3 flex items-center gap-2.5 rounded-full glass px-4 py-2">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+                <span className="truncate text-xs font-medium text-slate-700">
+                  Забота и внимание — каждый день
+                </span>
+              </div>
             </div>
           </div>
 
