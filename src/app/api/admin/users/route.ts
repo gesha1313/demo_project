@@ -4,16 +4,6 @@ import { getCurrentUser } from "@/lib/auth";
 
 const ROLES = ["user", "employee", "admin"] as const;
 
-type UserRow = {
-  id: number;
-  email: string;
-  role: string;
-  full_name: string | null;
-  phone: string | null;
-  created_at: string;
-  requests_count: number;
-};
-
 /** Список пользователей (только администратор). */
 export async function GET() {
   const user = await getCurrentUser();
@@ -21,19 +11,17 @@ export async function GET() {
     return NextResponse.json({ error: "Доступ запрещён" }, { status: 403 });
   }
 
-  const db = getDb();
-  const rows = db
-    .prepare(
-      `SELECT u.id, u.email, u.role, u.created_at,
-              p.full_name, p.phone,
-              (SELECT COUNT(*) FROM requests r WHERE r.user_id = u.id) AS requests_count
-         FROM users u
-         LEFT JOIN user_profiles p ON p.user_id = u.id
-        ORDER BY u.id ASC`,
-    )
-    .all() as UserRow[];
+  const db = await getDb();
+  const result = await db.execute(`
+    SELECT u.id, u.email, u.role, u.created_at,
+           p.full_name, p.phone,
+           (SELECT COUNT(*) FROM requests r WHERE r.user_id = u.id) AS requests_count
+      FROM users u
+      LEFT JOIN user_profiles p ON p.user_id = u.id
+     ORDER BY u.id ASC
+  `);
 
-  return NextResponse.json({ users: rows });
+  return NextResponse.json({ users: result.rows });
 }
 
 /** Смена роли пользователя (только администратор). */
@@ -62,9 +50,12 @@ export async function PATCH(request: Request) {
     );
   }
 
-  const db = getDb();
-  const result = db.prepare(`UPDATE users SET role = ? WHERE id = ?`).run(role, id);
-  if (result.changes === 0) {
+  const db = await getDb();
+  const result = await db.execute({
+    sql: `UPDATE users SET role = ? WHERE id = ?`,
+    args: [role, id],
+  });
+  if (result.rowsAffected === 0) {
     return NextResponse.json({ error: "Пользователь не найден" }, { status: 404 });
   }
 

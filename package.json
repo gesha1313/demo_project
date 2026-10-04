@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:export": "node scripts/export-db.mjs"
+    "db:export": "node scripts/export-db.mjs",
+    "db:push-turso": "node scripts/push-turso.mjs"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^13.0.3",
     "next": "16.3.8",

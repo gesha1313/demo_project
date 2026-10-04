@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { dbGet, getDb } from "@/lib/db";
 import { getCurrentUser, hashPassword, startSession } from "@/lib/auth";
 import { isPasswordAcceptable, isValidEmail } from "@/lib/validation";
 
@@ -36,8 +36,10 @@ export async function POST(request: Request) {
     );
   }
 
-  const db = getDb();
-  const existing = db.prepare(`SELECT id FROM users WHERE email = ?`).get(email);
+  const db = await getDb();
+  const existing = await dbGet<{ id: number }>(db, `SELECT id FROM users WHERE email = ?`, [
+    email,
+  ]);
   if (existing) {
     return NextResponse.json(
       { error: "Пользователь с таким email уже зарегистрирован" },
@@ -46,18 +48,26 @@ export async function POST(request: Request) {
   }
 
   // Аккаунт + пустой профиль (заявки клиент создаёт сам в кабинете)
-  const register = db.transaction(() => {
-    const info = db
-      .prepare(`INSERT INTO users (email, password_hash, role) VALUES (?, ?, 'user')`)
-      .run(email, hashPassword(password));
-    const userId = Number(info.lastInsertRowid);
+  const tx = await db.transaction();
+  let userId: number;
+  try {
+    const result = await tx.execute({
+      sql: `INSERT INTO users (email, password_hash, role) VALUES (?, ?, 'user')`,
+      args: [email, hashPassword(password)],
+    });
+    userId = Number(result.lastInsertRowid);
 
-    db.prepare(`INSERT INTO user_profiles (user_id) VALUES (?)`).run(userId);
+    await tx.execute({
+      sql: `INSERT INTO user_profiles (user_id) VALUES (?)`,
+      args: [userId],
+    });
 
-    return userId;
-  });
+    await tx.commit();
+  } catch (error) {
+    await tx.rollback();
+    throw error;
+  }
 
-  const userId = register();
   await startSession({ id: userId, email, role: "user" });
 
   return NextResponse.json({ ok: true });

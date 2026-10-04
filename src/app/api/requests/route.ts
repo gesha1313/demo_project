@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { dbGet, getDb } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 
 /** Создание заявки: подопечный, паспорт, описание, тариф. */
@@ -45,16 +45,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Выберите тариф" }, { status: 400 });
   }
 
-  const db = getDb();
-  const plan = db.prepare(`SELECT id FROM plans WHERE id = ?`).get(planId);
+  const db = await getDb();
+  const plan = await dbGet<{ id: number }>(db, `SELECT id FROM plans WHERE id = ?`, [planId]);
   if (!plan) {
     return NextResponse.json({ error: "Такой тариф не найден" }, { status: 400 });
   }
 
-  db.prepare(
-    `INSERT INTO requests (user_id, status, ward_name, passport, description, plan_id)
-     VALUES (?, 'new', ?, ?, ?, ?)`,
-  ).run(user.id, wardName, passport, description, planId);
+  await db.execute({
+    sql: `INSERT INTO requests (user_id, status, ward_name, passport, description, plan_id)
+          VALUES (?, 'new', ?, ?, ?, ?)`,
+    args: [user.id, wardName, passport, description, planId],
+  });
 
   return NextResponse.json({ ok: true });
 }

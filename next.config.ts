@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  // better-sqlite3 — нативный модуль, его нельзя бандлить
-  serverExternalPackages: ["better-sqlite3"],
+  // Нативные модули — не бандлить
+  serverExternalPackages: ["@libsql/client", "better-sqlite3"],
 };
 
 export default nextConfig;

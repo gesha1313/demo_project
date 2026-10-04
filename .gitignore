@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# локальная база данных (снапшот для деплоя лежит в src/lib/db-seed.json)
+/data

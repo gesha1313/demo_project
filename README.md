@@ -1,7 +1,7 @@
 # Сайт пансионата «Патронаж»
 
 Лендинг пансионата с личным кабинетом, горячей линией и админ-панелью.
-Стек: **Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · TypeScript · SQLite (better-sqlite3)**.
+Стек: **Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · TypeScript · libSQL (Turso / локальный SQLite)**.
 
 ## Запуск
 
@@ -13,6 +13,45 @@ npm run dev
 Открыть [http://localhost:3000](http://localhost:3000).
 
 Продакшен-сборка: `npm run build && npm start`.
+
+## База данных: Turso (облако) или локальный файл
+
+Приложение работает через `@libsql/client`:
+
+- **заполнены `TURSO_DATABASE_URL` и `TURSO_AUTH_TOKEN`** — все данные пишутся
+  в облачную базу [Turso](https://turso.tech): общая для локальной разработки
+  и Vercel, переживает любые рестарты и инстансы;
+- **переменные пустые** — локальный файл `data/patronage.db`
+  (на Vercel — `/tmp` с автосевом из снапшота `src/lib/db-seed.json`).
+
+### Подключение Turso (один раз)
+
+```bash
+# Turso CLI: https://docs.turso.tech/cli/installation
+turso auth login           # браузер → вход в ваш аккаунт
+turso db create patronage
+turso db show patronage --url      # → libsql://patronage-<ваш>.turso.io
+turso db tokens create patronage   # → длинный токен
+```
+
+Впишите оба значения в `.env.local`:
+
+```
+TURSO_DATABASE_URL=libsql://patronage-xxx.turso.io
+TURSO_AUTH_TOKEN=eyJ...
+```
+
+Залейте текущие данные (схема + все аккаунты/заявки из снапшота):
+
+```bash
+npm run db:push-turso
+npm run dev
+```
+
+Для Vercel добавьте обе переменные в Settings → Environment Variables
+и задеплойте — регистрации, заявки и чаты станут постоянными на любом
+количестве инстансов. Скрипт безопасно запускать повторно: если в базе
+уже есть пользователи, снапшот не заливается.
 
 ## Авторизация: подписанные cookie (stateless)
 

@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RequestWizard, { type PlanOption } from "@/components/RequestWizard";
 import { getCurrentUser } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { dbAll, getDb } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Новая заявка",
@@ -19,20 +19,19 @@ export default async function NewRequestPage() {
     redirect("/login");
   }
 
-  const db = getDb();
-  const plans = db
-    .prepare(`SELECT id, name, monthly_price, note, is_popular FROM plans ORDER BY id`)
-    .all() as {
+  const db = await getDb();
+  const plans = await dbAll<{
     id: number;
     name: string;
     monthly_price: number;
     note: string | null;
     is_popular: number;
-  }[];
+  }>(db, `SELECT id, name, monthly_price, note, is_popular FROM plans ORDER BY id`);
 
-  const features = db
-    .prepare(`SELECT plan_id, feature FROM plan_features ORDER BY sort_order`)
-    .all() as { plan_id: number; feature: string }[];
+  const features = await dbAll<{ plan_id: number; feature: string }>(
+    db,
+    `SELECT plan_id, feature FROM plan_features ORDER BY sort_order`,
+  );
 
   const planOptions: PlanOption[] = plans.map((plan) => ({
     id: plan.id,

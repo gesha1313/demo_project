@@ -23,15 +23,16 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Некорректный номер телефона" }, { status: 400 });
   }
 
-  const db = getDb();
-  db.prepare(
-    `INSERT INTO user_profiles (user_id, full_name, phone, updated_at)
-     VALUES (?, ?, ?, datetime('now'))
-     ON CONFLICT(user_id) DO UPDATE SET
-       full_name = excluded.full_name,
-       phone = excluded.phone,
-       updated_at = excluded.updated_at`,
-  ).run(user.id, fullName, phone || null);
+  const db = await getDb();
+  await db.execute({
+    sql: `INSERT INTO user_profiles (user_id, full_name, phone, updated_at)
+          VALUES (?, ?, ?, datetime('now'))
+          ON CONFLICT(user_id) DO UPDATE SET
+            full_name = excluded.full_name,
+            phone = excluded.phone,
+            updated_at = excluded.updated_at`,
+    args: [user.id, fullName, phone || null],
+  });
 
   return NextResponse.json({ ok: true });
 }

@@ -1,38 +1,38 @@
-import Database from "better-sqlite3";
+import { createClient, type Client } from "@libsql/client";
 import fs from "node:fs";
 import path from "node:path";
 import bcrypt from "bcryptjs";
 import seedSnapshotJson from "./db-seed.json";
 
 /**
- * Схема БД (SQLite, третья нормальная форма):
+ * База данных через @libsql/client:
+ *  — если заданы TURSO_DATABASE_URL и TURSO_AUTH_TOKEN — работаем
+ *    с облачной базой Turso (данные переживают любой рестарт,
+ *    все инстансы видят одно состояние);
+ *  — иначе локальный файл data/patronage.db (на Vercel — в /tmp,
+ *    с автосевом из снапшота db-seed.json).
  *
- * users          — аккаунты: email + хеш пароля + роль (user | employee | admin)
- * user_profiles  — профиль клиента (1:1 с users): имя, телефон для связи
- * sessions       — сессии авторизации (token в httpOnly-cookie)
- * plans          — тарифы проживания: название, цена в месяц, примечание
- * plan_features  — характеристики тарифа (1:N к plans, упорядочены)
- * requests       — заявки: подопечный, паспорт, описание, выбранный тариф,
- *                  статус, назначенный сотрудник
- * conversations  — диалоги горячей линии (клиент ↔ сотрудник поддержки)
- * messages       — сообщения в диалогах
+ * API libsql асинхронный, поэтому getDb() возвращает Promise<Client> —
+ * все потребители ждут его перед запросами. Схема и сев выполняются
+ * один раз при первом обращении (глобально закешированный промис).
  *
- * Каждая неключевая характеристика зависит только от ключа своей таблицы:
- * телефон — у профиля, цена и условия — у тарифа, состояние заявки —
- * только у заявки (тариф подставляется по plan_id).
+ * Схема — третья нормальная форма: телефон у профиля, цена у тарифа,
+ * состояние — только у заявки (см. таблицы ниже).
  */
 
-/**
- * Где лежит файл базы.
- *  — локально: data/patronage.db в корне проекта;
- *  — на Vercel (serverless): файловая система проекта доступна только для
- *    чтения, единственное writable-место — /tmp. База живёт в рамках
- *    инстанса функции и при каждом холодном старте автоматически
- *    восстанавливается из снапшота src/lib/db-seed.json.
- */
 const DATA_DIR = process.env.VERCEL
   ? "/tmp/patronage-data"
   : path.join(process.cwd(), "data");
+
+const TURSO_URL = process.env.TURSO_DATABASE_URL;
+const TURSO_TOKEN = process.env.TURSO_AUTH_TOKEN;
+
+const DB_URL =
+  TURSO_URL && TURSO_TOKEN
+    ? TURSO_URL
+    : `file:${path.join(DATA_DIR, "patronage.db").replace(/\\/g, "/")}`;
+
+const IS_REMOTE = DB_URL.startsWith("libsql:") || DB_URL.startsWith("https:");
 
 const SCHEMA = `
   CREATE TABLE IF NOT EXISTS users (
@@ -122,13 +122,12 @@ const SCHEMA = `
   CREATE INDEX IF NOT EXISTS idx_plan_features     ON plan_features(plan_id);
 `;
 
-/** Демо-администратор и демо-сотрудник поддержки создаются при первом запуске. */
+/** Демо-аккаунты создаются, только если база пуста и нет снапшота. */
 const SEED_USERS = [
   { email: "admin@patronage.ru", password: "Admin123!", role: "admin" as const },
   { email: "employee@patronage.ru", password: "Employee123!", role: "employee" as const },
 ];
 
-/** Три тарифа проживания — справочник, на который ссылается заявка. */
 const SEED_PLANS = [
   {
     name: "Стандарт",
@@ -173,143 +172,147 @@ const SEED_PLANS = [
   },
 ];
 
-/** Добавляет отсутствующие колонки requests (миграция старой базы без потерь). */
-function ensureRequestColumns(db: Database.Database) {
-  const columns = new Set(
-    (db.prepare(`PRAGMA table_info(requests)`).all() as { name: string }[]).map((c) => c.name),
-  );
+const SNAPSHOT_TABLES = [
+  "users",
+  "user_profiles",
+  "plans",
+  "plan_features",
+  "requests",
+  "conversations",
+  "messages",
+] as const;
 
-  const add = (name: string, ddl: string) => {
-    if (!columns.has(name)) {
-      db.exec(`ALTER TABLE requests ADD COLUMN ${name} ${ddl}`);
-    }
-  };
-
-  add("ward_name", "TEXT");
-  add("passport", "TEXT");
-  add("description", "TEXT");
-  add("plan_id", "INTEGER REFERENCES plans(id)");
-}
-
-function seedPlans(db: Database.Database) {
-  const insertPlan = db.prepare(
-    `INSERT OR IGNORE INTO plans (name, monthly_price, note, is_popular) VALUES (?, ?, ?, ?)`,
-  );
-  for (const plan of SEED_PLANS) {
-    insertPlan.run(plan.name, plan.monthlyPrice, plan.note, plan.isPopular);
-  }
-
-  const featureCount = (db.prepare(`SELECT COUNT(*) AS c FROM plan_features`).get() as { c: number }).c;
-  if (featureCount === 0) {
-    const plans = db.prepare(`SELECT id, name FROM plans`).all() as { id: number; name: string }[];
-    const insertFeature = db.prepare(
-      `INSERT INTO plan_features (plan_id, feature, sort_order) VALUES (?, ?, ?)`,
-    );
-    for (const plan of SEED_PLANS) {
-      const row = plans.find((p) => p.name === plan.name);
-      if (!row) continue;
-      plan.features.forEach((feature, index) => insertFeature.run(row.id, feature, index));
-    }
-  }
-}
-
-/**
- * Восстанавливает базу из снапшота (src/lib/db-seed.json, экспорт через
- * `npm run db:export`). Нужно на serverless-хостинге (Vercel): там файловая
- * система не переживает перезапуск, поэтому каждая холодная стартовая база
- * пуста — и initDb наполняет её снапшотом: все аккаунты, заявки и чаты
- * из репозитория доступны сразу, вход работает по прежним паролям.
- */
-function importSnapshot(db: Database.Database) {
+/** Заливает снапшот db-seed.json в пустую базу (batch-вставками). */
+async function importSnapshot(client: Client) {
   const snapshot = seedSnapshotJson as unknown as {
     tables: Record<string, Record<string, unknown>[]>;
   };
 
-  db.transaction(() => {
-    for (const table of [
-      "users",
-      "user_profiles",
-      "plans",
-      "plan_features",
-      "requests",
-      "conversations",
-      "messages",
-    ]) {
-      const rows = snapshot.tables[table] ?? [];
-      if (rows.length === 0) continue;
+  for (const table of SNAPSHOT_TABLES) {
+    const rows = snapshot.tables[table] ?? [];
+    if (rows.length === 0) continue;
 
-      const columns = Object.keys(rows[0]);
-      const insert = db.prepare(
-        `INSERT INTO ${table} (${columns.map((c) => `"${c}"`).join(", ")})
-         VALUES (${columns.map(() => "?").join(", ")})`,
+    const columns = Object.keys(rows[0]);
+    const sql = `INSERT INTO ${table} (${columns.map((c) => `"${c}"`).join(", ")})
+                 VALUES (${columns.map(() => "?").join(", ")})`;
+
+    // libsql batch — единая атомарная пачка
+    for (let i = 0; i < rows.length; i += 50) {
+      const chunk = rows.slice(i, i + 50).map(
+        (row) =>
+          ({
+            sql,
+            args: columns.map((column) => row[column]),
+          }) as never,
       );
+      await client.batch(chunk, "write");
+    }
 
-      for (const row of rows) {
-        insert.run(...columns.map((column) => row[column]));
-      }
-
-      // Сдвигаем счётчик автоинкремента за последний вставленный id
-      // (только у таблиц с id; у user_profiles ключ — user_id)
-      if (table !== "user_profiles") {
-        const maxId = db.prepare(`SELECT MAX(id) AS max FROM ${table}`).get() as {
-          max: number | null;
-        };
-        if (maxId.max) {
-          const updated = db
-            .prepare(`UPDATE sqlite_sequence SET seq = ? WHERE name = ?`)
-            .run(maxId.max, table);
-          if (updated.changes === 0) {
-            db.prepare(
-              `INSERT INTO sqlite_sequence(name, seq) VALUES (?, ?)`,
-            ).run(table, maxId.max);
-          }
-        }
+    // Сдвиг счётчика автоинкремента (таблицы с id; у user_profiles ключ user_id)
+    if (table !== "user_profiles") {
+      try {
+        await client.executeMultiple(
+          `UPDATE sqlite_sequence SET seq = (SELECT MAX(id) FROM ${table}) WHERE name = '${table}';
+           INSERT INTO sqlite_sequence(name, seq) SELECT '${table}', (SELECT MAX(id) FROM ${table}) WHERE NOT EXISTS (SELECT 1 FROM sqlite_sequence WHERE name = '${table}');`,
+        );
+      } catch {
+        // sqlite_sequence недоступен — AUTOINCREMENT сам догонит при вставках
       }
     }
-  })();
+  }
 }
 
-function initDb(db: Database.Database) {
-  db.exec(SCHEMA);
-  ensureRequestColumns(db);
+/** Демо-аккаунты и справочник тарифов (когда нет снапшота). */
+async function seedDefaults(client: Client) {
+  for (const user of SEED_USERS) {
+    await client.execute({
+      sql: `INSERT OR IGNORE INTO users (email, password_hash, role) VALUES (?, ?, ?)`,
+      args: [user.email, bcrypt.hashSync(user.password, 10), user.role],
+    });
+  }
 
-  const usersCount = (
-    db.prepare(`SELECT COUNT(*) AS c FROM users`).get() as { c: number }
-  ).c;
-
-  if (usersCount === 0) {
-    // Пустая база: на Vercel — каждый холодный старт, локально — первый запуск.
-    // Если есть снапшот, восстанавливаем его целиком (аккаунты, тарифы, заявки,
-    // чаты); иначе создаём демо-аккаунты и справочник тарифов.
-    const snapshot = seedSnapshotJson as unknown as {
-      tables: { users?: unknown[] };
-    };
-    if (snapshot.tables.users?.length) {
-      importSnapshot(db);
-      return;
+  const planCount = await dbGet<{ c: number }>(client, `SELECT COUNT(*) AS c FROM plans`);
+  if (Number(planCount?.c ?? 0) === 0) {
+    for (const plan of SEED_PLANS) {
+      const result = await client.execute({
+        sql: `INSERT INTO plans (name, monthly_price, note, is_popular) VALUES (?, ?, ?, ?)`,
+        args: [plan.name, plan.monthlyPrice, plan.note, plan.isPopular],
+      });
+      const planId = Number(result.lastInsertRowid);
+      await client.batch(
+        plan.features.map(
+          (feature, index) =>
+            ({
+              sql: `INSERT INTO plan_features (plan_id, feature, sort_order) VALUES (?, ?, ?)`,
+              args: [planId, feature, index],
+            }) as never,
+        ),
+        "write",
+      );
     }
+  }
+}
 
-    const seedUser = db.prepare(
-      `INSERT OR IGNORE INTO users (email, password_hash, role) VALUES (?, ?, ?)`,
+/** Инициализация: схема → (снапшот | демо-данные). Выполняется один раз. */
+async function initDb(client: Client) {
+  await client.executeMultiple(SCHEMA);
+
+  const usersRow = await dbGet<{ c: number }>(client, `SELECT COUNT(*) AS c FROM users`);
+  if (Number(usersRow?.c ?? 0) > 0) return;
+
+  const snapshot = seedSnapshotJson as unknown as { tables: { users?: unknown[] } };
+  if (snapshot.tables.users?.length) {
+    await importSnapshot(client);
+    return;
+  }
+
+  await seedDefaults(client);
+}
+
+type GlobalDb = typeof globalThis & {
+  __patronageClient?: Client;
+  __patronageReady?: Promise<void>;
+};
+const globalForDb = globalThis as GlobalDb;
+
+/** Единая точка доступа к базе: ждите перед запросами. */
+export async function getDb(): Promise<Client> {
+  if (!globalForDb.__patronageClient) {
+    if (!IS_REMOTE) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    const client = createClient(
+      IS_REMOTE ? { url: DB_URL, authToken: TURSO_TOKEN } : { url: DB_URL },
     );
-    for (const user of SEED_USERS) {
-      seedUser.run(user.email, bcrypt.hashSync(user.password, 10), user.role);
-    }
-
-    seedPlans(db);
+    globalForDb.__patronageClient = client;
+    globalForDb.__patronageReady = initDb(client).catch((error) => {
+      // Сбрасываем кеш, чтобы следующая попытка начала заново
+      globalForDb.__patronageClient = undefined;
+      globalForDb.__patronageReady = undefined;
+      throw error;
+    });
   }
+
+  await globalForDb.__patronageReady;
+  return globalForDb.__patronageClient;
 }
 
-const globalForDb = globalThis as unknown as { __patronageDb?: Database.Database };
+/** Первая строка результата (аналог .get() в better-sqlite3). */
+export async function dbGet<T>(
+  client: Client,
+  sql: string,
+  args: unknown[] = [],
+): Promise<T | undefined> {
+  const rs = await client.execute({ sql, args: args as never });
+  return rs.rows[0] as T | undefined;
+}
 
-export function getDb(): Database.Database {
-  if (!globalForDb.__patronageDb) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-    const db = new Database(path.join(DATA_DIR, "patronage.db"));
-    db.pragma("journal_mode = WAL");
-    db.pragma("foreign_keys = ON");
-    initDb(db);
-    globalForDb.__patronageDb = db;
-  }
-  return globalForDb.__patronageDb;
+/** Все строки результата (аналог .all() в better-sqlite3). */
+export async function dbAll<T>(
+  client: Client,
+  sql: string,
+  args: unknown[] = [],
+): Promise<T[]> {
+  const rs = await client.execute({ sql, args: args as never });
+  return rs.rows as unknown as T[];
 }

@@ -97,15 +97,14 @@ export default function Hero() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
-              {/* Подпись на фото */}
-              <div className="absolute inset-x-3 bottom-3 flex items-center gap-2.5 rounded-full glass px-4 py-2">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
-                <span className="truncate text-xs font-medium text-slate-700">
-                  Забота и внимание — каждый день
-                </span>
-              </div>
             </div>
           </div>
+
+          {/* Подпись под фото (на десктопе отступ больше — обходим карточку) */}
+          <p className="mt-3 flex items-center justify-center gap-2 text-xs font-medium text-slate-500 md:mt-10 md:justify-start">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+            Забота и внимание — каждый день
+          </p>
 
           {/* Информационная карточка */}
           <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 animate-float rounded-2xl p-5 md:block">

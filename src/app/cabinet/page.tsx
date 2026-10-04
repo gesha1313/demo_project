@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 import ProfileCard from "@/components/ProfileCard";
 import LogoutButton from "@/components/LogoutButton";
 import { getCurrentUser, isStaff } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { dbGet, getDb } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Личный кабинет",
@@ -46,40 +46,39 @@ export default async function CabinetPage({
   const params = await searchParams;
   const showForm = !user.phone || params.edit === "1";
 
-  const db = getDb();
-  const request = db
-    .prepare(
-      `SELECT r.id, r.status, r.message, r.description, r.ward_name, r.created_at,
-              pl.name AS plan_name, pl.monthly_price,
-              e.email AS employee_email
-         FROM requests r
-         LEFT JOIN plans pl ON pl.id = r.plan_id
-         LEFT JOIN users e ON e.id = r.employee_id
-        WHERE r.user_id = ?
-        ORDER BY r.id DESC LIMIT 1`,
-    )
-    .get(user.id) as
-    | {
-        id: number;
-        status: string;
-        message: string | null;
-        description: string | null;
-        ward_name: string | null;
-        created_at: string;
-        plan_name: string | null;
-        monthly_price: number | null;
-        employee_email: string | null;
-      }
-    | undefined;
+  const db = await getDb();
+  const request = await dbGet<{
+    id: number;
+    status: string;
+    message: string | null;
+    description: string | null;
+    ward_name: string | null;
+    created_at: string;
+    plan_name: string | null;
+    monthly_price: number | null;
+    employee_email: string | null;
+  }>(
+    db,
+    `SELECT r.id, r.status, r.message, r.description, r.ward_name, r.created_at,
+            pl.name AS plan_name, pl.monthly_price,
+            e.email AS employee_email
+       FROM requests r
+       LEFT JOIN plans pl ON pl.id = r.plan_id
+       LEFT JOIN users e ON e.id = r.employee_id
+      WHERE r.user_id = ?
+      ORDER BY r.id DESC LIMIT 1`,
+    [user.id],
+  );
 
   const displayName = user.fullName?.trim() || user.email;
 
   // Всего заявок — для перехода «Подробнее»
-  const totalCount = (
-    db.prepare(`SELECT COUNT(*) AS count FROM requests WHERE user_id = ?`).get(user.id) as {
-      count: number;
-    }
-  ).count;
+  const totalRow = await dbGet<{ count: number }>(
+    db,
+    `SELECT COUNT(*) AS count FROM requests WHERE user_id = ?`,
+    [user.id],
+  );
+  const totalCount = Number(totalRow?.count ?? 0);
 
   // Карточка статуса последней заявки — одна на обе композиции
   const statusCard = (

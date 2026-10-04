@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
-import { getDb } from "./db";
+import { dbGet, getDb } from "./db";
 
 export const SESSION_COOKIE = "patronage_session";
 const SESSION_TTL_DAYS = 30;
@@ -109,9 +109,12 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   let fullName: string | null = null;
   let phone: string | null = null;
   try {
-    const profile = getDb()
-      .prepare(`SELECT full_name, phone FROM user_profiles WHERE user_id = ?`)
-      .get(payload.id) as { full_name: string | null; phone: string | null } | undefined;
+    const db = await getDb();
+    const profile = await dbGet<{ full_name: string | null; phone: string | null }>(
+      db,
+      `SELECT full_name, phone FROM user_profiles WHERE user_id = ?`,
+      [payload.id],
+    );
     fullName = profile?.full_name ?? null;
     phone = profile?.phone ?? null;
   } catch {

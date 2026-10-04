@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
 import SectionFooter from "@/components/SectionFooter";
 import { getCurrentUser } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { dbAll, getDb } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Мои заявки",
@@ -33,19 +33,8 @@ export default async function CabinetRequestsPage() {
     redirect("/login");
   }
 
-  const db = getDb();
-  const requests = db
-    .prepare(
-      `SELECT r.id, r.status, r.message, r.description, r.ward_name, r.created_at, r.updated_at,
-              pl.name AS plan_name, pl.monthly_price,
-              e.email AS employee_email
-         FROM requests r
-         LEFT JOIN plans pl ON pl.id = r.plan_id
-         LEFT JOIN users e ON e.id = r.employee_id
-        WHERE r.user_id = ?
-        ORDER BY r.id DESC`,
-    )
-    .all(user.id) as {
+  const db = await getDb();
+  const requests = await dbAll<{
     id: number;
     status: string;
     message: string | null;
@@ -56,7 +45,18 @@ export default async function CabinetRequestsPage() {
     plan_name: string | null;
     monthly_price: number | null;
     employee_email: string | null;
-  }[];
+  }>(
+    db,
+    `SELECT r.id, r.status, r.message, r.description, r.ward_name, r.created_at, r.updated_at,
+            pl.name AS plan_name, pl.monthly_price,
+            e.email AS employee_email
+       FROM requests r
+       LEFT JOIN plans pl ON pl.id = r.plan_id
+       LEFT JOIN users e ON e.id = r.employee_id
+      WHERE r.user_id = ?
+      ORDER BY r.id DESC`,
+    [user.id],
+  );
 
   return (
     <>
