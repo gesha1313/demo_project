@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { createSession, getCurrentUser, hashPassword, setSessionCookie } from "@/lib/auth";
+import { getCurrentUser, hashPassword, startSession } from "@/lib/auth";
 import { isPasswordAcceptable, isValidEmail } from "@/lib/validation";
 
 export async function POST(request: Request) {
@@ -58,8 +58,7 @@ export async function POST(request: Request) {
   });
 
   const userId = register();
-  const token = createSession(userId);
-  await setSessionCookie(token);
+  await startSession({ id: userId, email, role: "user" });
 
   return NextResponse.json({ ok: true });
 }
