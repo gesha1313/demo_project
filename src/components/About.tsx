@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
@@ -16,8 +17,14 @@ export default function About({ footer }: SectionProps) {
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
             <div className="glass-strong overflow-hidden rounded-[2rem] p-2">
-              <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[1.7rem] bg-gradient-to-br from-slate-100 to-blue-100 text-sm text-slate-500">
-                Здесь будет фотография команды
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[1.7rem]">
+                <Image
+                  src="/photos/about.jpg"
+                  alt="Сотрудница пансионата рядом с постоялицей — тёплый момент заботы"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                />
               </div>
             </div>
           </Reveal>

@@ -55,7 +55,7 @@ export default async function AdminPage() {
             </div>
           </div>
 
-          <div className="mt-10 animate-fade-up [animation-delay:150ms]">
+          <div className="mt-10 animate-fade-up [animation-delay:75ms]">
             <AdminDashboard role={user.role === "admin" ? "admin" : "employee"} myId={user.id} />
           </div>
         </div>

@@ -1,3 +1,4 @@
+import Icon from "./Icon";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
@@ -8,10 +9,10 @@ type SectionProps = {
 };
 
 const conditions = [
-  "Условия проживания",
-  "Питание",
-  "Ежедневный уход",
-  "Взаимодействие с родственниками",
+  { title: "Условия проживания", icon: "home" as const },
+  { title: "Питание", icon: "food" as const },
+  { title: "Ежедневный уход", icon: "clock" as const },
+  { title: "Взаимодействие с родственниками", icon: "chat" as const },
 ];
 
 export default function Conditions({ footer }: SectionProps) {
@@ -28,14 +29,14 @@ export default function Conditions({ footer }: SectionProps) {
 
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {conditions.map((condition, index) => (
-            <Reveal key={condition} delay={index * 100}>
+            <Reveal key={condition.title} delay={index * 100}>
               <div className="glass h-full rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <div
-                  className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : index === 3 ? "icon-glow-delay-3" : ""} flex h-10 w-10 items-center justify-center rounded-xl text-xl text-blue-700`}
+                  className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : index === 3 ? "icon-glow-delay-3" : ""} flex h-10 w-10 items-center justify-center rounded-xl text-blue-700`}
                 >
-                  +
+                  <Icon name={condition.icon} className="h-5 w-5" />
                 </div>
-                <h3 className="mt-5 font-semibold text-brand">{condition}</h3>
+                <h3 className="mt-5 font-semibold text-brand">{condition.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-500">
                   Здесь будет подробная информация.
                 </p>

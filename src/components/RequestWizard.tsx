@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Reveal from "./Reveal";
 
 export type PlanOption = {
   id: number;

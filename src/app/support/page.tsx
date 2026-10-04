@@ -41,7 +41,7 @@ export default async function SupportPage() {
             </p>
           </div>
 
-          <div className="animate-fade-up [animation-delay:150ms]">
+          <div className="animate-fade-up [animation-delay:75ms]">
             <SupportChat myId={user.id} />
           </div>
         </div>

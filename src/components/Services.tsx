@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Icon from "./Icon";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
@@ -12,14 +13,17 @@ const services = [
   {
     title: "Постоянный уход",
     text: "Ежедневная помощь, наблюдение и поддержка.",
+    icon: "heart" as const,
   },
   {
     title: "Временное размещение",
     text: "Решение на период восстановления или отсутствия родственников.",
+    icon: "calendar" as const,
   },
   {
     title: "Индивидуальная помощь",
     text: "Формат под конкретные потребности человека.",
+    icon: "person" as const,
   },
 ];
 
@@ -40,9 +44,9 @@ export default function Services({ footer }: SectionProps) {
             <Reveal key={service.title} delay={index * 120}>
               <div className="glass group flex h-full flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <div
-                  className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-12 w-12 items-center justify-center rounded-2xl text-xl font-semibold text-blue-700`}
+                  className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-12 w-12 items-center justify-center rounded-2xl text-blue-700`}
                 >
-                  +
+                  <Icon name={service.icon} className="h-6 w-6" />
                 </div>
 
                 <h3 className="mt-6 text-xl font-semibold text-brand">{service.title}</h3>

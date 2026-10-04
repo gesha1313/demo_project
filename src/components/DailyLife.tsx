@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import SectionFooter from "./SectionFooter";
@@ -38,13 +39,14 @@ export default function DailyLife({ footer }: SectionProps) {
         {/* Большая фотография */}
         <Reveal className="mt-10" delay={150}>
           <div className="glass-strong overflow-hidden rounded-[2rem] p-2 transition-shadow duration-300 hover:shadow-[0_18px_48px_rgba(13,36,74,0.15)]">
-            <div className="flex aspect-[16/7] items-center justify-center overflow-hidden rounded-[1.7rem] bg-gradient-to-br from-blue-50 via-slate-100 to-blue-100">
-              <div className="text-center">
-                <div className="icon-glow mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/80 text-2xl text-blue-700 shadow-lg">
-                  +
-                </div>
-                <span className="text-sm text-slate-500">Здесь будет фотография общей зоны</span>
-              </div>
+            <div className="relative aspect-[16/7] overflow-hidden rounded-[1.7rem]">
+              <Image
+                src="/photos/life.jpg"
+                alt="Общая зона пансионата: занятия и общение постояльцев при дневном свете"
+                fill
+                sizes="(max-width: 768px) 100vw, 1200px"
+                className="object-cover"
+              />
             </div>
           </div>
         </Reveal>

@@ -70,7 +70,7 @@ export default async function RegisterPage() {
           </div>
 
           {/* Форма */}
-          <div className="flex animate-fade-up justify-center [animation-delay:200ms]">
+          <div className="flex animate-fade-up justify-center [animation-delay:100ms]">
             <RegisterForm />
           </div>
         </div>

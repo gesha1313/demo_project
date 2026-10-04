@@ -45,11 +45,11 @@ export default function RegisterSuccessPage() {
                 ✓
               </div>
 
-              <h1 className="mt-7 animate-fade-up text-3xl font-semibold tracking-tight text-brand md:text-4xl [animation-delay:100ms]">
+              <h1 className="mt-7 animate-fade-up text-3xl font-semibold tracking-tight text-brand md:text-4xl [animation-delay:50ms]">
                 Аккаунт создан
               </h1>
 
-              <p className="mx-auto mt-4 max-w-md animate-fade-up leading-7 text-slate-600 [animation-delay:200ms]">
+              <p className="mx-auto mt-4 max-w-md animate-fade-up leading-7 text-slate-600 [animation-delay:100ms]">
                 Аккаунт создан. Осталось оставить телефон и создать первую
                 заявку на консультацию.
               </p>
@@ -60,7 +60,7 @@ export default function RegisterSuccessPage() {
                   <div
                     key={step.number}
                     className="glass animate-fade-up rounded-2xl p-5"
-                    style={{ animationDelay: `${300 + index * 100}ms` }}
+                    style={{ animationDelay: `${150 + index * 50}ms` }}
                   >
                     <div className="text-sm font-semibold text-blue-700">{step.number}</div>
                     <div className="mt-2 text-sm font-semibold text-brand">{step.title}</div>
@@ -70,7 +70,7 @@ export default function RegisterSuccessPage() {
               </div>
 
               {/* Кнопки */}
-              <div className="mt-10 flex animate-fade-up flex-col justify-center gap-4 [animation-delay:600ms] sm:flex-row">
+              <div className="mt-10 flex animate-fade-up flex-col justify-center gap-4 [animation-delay:300ms] sm:flex-row">
                 <Link
                   href="/cabinet"
                   className="btn-glass-primary rounded-full px-7 py-4 text-center font-semibold"
@@ -87,7 +87,7 @@ export default function RegisterSuccessPage() {
               </div>
 
               {/* Контакт */}
-              <p className="mt-8 animate-fade-up text-sm text-slate-500 [animation-delay:700ms]">
+              <p className="mt-8 animate-fade-up text-sm text-slate-500 [animation-delay:350ms]">
                 Не хочется ждать? Позвоните нам:{" "}
                 <a
                   href={site.phoneHref}

@@ -7,10 +7,10 @@
   --color-surface: #f5f9ff;
 
   /* Анимации появления и декора */
-  --animate-fade-up: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-fade-in: fade-in 1.2s ease-out both;
-  --animate-float: float 9s ease-in-out infinite;
-  --animate-float-slow: float 13s ease-in-out 1.2s infinite;
+  --animate-fade-up: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.7s ease-out both;
+  --animate-float: float 8.5s ease-in-out infinite;
+  --animate-float-slow: float 12.5s ease-in-out 1s infinite;
 
   @keyframes fade-up {
     from {

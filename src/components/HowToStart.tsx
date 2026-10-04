@@ -38,7 +38,7 @@ export default function HowToStart({ footer }: SectionProps) {
               description="Расскажите нам о ситуации вашего близкого. Мы зададим необходимые вопросы и поможем подобрать подходящий вариант."
             />
 
-            <div className="mt-7 animate-fade-up [animation-delay:600ms]">
+            <div className="mt-7 animate-fade-up [animation-delay:300ms]">
               <Link
                 href="/register"
                 className="btn-glass-primary inline-block rounded-full px-7 py-4 font-semibold"

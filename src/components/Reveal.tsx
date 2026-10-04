@@ -52,7 +52,7 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${HIDDEN_CLASSES.join(" ")} ${className}`}
+      className={`transition-all duration-200 ease-out ${HIDDEN_CLASSES.join(" ")} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

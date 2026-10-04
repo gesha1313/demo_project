@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const advantages = ["Круглосуточный уход", "Опытные специалисты", "Индивидуальный подход"];
 
@@ -24,17 +25,17 @@ export default function Hero() {
             Забота о близких
           </div>
 
-          <h1 className="max-w-2xl animate-fade-up text-4xl font-semibold leading-[1.08] tracking-tight text-brand [animation-delay:100ms] md:text-5xl">
+          <h1 className="max-w-2xl animate-fade-up text-4xl font-semibold leading-[1.08] tracking-tight text-brand [animation-delay:50ms] md:text-5xl">
             Место, где о ваших близких заботятся каждый день
           </h1>
 
-          <p className="mt-6 max-w-xl animate-fade-up text-lg leading-8 text-slate-600 [animation-delay:200ms]">
+          <p className="mt-6 max-w-xl animate-fade-up text-lg leading-8 text-slate-600 [animation-delay:100ms]">
             Помогаем пожилым людям и людям с ограниченной мобильностью получать
             необходимый уход, внимание и комфорт в безопасных условиях.
           </p>
 
           {/* Кнопки */}
-          <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:300ms] sm:flex-row">
+          <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:150ms] sm:flex-row">
             <Link
               href="/register"
               className="btn-glass-primary rounded-full px-7 py-4 text-center font-semibold"
@@ -51,7 +52,7 @@ export default function Hero() {
           </div>
 
           {/* Цепочка знакомства с сайтом */}
-          <div className="mt-8 animate-fade-up [animation-delay:400ms]">
+          <div className="mt-8 animate-fade-up [animation-delay:200ms]">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
               Знакомство с пансионатом
             </div>
@@ -69,7 +70,7 @@ export default function Hero() {
           </div>
 
           {/* Преимущества */}
-          <div className="mt-8 flex animate-fade-up flex-wrap gap-3 [animation-delay:500ms]">
+          <div className="mt-8 flex animate-fade-up flex-wrap gap-3 [animation-delay:250ms]">
             {advantages.map((item) => (
               <span
                 key={item}
@@ -83,17 +84,19 @@ export default function Hero() {
         </div>
 
         {/* Фото */}
-        <div className="relative animate-fade-up [animation-delay:500ms]">
+        <div className="relative animate-fade-up [animation-delay:250ms]">
           <div className="absolute -inset-6 animate-float-slow rounded-[3rem] bg-gradient-to-br from-blue-300/40 to-indigo-300/40 blur-2xl" />
 
           <div className="glass-strong relative overflow-hidden rounded-[2rem] p-2">
-            <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[1.7rem] bg-gradient-to-br from-slate-100 to-blue-100">
-              <div className="text-center">
-                <div className="icon-glow mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/80 text-2xl text-blue-700 shadow-lg">
-                  +
-                </div>
-                <span className="text-sm text-slate-500">Здесь будет фотография</span>
-              </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.7rem]">
+              <Image
+                src="/photos/hero.jpg"
+                alt="Сиделка и пожилая женщина рассматривают семейные фотографии в светлом уютном зале"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
             </div>
           </div>
 

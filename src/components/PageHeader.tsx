@@ -31,7 +31,7 @@ export default function PageHeader({ eyebrow, title, description, links }: PageH
         </div>
 
         {links?.length ? (
-          <div className="mt-8 flex animate-fade-up flex-wrap gap-3 [animation-delay:200ms]">
+          <div className="mt-8 flex animate-fade-up flex-wrap gap-3 [animation-delay:100ms]">
             {links.map((link) => (
               <Link
                 key={link.href}

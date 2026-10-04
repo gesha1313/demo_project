@@ -67,7 +67,7 @@ export default async function NewRequestPage() {
             </p>
           </div>
 
-          <div className="flex animate-fade-up justify-center [animation-delay:150ms]">
+          <div className="flex animate-fade-up justify-center [animation-delay:75ms]">
             <RequestWizard plans={planOptions} />
           </div>
         </div>

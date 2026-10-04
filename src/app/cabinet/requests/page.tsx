@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
+import SectionFooter from "@/components/SectionFooter";
 import { getCurrentUser } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 
@@ -164,6 +165,15 @@ export default async function CabinetRequestsPage() {
               ))
             )}
           </div>
+
+          {/* Переходник: создание следующей заявки */}
+          {requests.length > 0 ? (
+            <SectionFooter
+              href="/cabinet/new"
+              next="Создать новую заявку"
+              hint="Можно отправить несколько заявок — например, для двух близких"
+            />
+          ) : null}
         </div>
       </main>
       <Footer />

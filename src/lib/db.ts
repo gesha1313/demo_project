@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
 import bcrypt from "bcryptjs";
+import seedSnapshotJson from "./db-seed.json";
 
 /**
  * Схема БД (SQLite, третья нормальная форма):
@@ -193,18 +194,91 @@ function seedPlans(db: Database.Database) {
   }
 }
 
+/**
+ * Восстанавливает базу из снапшота (src/lib/db-seed.json, экспорт через
+ * `npm run db:export`). Нужно на serverless-хостинге (Vercel): там файловая
+ * система не переживает перезапуск, поэтому каждая холодная стартовая база
+ * пуста — и initDb наполняет её снапшотом: все аккаунты, заявки и чаты
+ * из репозитория доступны сразу, вход работает по прежним паролям.
+ */
+function importSnapshot(db: Database.Database) {
+  const snapshot = seedSnapshotJson as unknown as {
+    tables: Record<string, Record<string, unknown>[]>;
+  };
+
+  db.transaction(() => {
+    for (const table of [
+      "users",
+      "user_profiles",
+      "plans",
+      "plan_features",
+      "requests",
+      "conversations",
+      "messages",
+    ]) {
+      const rows = snapshot.tables[table] ?? [];
+      if (rows.length === 0) continue;
+
+      const columns = Object.keys(rows[0]);
+      const insert = db.prepare(
+        `INSERT INTO ${table} (${columns.map((c) => `"${c}"`).join(", ")})
+         VALUES (${columns.map(() => "?").join(", ")})`,
+      );
+
+      for (const row of rows) {
+        insert.run(...columns.map((column) => row[column]));
+      }
+
+      // Сдвигаем счётчик автоинкремента за последний вставленный id
+      // (только у таблиц с id; у user_profiles ключ — user_id)
+      if (table !== "user_profiles") {
+        const maxId = db.prepare(`SELECT MAX(id) AS max FROM ${table}`).get() as {
+          max: number | null;
+        };
+        if (maxId.max) {
+          const updated = db
+            .prepare(`UPDATE sqlite_sequence SET seq = ? WHERE name = ?`)
+            .run(maxId.max, table);
+          if (updated.changes === 0) {
+            db.prepare(
+              `INSERT INTO sqlite_sequence(name, seq) VALUES (?, ?)`,
+            ).run(table, maxId.max);
+          }
+        }
+      }
+    }
+  })();
+}
+
 function initDb(db: Database.Database) {
   db.exec(SCHEMA);
   ensureRequestColumns(db);
 
-  const seedUser = db.prepare(
-    `INSERT OR IGNORE INTO users (email, password_hash, role) VALUES (?, ?, ?)`,
-  );
-  for (const user of SEED_USERS) {
-    seedUser.run(user.email, bcrypt.hashSync(user.password, 10), user.role);
-  }
+  const usersCount = (
+    db.prepare(`SELECT COUNT(*) AS c FROM users`).get() as { c: number }
+  ).c;
 
-  seedPlans(db);
+  if (usersCount === 0) {
+    // Пустая база: на Vercel — каждый холодный старт, локально — первый запуск.
+    // Если есть снапшот, восстанавливаем его целиком (аккаунты, тарифы, заявки,
+    // чаты); иначе создаём демо-аккаунты и справочник тарифов.
+    const snapshot = seedSnapshotJson as unknown as {
+      tables: { users?: unknown[] };
+    };
+    if (snapshot.tables.users?.length) {
+      importSnapshot(db);
+      return;
+    }
+
+    const seedUser = db.prepare(
+      `INSERT OR IGNORE INTO users (email, password_hash, role) VALUES (?, ?, ?)`,
+    );
+    for (const user of SEED_USERS) {
+      seedUser.run(user.email, bcrypt.hashSync(user.password, 10), user.role);
+    }
+
+    seedPlans(db);
+  }
 }
 
 const globalForDb = globalThis as unknown as { __patronageDb?: Database.Database };

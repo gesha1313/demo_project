@@ -1,8 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-
-type RequestRow = {
+import { useCallback, useEffect, useRef, useState } from "react";type RequestRow = {
   id: number;
   user_id: number;
   employee_id: number | null;
@@ -83,6 +81,8 @@ export default function AdminDashboard({
   const [users, setUsers] = useState<UserRow[]>([]);
   const [conversations, setConversations] = useState<ConversationRow[]>([]);
   const [busyRow, setBusyRow] = useState<number | null>(null);
+  /** Выбранный диалог горячей линии (общий для таба чата) */
+  const [activeConversationId, setActiveConversationId] = useState<number | null>(null);
 
   const loadRequests = useCallback(async () => {
     const response = await fetch("/api/admin/requests", { cache: "no-store" });
@@ -143,6 +143,27 @@ export default function AdminDashboard({
     });
     await loadUsers();
   };
+
+  /** Переходник «заявка → чат»: открывает переписку с клиентом из заявки. */
+  const openChatWithUser = useCallback(async (userId: number) => {
+    try {
+      const response = await fetch("/api/admin/chat", { cache: "no-store" });
+      if (!response.ok) return;
+      const data = (await response.json()) as { conversations: ConversationRow[] };
+      setConversations(data.conversations);
+
+      const conversation = data.conversations.find((c) => c.user_id === userId);
+      if (conversation) {
+        setActiveConversationId(conversation.id);
+        setTab("chat");
+      } else {
+        setTab("chat");
+        setActiveConversationId(null);
+      }
+    } catch {
+      setTab("chat");
+    }
+  }, []);
 
   const tabs: { id: Tab; label: string; adminOnly?: boolean }[] = [
     { id: "requests", label: role === "admin" ? "Все заявки" : "Мои заявки" },
@@ -286,6 +307,14 @@ export default function AdminDashboard({
                       : "Сотрудник не назначен"}
                   </span>
                 )}
+
+                <button
+                  type="button"
+                  onClick={() => void openChatWithUser(request.user_id)}
+                  className="ml-auto text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+                >
+                  Переписка →
+                </button>
               </div>
             </div>
           ))}
@@ -346,6 +375,8 @@ export default function AdminDashboard({
           conversations={conversations}
           reload={loadConversations}
           myId={myId}
+          activeId={activeConversationId}
+          onSelect={setActiveConversationId}
         />
       ) : null}
     </div>
@@ -357,12 +388,15 @@ function AdminChat({
   conversations,
   reload,
   myId,
+  activeId,
+  onSelect,
 }: {
   conversations: ConversationRow[];
   reload: () => Promise<void>;
   myId: number;
+  activeId: number | null;
+  onSelect: (id: number | null) => void;
 }) {
-  const [activeId, setActiveId] = useState<number | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
@@ -425,7 +459,7 @@ function AdminChat({
           <button
             key={conversation.id}
             type="button"
-            onClick={() => setActiveId(conversation.id)}
+            onClick={() => onSelect(conversation.id)}
             className={`w-full rounded-2xl px-4 py-3 text-left transition-all duration-200 ${
               activeId === conversation.id
                 ? "glass-strong shadow-md"
