@@ -107,6 +107,15 @@ const SCHEMA = `
     created_at      TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS request_deletions (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    request_id  INTEGER NOT NULL,
+    user_id     INTEGER NOT NULL,
+    deleted_by  INTEGER NOT NULL REFERENCES users(id),
+    reason      TEXT NOT NULL,
+    created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE INDEX IF NOT EXISTS idx_requests_user     ON requests(user_id);
   CREATE INDEX IF NOT EXISTS idx_requests_employee ON requests(employee_id);
   CREATE INDEX IF NOT EXISTS idx_messages_convo    ON messages(conversation_id);

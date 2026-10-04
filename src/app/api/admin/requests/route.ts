@@ -61,6 +61,67 @@ export async function GET() {
   return NextResponse.json({ requests: rows, employees });
 }
 
+/** Минимальная причина удаления — 20 символов. */
+const MIN_DELETE_REASON = 20;
+
+/** Удаление заявки: нельзя для статусов «в работе» и «завершена». */
+export async function DELETE(request: Request) {
+  const user = await getCurrentUser();
+  if (!isStaff(user)) {
+    return NextResponse.json({ error: "Доступ запрещён" }, { status: 403 });
+  }
+
+  let body: { id?: number; reason?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Некорректный запрос" }, { status: 400 });
+  }
+
+  const id = Number(body.id);
+  const reason = (body.reason ?? "").trim();
+
+  if (!Number.isInteger(id) || id <= 0) {
+    return NextResponse.json({ error: "Некорректный id" }, { status: 400 });
+  }
+  if (reason.length < MIN_DELETE_REASON) {
+    return NextResponse.json(
+      { error: `Опишите причину удаления — минимум ${MIN_DELETE_REASON} символов` },
+      { status: 400 },
+    );
+  }
+
+  const db = getDb();
+  const existing = db
+    .prepare(`SELECT id, user_id, employee_id, status FROM requests WHERE id = ?`)
+    .get(id) as { id: number; user_id: number; employee_id: number | null; status: string } | undefined;
+
+  if (!existing) {
+    return NextResponse.json({ error: "Заявка не найдена" }, { status: 404 });
+  }
+  if (existing.status === "in_progress" || existing.status === "done") {
+    return NextResponse.json(
+      { error: "Заявки в работе и завершённые удалить нельзя" },
+      { status: 400 },
+    );
+  }
+  // Сотрудник удаляет только заявки, закреплённые за ним
+  if (user!.role === "employee" && existing.employee_id !== user!.id) {
+    return NextResponse.json({ error: "Это не ваша заявка" }, { status: 403 });
+  }
+
+  // Удаляем и фиксируем в журнале: кто, что и по какой причине
+  db.transaction(() => {
+    db.prepare(
+      `INSERT INTO request_deletions (request_id, user_id, deleted_by, reason)
+       VALUES (?, ?, ?, ?)`,
+    ).run(existing.id, existing.user_id, user!.id, reason);
+    db.prepare(`DELETE FROM requests WHERE id = ?`).run(id);
+  })();
+
+  return NextResponse.json({ ok: true });
+}
+
 /** Изменение заявки: статус и/или назначенный сотрудник. */
 export async function PATCH(request: Request) {
   const user = await getCurrentUser();

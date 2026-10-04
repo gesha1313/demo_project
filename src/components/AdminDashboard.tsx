@@ -83,6 +83,10 @@ export default function AdminDashboard({
   const [busyRow, setBusyRow] = useState<number | null>(null);
   /** Выбранный диалог горячей линии (общий для таба чата) */
   const [activeConversationId, setActiveConversationId] = useState<number | null>(null);
+  /** Удаление заявки: раскрытая форма и причина */
+  const [deletingRowId, setDeletingRowId] = useState<number | null>(null);
+  const [deleteReason, setDeleteReason] = useState("");
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const loadRequests = useCallback(async () => {
     const response = await fetch("/api/admin/requests", { cache: "no-store" });
@@ -142,6 +146,34 @@ export default function AdminDashboard({
       body: JSON.stringify({ id, role: newRole }),
     });
     await loadUsers();
+  };
+
+  /** Удаление заявки с обязательной причиной (минимум 20 символов). */
+  const handleDeleteRequest = async (id: number) => {
+    if (deleteReason.trim().length < 20) return;
+
+    setBusyRow(id);
+    setDeleteError(null);
+
+    try {
+      const response = await fetch("/api/admin/requests", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, reason: deleteReason.trim() }),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json()) as { error?: string };
+        setDeleteError(data.error ?? "Не удалось удалить заявку");
+        return;
+      }
+
+      setDeletingRowId(null);
+      setDeleteReason("");
+      await loadRequests();
+    } finally {
+      setBusyRow(null);
+    }
   };
 
   /** Переходник «заявка → чат»: открывает переписку с клиентом из заявки. */
@@ -315,7 +347,73 @@ export default function AdminDashboard({
                 >
                   Переписка →
                 </button>
+
+                {/* Удаление доступно только для новых и отменённых заявок */}
+                {request.status === "new" || request.status === "cancelled" ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDeletingRowId(deletingRowId === request.id ? null : request.id);
+                      setDeleteReason("");
+                      setDeleteError(null);
+                    }}
+                    className="text-sm font-semibold text-red-600 transition-colors hover:text-red-700"
+                  >
+                    {deletingRowId === request.id ? "Скрыть" : "Удалить"}
+                  </button>
+                ) : null}
               </div>
+
+              {/* Форма удаления с обязательной причиной */}
+              {deletingRowId === request.id ? (
+                <div className="glass-strong mt-4 rounded-2xl p-4">
+                  <label
+                    htmlFor={`delete-reason-${request.id}`}
+                    className="block text-sm font-medium text-brand"
+                  >
+                    Причина удаления{" "}
+                    <span className="font-normal text-slate-400">
+                      (минимум 20 символов: {deleteReason.trim().length}/20)
+                    </span>
+                  </label>
+                  <textarea
+                    id={`delete-reason-${request.id}`}
+                    rows={2}
+                    placeholder="Например: клиент передумал и попросил убрать заявку из списка"
+                    value={deleteReason}
+                    onChange={(e) => setDeleteReason(e.target.value)}
+                    className="input-glass mt-2 resize-none"
+                  />
+
+                  {deleteError ? (
+                    <p className="mt-2 text-sm text-red-600" role="alert">
+                      {deleteError}
+                    </p>
+                  ) : null}
+
+                  <div className="mt-3 flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      onClick={() => void handleDeleteRequest(request.id)}
+                      disabled={deleteReason.trim().length < 20 || busyRow === request.id}
+                      className="rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-red-600/25 transition-all duration-200 hover:bg-red-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {busyRow === request.id ? "Удаляем…" : "Удалить заявку"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setDeletingRowId(null);
+                        setDeleteReason("");
+                        setDeleteError(null);
+                      }}
+                      className="btn-glass-ghost rounded-full px-5 py-2.5 text-sm font-semibold"
+                    >
+                      Отмена
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           ))}
         </div>
