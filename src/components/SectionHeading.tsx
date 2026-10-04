@@ -18,11 +18,11 @@ export default function SectionHeading({
       <span className="inline-block rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
         {eyebrow}
       </span>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-5xl">
+      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
         {title}
       </h2>
       {description ? (
-        <p className="mt-5 text-lg leading-8 text-slate-600">{description}</p>
+        <p className="mt-4 text-lg leading-8 text-slate-600">{description}</p>
       ) : null}
     </Reveal>
   );

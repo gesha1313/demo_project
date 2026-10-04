@@ -1,11 +1,12 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import SectionFooter from "./SectionFooter";
 
 const points = ["Опытные сотрудники", "Понятные правила работы", "Индивидуальное отношение"];
 
 export default function About() {
   return (
-    <section id="about" className="relative bg-white py-24">
+    <section id="about" className="relative py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
@@ -23,7 +24,7 @@ export default function About() {
               description="Здесь мы расскажем о команде, опыте сотрудников, принципах работы и о том, почему нам можно доверить заботу о близком человеке."
             />
 
-            <div className="mt-7 space-y-3">
+            <div className="mt-6 space-y-3">
               {points.map((point) => (
                 <div
                   key={point}
@@ -38,6 +39,12 @@ export default function About() {
             </div>
           </Reveal>
         </div>
+
+        <SectionFooter
+          href="#safety"
+          next="Как устроена безопасность"
+          hint="Контроль состояния и связь с родственниками"
+        />
       </div>
     </section>
   );
