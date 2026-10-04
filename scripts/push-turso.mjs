@@ -51,13 +51,11 @@ if (!schemaMatch) {
 
 const client = createClient({ url, authToken });
 
-const usersRow = await client
-  .prepare("SELECT COUNT(*) AS c FROM users")
-  .get();
-const existing = Number(usersRow?.c ?? 0);
-
 await client.executeMultiple(schemaMatch[1]);
 console.log("Схема применена:", url.replace(/\/\/.*@/, "//***@"));
+
+const usersRs = await client.execute("SELECT COUNT(*) AS c FROM users");
+const existing = Number(usersRs.rows[0]?.c ?? 0);
 
 if (existing > 0) {
   console.log(`В базе уже есть пользователи (${existing}) — снапшот не заливался.`);
