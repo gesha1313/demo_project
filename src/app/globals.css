@@ -1,0 +1,263 @@
+@import "tailwindcss";
+
+@theme {
+  /* Фирменные цвета сайта */
+  --color-brand: #0b2a5b;
+  --color-brand-dark: #06182f;
+  --color-surface: #f5f9ff;
+
+  /* Анимации появления и декора */
+  --animate-fade-up: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 1.2s ease-out both;
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-float-slow: float 13s ease-in-out 1.2s infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-manrope);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Отступ при переходе по якорям, чтобы липкая шапка не закрывала заголовок */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background: #ffffff;
+  color: #171717;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #ffffff;
+}
+
+/* ============================================================
+   Liquid Glass — материалы «жидкого стекла»
+   Полупрозрачные панели с размытием фона, светящейся кромкой
+   и внутренним блеском. Используются на светлых и тёмных
+   участках, в кнопках и полях ввода.
+   ============================================================ */
+
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 8px 32px rgba(11, 42, 91, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(28px) saturate(1.7);
+  backdrop-filter: blur(28px) saturate(1.7);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 12px 40px rgba(11, 42, 91, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.glass-dark {
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 8px 32px rgba(2, 10, 26, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* Основная кнопка — глянцевый градиент с бликом, который
+   скользит по поверхности при наведении */
+.btn-glass-primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 55%, #4338ca 100%);
+  box-shadow:
+    0 10px 30px rgba(37, 99, 235, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-glass-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 60%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.7s ease;
+}
+
+.btn-glass-primary:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 36px rgba(37, 99, 235, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn-glass-primary:hover::after {
+  transform: translateX(130%);
+}
+
+.btn-glass-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Вторичная кнопка — светлое стекло */
+.btn-glass-ghost {
+  color: var(--color-brand);
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 6px 24px rgba(11, 42, 91, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-glass-ghost:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateY(-1px);
+  box-shadow:
+    0 10px 28px rgba(11, 42, 91, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.btn-glass-ghost:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Поля ввода — стекло с мягким свечением при фокусе */
+.input-glass {
+  width: 100%;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  padding: 0.875rem 1.125rem;
+  color: #0b2a5b;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.input-glass::placeholder {
+  color: #94a3b8;
+}
+
+.input-glass:focus {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow:
+    0 0 0 4px rgba(37, 99, 235, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Прозрачный пульсирующий ореол за иконками:
+   мягкое «дыхание» света — один и тот же материал для всех плиток-иконок */
+.icon-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.icon-glow::before {
+  content: "";
+  position: absolute;
+  inset: -38%;
+  z-index: -1;
+  border-radius: 9999px;
+  background: radial-gradient(
+    closest-side,
+    rgba(96, 165, 250, 0.5),
+    rgba(129, 140, 248, 0.25) 55%,
+    transparent 100%
+  );
+  filter: blur(10px);
+  animation: icon-halo 4s ease-in-out infinite;
+}
+
+/* Сдвиг фазы, чтобы соседние иконки дышали не в унисон */
+.icon-glow-delay-1::before {
+  animation-delay: 0.8s;
+}
+
+.icon-glow-delay-2::before {
+  animation-delay: 1.6s;
+}
+
+.icon-glow-delay-3::before {
+  animation-delay: 2.4s;
+}
+
+@keyframes icon-halo {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.1);
+  }
+}
+
+/* Уважение к настройкам пользователя: без анимаций при prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
