@@ -17,7 +17,7 @@ build:
     ".next": /
 
 run:
-  # Слушаем порт платформы $PORT (если Amvera его подставляет), иначе 3000 —
-  # так приложение гарантированно совпадает с маршрутизацией ingress
-  command: sh -c "next start -p ${PORT:-3000}"
+  # Запуск через npm: он добавляет node_modules/.bin в PATH (next там).
+  # Порт — $PORT платформы, если задан, иначе 3000 = containerPort
+  command: npm run start -- -p ${PORT:-3000}
   containerPort: 3000
