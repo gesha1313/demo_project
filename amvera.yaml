@@ -1,0 +1,16 @@
+# Конфигурация деплоя на Amvera (docs.amvera.ru → Node.JS Server)
+# Сборка и запуск:
+#   npm install → npm run build (additionalCommands)
+#   запуск: npm start (= next start, слушает 3000)
+meta:
+  environment: node
+  toolchain:
+    name: npm
+    version: 22
+
+build:
+  additionalCommands: npm run build
+
+run:
+  command: npm run start
+  containerPort: 3000

@@ -14,6 +14,27 @@ npm run dev
 
 Продакшен-сборка: `npm run build && npm start`.
 
+## Деплой на Amvera (доступен из РФ без VPN)
+
+Проект готов к Amvera: в корне лежит `amvera.yaml` (Node 22, сборка
+`npm run build`, запуск `npm start`, порт 3000).
+
+1. amvera.ru → регистрация → **Создать проект** (тип Node.js)
+2. Загрузка кода — на выбор:
+   - привязать GitHub-репозиторий в интерфейсе (деплой при каждом пуш), или
+   - через git-remote Amvera:
+     ```
+     git remote add amvera https://git.amvera.ru/<логин>/<проект>.git
+     git push amvera main:master
+     ```
+3. В проекте → **Переменные и секреты** добавить:
+   - `TURSO_DATABASE_URL` и `TURSO_AUTH_TOKEN` (секреты) — база общая
+     с локальной разработкой и Vercel, данные те же;
+   - `NEXT_PUBLIC_YANDEX_MAPS_API_KEY` (переменная; нужна на этапе сборки).
+4. Дождаться сборки → адрес `https://<проект>.amvera.io`
+
+При обновлении кода достаточно `git push` — Amvera пересоберёт сам.
+
 ## База данных: Turso (облако) или локальный файл
 
 Приложение работает через `@libsql/client`:
