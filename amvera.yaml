@@ -12,5 +12,7 @@ build:
   additionalCommands: npm run build
 
 run:
-  command: npm run start
+  # -p 3000 жёстко фиксирует порт: Next.js иначе может слушать PORT из окружения
+  # платформы, а маршрутизация Amvera идёт на containerPort → расхождение = 503
+  command: npm run start -- -p 3000
   containerPort: 3000
