@@ -17,7 +17,7 @@ build:
     ".next": /
 
 run:
-  # -p 3000 жёстко фиксирует порт: Next.js иначе может слушать PORT из окружения
-  # платформы, а маршрутизация Amvera идёт на containerPort → расхождение = 503
-  command: npm run start -- -p 3000
+  # Слушаем порт платформы $PORT (если Amvera его подставляет), иначе 3000 —
+  # так приложение гарантированно совпадает с маршрутизацией ingress
+  command: sh -c "next start -p ${PORT:-3000}"
   containerPort: 3000
