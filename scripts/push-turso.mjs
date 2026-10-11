@@ -71,6 +71,7 @@ for (const table of [
   "conversations",
   "messages",
   "request_deletions",
+  "caretaker_profiles",
   "caretaker_requests",
 ]) {
   const rows = snapshot.tables[table] ?? [];

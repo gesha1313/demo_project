@@ -4,7 +4,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/lib/site";
 
-type HeaderUser = { email: string; role: "user" | "employee" | "admin" } | null;
+type HeaderUser = {
+  email: string;
+  role: "user" | "employee" | "admin" | "caretaker";
+} | null;
 
 export default function HeaderClient({ user }: { user: HeaderUser }) {
   const [scrolled, setScrolled] = useState(false);

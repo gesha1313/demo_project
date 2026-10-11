@@ -1,18 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { dbGet, getDb } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
-
-/** Пул сиделок для подбора (демо): имя и стаж в годах. */
-const CARETAKERS = [
-  { name: "Наталья", experience: 8 },
-  { name: "Ольга", experience: 12 },
-  { name: "Мария", experience: 5 },
-  { name: "Екатерина", experience: 15 },
-  { name: "Светлана", experience: 7 },
-  { name: "Татьяна", experience: 10 },
-  { name: "Анна", experience: 4 },
-  { name: "Ирина", experience: 9 },
-];
 
 /** Допустимые пункты анкеты (дублируются в CaretakerWizard). */
 const ALLOWED_TASKS = new Set([
@@ -35,7 +23,11 @@ type Body = {
   notes?: string;
 };
 
-/** Создание заявки на сиделку: анкета + мгновенный подбор (демо). */
+/**
+ * Создание заявки на сиделку с подбором из БД:
+ *  — есть сиделка со статусом «свободна» → заявка «предложена», сиделка «ожидает»;
+ *  — свободных нет → заявка сохраняется со статусом new, matched=false.
+ */
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) {
@@ -71,35 +63,82 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Выберите хотя бы одну услугу" }, { status: 400 });
   }
 
-  // «Подбор»: случайная сиделка и время приезда 20–100 минут (кратно 5)
-  const caretaker = CARETAKERS[Math.floor(Math.random() * CARETAKERS.length)];
+  const db = await getDb();
+
+  // Ищем свободную сиделку (случайная из свободных)
+  const free = await dbGet<{
+    user_id: number;
+    full_name: string;
+    experience_years: number;
+  }>(
+    db,
+    `SELECT cp.user_id, cp.full_name, cp.experience_years
+       FROM caretaker_profiles cp
+       JOIN users u ON u.id = cp.user_id
+      WHERE cp.status = 'free'
+      ORDER BY RANDOM()
+      LIMIT 1`,
+  );
+
   const arrival = 20 + Math.floor(Math.random() * 17) * 5;
 
-  const db = await getDb();
-  const inserted = await db.execute({
-    sql: `INSERT INTO caretaker_requests
-            (user_id, status, ward_name, ward_age, address, tasks, start_date, notes,
-             caretaker_name, caretaker_experience, arrival_minutes)
-          VALUES (?, 'matched', ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    args: [
-      user.id,
-      wardName,
-      wardAge,
-      address,
-      JSON.stringify(tasks),
-      startDate,
-      notes,
-      caretaker.name,
-      caretaker.experience,
-      arrival,
-    ],
-  });
+  if (!free) {
+    // Свободных сиделок нет — заявка сохраняется, ждёт освобождения
+    const inserted = await db.execute({
+      sql: `INSERT INTO caretaker_requests
+              (user_id, status, ward_name, ward_age, address, tasks, start_date, notes, arrival_minutes)
+            VALUES (?, 'new', ?, ?, ?, ?, ?, ?, ?)`,
+      args: [user.id, wardName, wardAge, address, JSON.stringify(tasks), startDate, notes, arrival],
+    });
+
+    return NextResponse.json({
+      ok: true,
+      matched: false,
+      requestId: Number(inserted.lastInsertRowid),
+    });
+  }
+
+  const tx = await db.transaction();
+  let requestId: number;
+  try {
+    // Сиделка переходит в «ожидание» — у неё в кабинете появится заявка
+    await tx.execute({
+      sql: `UPDATE caretaker_profiles SET status = 'waiting', updated_at = datetime('now')
+            WHERE user_id = ?`,
+      args: [free.user_id],
+    });
+
+    const inserted = await tx.execute({
+      sql: `INSERT INTO caretaker_requests
+              (user_id, status, ward_name, ward_age, address, tasks, start_date, notes,
+               caretaker_user_id, arrival_minutes)
+            VALUES (?, 'offered', ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [
+        user.id,
+        wardName,
+        wardAge,
+        address,
+        JSON.stringify(tasks),
+        startDate,
+        notes,
+        free.user_id,
+        arrival,
+      ],
+    });
+    requestId = Number(inserted.lastInsertRowid);
+
+    await tx.commit();
+  } catch (error) {
+    await tx.rollback();
+    throw error;
+  }
 
   return NextResponse.json({
     ok: true,
-    requestId: Number(inserted.lastInsertRowid),
-    caretakerName: caretaker.name,
-    caretakerExperience: caretaker.experience,
+    matched: true,
+    requestId,
+    caretakerName: free.full_name,
+    caretakerExperience: free.experience_years,
     arrivalMinutes: arrival,
   });
 }

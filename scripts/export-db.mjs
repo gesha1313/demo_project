@@ -23,6 +23,7 @@ const TABLES = [
   "conversations",
   "messages",
   "request_deletions",
+  "caretaker_profiles",
   "caretaker_requests",
 ];
 

@@ -18,7 +18,7 @@ const SECRET = process.env.AUTH_SECRET ?? "patronage-dev-secret-do-not-use-in-pr
 export type SessionUser = {
   id: number;
   email: string;
-  role: "user" | "employee" | "admin";
+  role: "user" | "employee" | "admin" | "caretaker";
   fullName: string | null;
   phone: string | null;
 };
@@ -26,7 +26,7 @@ export type SessionUser = {
 type TokenPayload = {
   id: number;
   email: string;
-  role: "user" | "employee" | "admin";
+  role: "user" | "employee" | "admin" | "caretaker";
   exp: string;
 };
 
@@ -46,7 +46,7 @@ function sign(payload: string): string {
 export function createSessionToken(user: {
   id: number;
   email: string;
-  role: "user" | "employee" | "admin";
+  role: "user" | "employee" | "admin" | "caretaker";
 }): string {
   const payload: TokenPayload = {
     id: user.id,
@@ -83,7 +83,7 @@ export function verifySessionToken(token: string): TokenPayload | null {
 export async function startSession(user: {
   id: number;
   email: string;
-  role: "user" | "employee" | "admin";
+  role: "user" | "employee" | "admin" | "caretaker";
 }): Promise<void> {
   const store = await cookies();
   store.set(SESSION_COOKIE, createSessionToken(user), {

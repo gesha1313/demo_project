@@ -8,6 +8,7 @@ import ProfileCard from "@/components/ProfileCard";
 import LogoutButton from "@/components/LogoutButton";
 import { getCurrentUser, isStaff } from "@/lib/auth";
 import { dbGet, getDb } from "@/lib/db";
+import CaretakerCabinet from "@/components/CaretakerCabinet";
 
 export const metadata: Metadata = {
   title: "Личный кабинет",
@@ -39,6 +40,11 @@ export default async function CabinetPage({
   const user = await getCurrentUser();
   if (!user) {
     redirect("/login");
+  }
+
+  // Сиделка попадает в свой кабинет: статус + предложенные заявки
+  if (user.role === "caretaker") {
+    return <CaretakerCabinet userId={user.id} email={user.email} />;
   }
 
   // Форма контактов показывается, пока телефон не оставлен,
@@ -84,11 +90,14 @@ export default async function CabinetPage({
     created_at: string;
   }>(
     db,
-    `SELECT id, status, ward_name, address, caretaker_name, caretaker_experience,
-            arrival_minutes, created_at
-       FROM caretaker_requests
-      WHERE user_id = ?
-      ORDER BY id DESC LIMIT 1`,
+    `SELECT cr.id, cr.status, cr.ward_name, cr.address,
+            cp.full_name AS caretaker_name,
+            cp.experience_years AS caretaker_experience,
+            cr.arrival_minutes, cr.created_at
+       FROM caretaker_requests cr
+       LEFT JOIN caretaker_profiles cp ON cp.user_id = cr.caretaker_user_id
+      WHERE cr.user_id = ?
+      ORDER BY cr.id DESC LIMIT 1`,
     [user.id],
   );
 
@@ -198,25 +207,46 @@ export default async function CabinetPage({
         </span>
       </div>
 
-      <div className="mt-5 space-y-3 text-sm">
-        <div className="glass-strong rounded-2xl px-5 py-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="font-medium text-brand">{caretaker.ward_name}</span>
-            {caretaker.address ? (
-              <span className="text-xs text-slate-500">{caretaker.address}</span>
-            ) : null}
-          </div>
-          {caretaker.caretaker_name ? (
-            <div className="mt-2 text-slate-600">
-              Подобрана сиделка:{" "}
-              <span className="font-semibold text-brand">{caretaker.caretaker_name}</span>
-              {caretaker.caretaker_experience ? ` · стаж ${caretaker.caretaker_experience} лет` : ""}
-              {caretaker.arrival_minutes ? (
-                <span className="text-emerald-600"> · приедет ~{caretaker.arrival_minutes} мин</span>
+          <div className="mt-5 space-y-3 text-sm">
+            <div className="glass-strong rounded-2xl px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-medium text-brand">{caretaker.ward_name}</span>
+                {caretaker.address ? (
+                  <span className="text-xs text-slate-500">{caretaker.address}</span>
+                ) : null}
+              </div>
+              {caretaker.status === "new" ? (
+                <div className="mt-2 text-amber-700">
+                  Сейчас все сиделки заняты — заявка в очереди, свяжемся при освобождении
+                </div>
+              ) : caretaker.caretaker_name ? (
+                <div className="mt-2 text-slate-600">
+                  {caretaker.status === "accepted" ? (
+                    <>
+                      Сиделка приняла заявку:{" "}
+                      <span className="font-semibold text-brand">{caretaker.caretaker_name}</span>
+                      {caretaker.caretaker_experience
+                        ? ` · стаж ${caretaker.caretaker_experience} лет`
+                        : ""}
+                      {caretaker.arrival_minutes ? (
+                        <span className="text-emerald-600">
+                          {" "}· приедет ~{caretaker.arrival_minutes} мин
+                        </span>
+                      ) : null}
+                    </>
+                  ) : (
+                    <>
+                      Предложена сиделке:{" "}
+                      <span className="font-semibold text-brand">{caretaker.caretaker_name}</span>
+                      {caretaker.caretaker_experience
+                        ? ` · стаж ${caretaker.caretaker_experience} лет`
+                        : ""}{" "}
+                      · ждём её ответа
+                    </>
+                  )}
+                </div>
               ) : null}
             </div>
-          ) : null}
-        </div>
 
         <Link
           href="/cabinet/requests"

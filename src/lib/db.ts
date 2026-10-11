@@ -40,7 +40,7 @@ const SCHEMA = `
     email         TEXT NOT NULL UNIQUE COLLATE NOCASE,
     password_hash TEXT NOT NULL,
     role          TEXT NOT NULL DEFAULT 'user'
-                  CHECK (role IN ('user', 'employee', 'admin')),
+                  CHECK (role IN ('user', 'employee', 'admin', 'caretaker')),
     created_at    TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
@@ -116,21 +116,30 @@ const SCHEMA = `
     created_at  TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS caretaker_profiles (
+    user_id          INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    full_name        TEXT NOT NULL,
+    experience_years INTEGER NOT NULL DEFAULT 0,
+    status           TEXT NOT NULL DEFAULT 'free'
+                     CHECK (status IN ('free', 'waiting', 'busy')),
+    updated_at       TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE TABLE IF NOT EXISTS caretaker_requests (
-    id                   INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id              INTEGER NOT NULL REFERENCES users(id),
-    status               TEXT NOT NULL DEFAULT 'matched'
-                         CHECK (status IN ('new', 'matched', 'done', 'cancelled')),
-    ward_name            TEXT NOT NULL,
-    ward_age             INTEGER,
-    address              TEXT,
-    tasks                TEXT,
-    start_date           TEXT,
-    notes                TEXT,
-    caretaker_name       TEXT,
-    caretaker_experience INTEGER,
-    arrival_minutes      INTEGER,
-    created_at           TEXT NOT NULL DEFAULT (datetime('now'))
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id          INTEGER NOT NULL REFERENCES users(id),
+    status           TEXT NOT NULL DEFAULT 'new'
+                     CHECK (status IN ('new', 'offered', 'accepted', 'declined', 'cancelled')),
+    ward_name        TEXT NOT NULL,
+    ward_age         INTEGER,
+    address          TEXT,
+    tasks            TEXT,
+    start_date       TEXT,
+    notes            TEXT,
+    caretaker_user_id INTEGER REFERENCES users(id),
+    arrival_minutes  INTEGER,
+    created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at       TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
   CREATE INDEX IF NOT EXISTS idx_requests_user     ON requests(user_id);
@@ -143,6 +152,16 @@ const SCHEMA = `
 const SEED_USERS = [
   { email: "admin@patronage.ru", password: "Admin123!", role: "admin" as const },
   { email: "employee@patronage.ru", password: "Employee123!", role: "employee" as const },
+  { email: "elena@patronage.ru", password: "Caretaker123!", role: "caretaker" as const },
+  { email: "olga@patronage.ru", password: "Caretaker123!", role: "caretaker" as const },
+  { email: "marina@patronage.ru", password: "Caretaker123!", role: "caretaker" as const },
+];
+
+/** Профили демо-сиделок (статус — «свободна»). */
+const SEED_CARETAKERS = [
+  { email: "elena@patronage.ru", fullName: "Елена", experienceYears: 9 },
+  { email: "olga@patronage.ru", fullName: "Ольга", experienceYears: 12 },
+  { email: "marina@patronage.ru", fullName: "Марина", experienceYears: 6 },
 ];
 
 const SEED_PLANS = [
@@ -192,6 +211,7 @@ const SEED_PLANS = [
 const SNAPSHOT_TABLES = [
   "users",
   "user_profiles",
+  "caretaker_profiles",
   "plans",
   "plan_features",
   "requests",
@@ -241,12 +261,21 @@ async function importSnapshot(client: Client) {
   }
 }
 
-/** Демо-аккаунты и справочник тарифов (когда нет снапшота). */
+/** Демо-аккаунты, сиделки и справочник тарифов (когда нет снапшота). */
 async function seedDefaults(client: Client) {
   for (const user of SEED_USERS) {
     await client.execute({
       sql: `INSERT OR IGNORE INTO users (email, password_hash, role) VALUES (?, ?, ?)`,
       args: [user.email, bcrypt.hashSync(user.password, 10), user.role],
+    });
+  }
+
+  // Профили сиделок: email → id → INSERT OR IGNORE
+  for (const caretaker of SEED_CARETAKERS) {
+    await client.execute({
+      sql: `INSERT OR IGNORE INTO caretaker_profiles (user_id, full_name, experience_years, status)
+            SELECT id, ?, ?, 'free' FROM users WHERE email = ?`,
+      args: [caretaker.fullName, caretaker.experienceYears, caretaker.email],
     });
   }
 

@@ -18,7 +18,10 @@ const STATUS_LABELS: Record<string, string> = {
   in_progress: "В работе",
   done: "Завершена",
   cancelled: "Отменена",
-  matched: "Сиделка подобрана",
+  // статусы заявок на сиделку
+  offered: "Ждёт ответа сиделки",
+  accepted: "Принята сиделкой",
+  declined: "Ищем другую сиделку",
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -26,7 +29,9 @@ const STATUS_STYLES: Record<string, string> = {
   in_progress: "bg-amber-100/80 text-amber-700",
   done: "bg-emerald-100/80 text-emerald-700",
   cancelled: "bg-slate-200/80 text-slate-500",
-  matched: "bg-emerald-100/80 text-emerald-700",
+  offered: "bg-amber-100/80 text-amber-700",
+  accepted: "bg-emerald-100/80 text-emerald-700",
+  declined: "bg-slate-200/80 text-slate-500",
 };
 
 const formatPrice = (price: number) => price.toLocaleString("ru-RU");
@@ -91,11 +96,14 @@ export default async function CabinetRequestsPage() {
 
   const caretaker = await dbAll<Omit<CaretakerRequest, "kind">>(
     db,
-    `SELECT id, status, ward_name, ward_age, address, tasks, start_date,
-            caretaker_name, caretaker_experience, arrival_minutes, created_at
-       FROM caretaker_requests
-      WHERE user_id = ?
-      ORDER BY id DESC`,
+    `SELECT cr.id, cr.status, cr.ward_name, cr.ward_age, cr.address, cr.tasks,
+            cr.start_date, cr.arrival_minutes, cr.created_at,
+            cp.full_name AS caretaker_name,
+            cp.experience_years AS caretaker_experience
+       FROM caretaker_requests cr
+       LEFT JOIN caretaker_profiles cp ON cp.user_id = cr.caretaker_user_id
+      WHERE cr.user_id = ?
+      ORDER BY cr.id DESC`,
     [user.id],
   );
 
@@ -236,7 +244,7 @@ export default async function CabinetRequestsPage() {
 
                         <span
                           className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
-                            STATUS_STYLES[request.status] ?? STATUS_STYLES.matched
+                            STATUS_STYLES[request.status] ?? STATUS_STYLES.offered
                           }`}
                         >
                           {STATUS_LABELS[request.status] ?? request.status}
@@ -275,7 +283,9 @@ export default async function CabinetRequestsPage() {
 
                       {request.caretaker_name ? (
                         <div className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm">
-                          <span className="text-slate-500">Подобрана сиделка: </span>
+                          <span className="text-slate-500">
+                            {request.status === "accepted" ? "Сиделка приняла заявку: " : "Предложена сиделке: "}
+                          </span>
                           <span className="font-semibold text-brand">{request.caretaker_name}</span>
                           {request.caretaker_experience ? (
                             <span className="text-slate-600">
@@ -289,6 +299,10 @@ export default async function CabinetRequestsPage() {
                             </span>
                           ) : null}
                         </div>
+                      ) : request.status === "new" ? (
+                        <p className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm leading-6 text-amber-700">
+                          Сейчас все сиделки заняты — заявка в очереди.
+                        </p>
                       ) : null}
                     </article>
                   )}

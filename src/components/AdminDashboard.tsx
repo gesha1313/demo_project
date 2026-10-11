@@ -62,6 +62,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 const ROLE_OPTIONS = [
   { value: "user", label: "Клиент" },
+  { value: "caretaker", label: "Сиделка" },
   { value: "employee", label: "Сотрудник" },
   { value: "admin", label: "Администратор" },
 ];

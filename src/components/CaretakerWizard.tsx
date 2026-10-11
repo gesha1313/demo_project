@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { loadYmaps, NN_CENTER, randomNNPoint } from "@/lib/ymaps";
+import Icon from "./Icon";
 
 /** Пункты анкеты (список согласован с серверной валидацией). */
 const TASK_OPTIONS = [
@@ -25,11 +26,19 @@ const MATCHING_STEPS = [
 
 const MATCHING_DURATION_MS = 3600;
 
+/** «9 лет» / «12 лет» / «5 лет» — склонение по числу */
+const pluralYears = (n: number) => {
+  if (n % 10 === 1 && n !== 11) return `${n} год`;
+  if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n)) return `${n} года`;
+  return `${n} лет`;
+};
+
 type MatchResult = {
   requestId: number;
-  caretakerName: string;
-  caretakerExperience: number;
-  arrivalMinutes: number;
+  matched: boolean;
+  caretakerName?: string;
+  caretakerExperience?: number;
+  arrivalMinutes?: number;
 };
 
 type Phase = "form" | "matching" | "result" | "error";
@@ -94,6 +103,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
       const data = (await response.json()) as MatchResult & { ok: boolean };
       setResult({
         requestId: data.requestId,
+        matched: data.matched,
         caretakerName: data.caretakerName,
         caretakerExperience: data.caretakerExperience,
         arrivalMinutes: data.arrivalMinutes,
@@ -127,7 +137,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
 
   // Карта с меткой подобранной сиделки
   useEffect(() => {
-    if (phase !== "result" || !result || !mapNodeRef.current) return;
+    if (phase !== "result" || !result?.matched || !mapNodeRef.current) return;
 
     let destroyed = false;
 
@@ -318,7 +328,6 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             <span className="relative flex h-20 w-20 items-center justify-center">
               <span className="absolute h-full w-full animate-ping rounded-full bg-blue-400/40" />
               <span className="flex h-16 w-16 animate-spin items-center justify-center rounded-full border-4 border-blue-100 border-t-blue-600" />
-              <span className="absolute text-2xl">🧑‍⚕️</span>
             </span>
 
             <h2 className="mt-7 text-xl font-semibold text-brand md:text-2xl">
@@ -341,8 +350,45 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
           </div>
         ) : null}
 
-        {/* ===================== РЕЗУЛЬТАТ ===================== */}
-        {phase === "result" && result ? (
+        {/* ===================== РЕЗУЛЬТАТ: СВОБОДНЫХ НЕТ ===================== */}
+        {phase === "result" && result && !result.matched ? (
+          <div className="flex flex-col items-center py-10 text-center">
+            <span className="icon-glow glass-strong flex h-16 w-16 items-center justify-center rounded-2xl text-blue-700">
+              <Icon name="clock" className="h-8 w-8" />
+            </span>
+
+            <h2 className="mt-6 text-2xl font-semibold tracking-tight text-brand">
+              На данный момент свободных сотрудников нет
+            </h2>
+            <p className="mt-3 max-w-md text-sm leading-6 text-slate-500">
+              Все сиделки сейчас заняты. Ваша заявка №{result.requestId} сохранена —
+              как только кто-то освободится, мы свяжемся с вами по телефону
+              из личного кабинета.
+            </p>
+
+            <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Link
+                href="/cabinet"
+                className="btn-glass-primary rounded-full px-6 py-3.5 text-sm font-semibold"
+              >
+                В личный кабинет
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setPhase("form");
+                  setResult(null);
+                }}
+                className="btn-glass-ghost rounded-full px-6 py-3.5 text-sm font-semibold"
+              >
+                Попробовать позже
+              </button>
+            </div>
+          </div>
+        ) : null}
+
+        {/* ===================== РЕЗУЛЬТАТ: СИДЕЛКА ПОДОБРАНА ===================== */}
+        {phase === "result" && result && result.matched ? (
           <div>
             <div className="flex items-start gap-4">
               <span className="icon-glow glass-strong flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-2xl">
@@ -362,24 +408,20 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             <div className="glass mt-6 grid gap-4 rounded-[1.75rem] p-5 sm:grid-cols-3">
               <div>
                 <div className="text-xs uppercase tracking-wide text-slate-400">Сиделка</div>
-                <div className="mt-1 text-lg font-semibold text-brand">{result.caretakerName}</div>
+                <div className="mt-1 text-lg font-semibold text-brand">
+                  {result.caretakerName ?? "Сиделка"}
+                </div>
               </div>
               <div>
                 <div className="text-xs uppercase tracking-wide text-slate-400">Стаж</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
-                  {result.caretakerExperience}{" "}
-                  {result.caretakerExperience % 10 === 1 && result.caretakerExperience !== 11
-                    ? "год"
-                    : [2, 3, 4].includes(result.caretakerExperience % 10) &&
-                        ![12, 13, 14].includes(result.caretakerExperience)
-                      ? "года"
-                      : "лет"}
+                  {pluralYears(result.caretakerExperience ?? 0)}
                 </div>
               </div>
               <div>
                 <div className="text-xs uppercase tracking-wide text-slate-400">Приедет через</div>
                 <div className="mt-1 text-lg font-semibold text-emerald-600">
-                  ~{result.arrivalMinutes} мин
+                  ~{result.arrivalMinutes ?? "—"} мин
                 </div>
               </div>
             </div>

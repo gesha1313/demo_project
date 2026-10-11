@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 
-const ROLES = ["user", "employee", "admin"] as const;
+const ROLES = ["user", "caretaker", "employee", "admin"] as const;
 
 /** Список пользователей (только администратор). */
 export async function GET() {
