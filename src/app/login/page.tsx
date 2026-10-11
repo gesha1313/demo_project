@@ -10,12 +10,21 @@ export const metadata: Metadata = {
   description: "Войдите в личный кабинет пансионата.",
 };
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   // Уже вошедшего пользователя сразу отправляем в кабинет
   const user = await getCurrentUser();
   if (user) {
     redirect("/cabinet");
   }
+
+  // Куда вернуться после входа (например, /caretaker)
+  const params = await searchParams;
+  const next =
+    typeof params.next === "string" && params.next.startsWith("/") ? params.next : null;
 
   return (
     <>
@@ -26,7 +35,7 @@ export default async function LoginPage() {
 
         <div className="relative mx-auto flex max-w-6xl justify-center px-6 py-16 md:py-24">
           <div className="w-full max-w-md animate-fade-up">
-            <LoginForm />
+            <LoginForm nextPath={next} />
           </div>
         </div>
       </main>

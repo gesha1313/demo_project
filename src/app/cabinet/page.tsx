@@ -72,6 +72,26 @@ export default async function CabinetPage({
 
   const displayName = user.fullName?.trim() || user.email;
 
+  // Последняя заявка на сиделку (отдельный тип заявок)
+  const caretaker = await dbGet<{
+    id: number;
+    status: string;
+    ward_name: string;
+    address: string | null;
+    caretaker_name: string | null;
+    caretaker_experience: number | null;
+    arrival_minutes: number | null;
+    created_at: string;
+  }>(
+    db,
+    `SELECT id, status, ward_name, address, caretaker_name, caretaker_experience,
+            arrival_minutes, created_at
+       FROM caretaker_requests
+      WHERE user_id = ?
+      ORDER BY id DESC LIMIT 1`,
+    [user.id],
+  );
+
   // Всего заявок — для перехода «Подробнее»
   const totalRow = await dbGet<{ count: number }>(
     db,
@@ -168,6 +188,65 @@ export default async function CabinetPage({
     </div>
   );
 
+  // Карточка последней заявки на сиделку — визуально отличается от пансионатных
+  const caretakerCard = caretaker ? (
+    <div className="glass h-full rounded-[2rem] border-l-4 border-l-emerald-400 p-7 md:p-8">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-lg font-semibold text-brand">Заявка на сиделку</h2>
+        <span className="rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700">
+          Сиделка · №{caretaker.id}
+        </span>
+      </div>
+
+      <div className="mt-5 space-y-3 text-sm">
+        <div className="glass-strong rounded-2xl px-5 py-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="font-medium text-brand">{caretaker.ward_name}</span>
+            {caretaker.address ? (
+              <span className="text-xs text-slate-500">{caretaker.address}</span>
+            ) : null}
+          </div>
+          {caretaker.caretaker_name ? (
+            <div className="mt-2 text-slate-600">
+              Подобрана сиделка:{" "}
+              <span className="font-semibold text-brand">{caretaker.caretaker_name}</span>
+              {caretaker.caretaker_experience ? ` · стаж ${caretaker.caretaker_experience} лет` : ""}
+              {caretaker.arrival_minutes ? (
+                <span className="text-emerald-600"> · приедет ~{caretaker.arrival_minutes} мин</span>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+
+        <Link
+          href="/cabinet/requests"
+          className="inline-flex items-center gap-2 font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+        >
+          Подробнее — все заявки →
+        </Link>
+      </div>
+    </div>
+  ) : (
+    <div className="glass flex h-full flex-col rounded-[2rem] p-7 md:p-8">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-lg font-semibold text-brand">Услуга сиделки</h2>
+        <span className="rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700">
+          Сиделка
+        </span>
+      </div>
+      <p className="mt-4 text-sm leading-6 text-slate-500">
+        Нужна сиделка на дом? Заполните короткую анкету — подберём свободную
+        рядом с вами и покажем на карте.
+      </p>
+      <Link
+        href="/caretaker"
+        className="btn-glass-primary mt-auto w-fit rounded-full px-6 py-3 text-sm font-semibold"
+      >
+        Оформить заявку
+      </Link>
+    </div>
+  );
+
   // Карточка горячей линии — широкая (внизу) или компактная (половина сетки)
   const supportCard = (compact: boolean) =>
     compact ? (
@@ -247,7 +326,7 @@ export default async function CabinetPage({
           </div>
 
           {showForm ? (
-            /* До сохранения контактов: форма + заявка рядом, линия во всю ширину */
+            /* До сохранения контактов: форма + заявки рядом, линия во всю ширину */
             <div className="mt-12 grid gap-6 lg:grid-cols-2">
               <Reveal>
                 <ProfileCard initialFullName={user.fullName} initialPhone={user.phone} />
@@ -255,13 +334,15 @@ export default async function CabinetPage({
 
               <Reveal delay={120}>{statusCard}</Reveal>
 
-              <Reveal delay={180} className="lg:col-span-2">
+              <Reveal delay={180}>{caretakerCard}</Reveal>
+
+              <Reveal delay={240} className="lg:col-span-2">
                 {supportCard(false)}
               </Reveal>
             </div>
           ) : (
             /* Контакты сохранены: вместо формы — компактная полоска,
-               заявка и горячая линия встают рядом */
+               заявки (пансионат и сиделка) встают рядом */
             <div className="mt-12 space-y-6">
               <div className="glass animate-fade-up flex flex-col gap-4 rounded-[2rem] px-7 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
@@ -288,8 +369,10 @@ export default async function CabinetPage({
 
               <div className="grid gap-6 lg:grid-cols-2">
                 <Reveal>{statusCard}</Reveal>
-                <Reveal delay={120}>{supportCard(true)}</Reveal>
+                <Reveal delay={120}>{caretakerCard}</Reveal>
               </div>
+
+              <Reveal delay={180}>{supportCard(false)}</Reveal>
             </div>
           )}
         </div>

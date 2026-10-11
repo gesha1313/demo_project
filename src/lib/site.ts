@@ -7,6 +7,7 @@ export const site = {
 } as const;
 
 export const navLinks = [
+  { href: "/caretaker", label: "Услуга сиделки" },
   { href: "/about", label: "О пансионате" },
   { href: "/services", label: "Услуги и условия" },
   { href: "/#contacts", label: "Контакты" },

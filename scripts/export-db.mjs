@@ -22,6 +22,8 @@ const TABLES = [
   "requests",
   "conversations",
   "messages",
+  "request_deletions",
+  "caretaker_requests",
 ];
 
 const dbPath = path.join(process.cwd(), "data", "patronage.db");

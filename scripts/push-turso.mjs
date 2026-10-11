@@ -70,6 +70,8 @@ for (const table of [
   "requests",
   "conversations",
   "messages",
+  "request_deletions",
+  "caretaker_requests",
 ]) {
   const rows = snapshot.tables[table] ?? [];
   if (!rows.length) continue;

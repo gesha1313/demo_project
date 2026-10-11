@@ -116,6 +116,23 @@ const SCHEMA = `
     created_at  TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS caretaker_requests (
+    id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id              INTEGER NOT NULL REFERENCES users(id),
+    status               TEXT NOT NULL DEFAULT 'matched'
+                         CHECK (status IN ('new', 'matched', 'done', 'cancelled')),
+    ward_name            TEXT NOT NULL,
+    ward_age             INTEGER,
+    address              TEXT,
+    tasks                TEXT,
+    start_date           TEXT,
+    notes                TEXT,
+    caretaker_name       TEXT,
+    caretaker_experience INTEGER,
+    arrival_minutes      INTEGER,
+    created_at           TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE INDEX IF NOT EXISTS idx_requests_user     ON requests(user_id);
   CREATE INDEX IF NOT EXISTS idx_requests_employee ON requests(employee_id);
   CREATE INDEX IF NOT EXISTS idx_messages_convo    ON messages(conversation_id);
@@ -178,6 +195,8 @@ const SNAPSHOT_TABLES = [
   "plans",
   "plan_features",
   "requests",
+  "request_deletions",
+  "caretaker_requests",
   "conversations",
   "messages",
 ] as const;

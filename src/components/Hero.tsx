@@ -4,9 +4,9 @@ import Image from "next/image";
 const advantages = ["Круглосуточный уход", "Опытные специалисты", "Индивидуальный подход"];
 
 const chain = [
+  { href: "/caretaker", label: "Услуга сиделки" },
   { href: "/about", label: "О пансионате" },
   { href: "/services", label: "Услуги и условия" },
-  { href: "/services#pricing", label: "Стоимость" },
   { href: "/services#faq", label: "Частые вопросы" },
 ];
 

@@ -10,7 +10,7 @@ import { dbAll, getDb } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Мои заявки",
-  description: "Все отправленные заявки на консультацию и их статусы.",
+  description: "Все отправленные заявки: пансионат и услуга сиделки.",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -18,6 +18,7 @@ const STATUS_LABELS: Record<string, string> = {
   in_progress: "В работе",
   done: "Завершена",
   cancelled: "Отменена",
+  matched: "Сиделка подобрана",
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -25,6 +26,46 @@ const STATUS_STYLES: Record<string, string> = {
   in_progress: "bg-amber-100/80 text-amber-700",
   done: "bg-emerald-100/80 text-emerald-700",
   cancelled: "bg-slate-200/80 text-slate-500",
+  matched: "bg-emerald-100/80 text-emerald-700",
+};
+
+const formatPrice = (price: number) => price.toLocaleString("ru-RU");
+
+type PansionatRequest = {
+  kind: "pansionat";
+  id: number;
+  status: string;
+  message: string | null;
+  description: string | null;
+  ward_name: string | null;
+  created_at: string;
+  updated_at: string;
+  plan_name: string | null;
+  monthly_price: number | null;
+  employee_email: string | null;
+};
+
+type CaretakerRequest = {
+  kind: "caretaker";
+  id: number;
+  status: string;
+  ward_name: string;
+  ward_age: number | null;
+  address: string | null;
+  tasks: string | null;
+  start_date: string | null;
+  caretaker_name: string | null;
+  caretaker_experience: number | null;
+  arrival_minutes: number | null;
+  created_at: string;
+};
+
+type AnyRequest = PansionatRequest | CaretakerRequest;
+
+const pluralYears = (n: number) => {
+  if (n % 10 === 1 && n !== 11) return "год";
+  if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n)) return "года";
+  return "лет";
 };
 
 export default async function CabinetRequestsPage() {
@@ -34,18 +75,8 @@ export default async function CabinetRequestsPage() {
   }
 
   const db = await getDb();
-  const requests = await dbAll<{
-    id: number;
-    status: string;
-    message: string | null;
-    description: string | null;
-    ward_name: string | null;
-    created_at: string;
-    updated_at: string;
-    plan_name: string | null;
-    monthly_price: number | null;
-    employee_email: string | null;
-  }>(
+
+  const pansionat = await dbAll<Omit<PansionatRequest, "kind">>(
     db,
     `SELECT r.id, r.status, r.message, r.description, r.ward_name, r.created_at, r.updated_at,
             pl.name AS plan_name, pl.monthly_price,
@@ -57,6 +88,25 @@ export default async function CabinetRequestsPage() {
       ORDER BY r.id DESC`,
     [user.id],
   );
+
+  const caretaker = await dbAll<Omit<CaretakerRequest, "kind">>(
+    db,
+    `SELECT id, status, ward_name, ward_age, address, tasks, start_date,
+            caretaker_name, caretaker_experience, arrival_minutes, created_at
+       FROM caretaker_requests
+      WHERE user_id = ?
+      ORDER BY id DESC`,
+    [user.id],
+  );
+
+  // Единый список: свежие сверху
+  const all: AnyRequest[] = [
+    ...pansionat.map((r) => ({ ...r, kind: "pansionat" as const })),
+    ...caretaker.map((r) => ({ ...r, kind: "caretaker" as const })),
+  ].sort((a, b) => b.created_at.localeCompare(a.created_at) || b.id - a.id);
+
+  const pansionatCount = pansionat.length;
+  const caretakerCount = caretaker.length;
 
   return (
     <>
@@ -79,99 +129,180 @@ export default async function CabinetRequestsPage() {
                 Мои заявки
               </h1>
               <p className="mt-2 text-slate-600">
-                Все ваши обращения — от первой заявки до текущей.
+                Все ваши обращения — в пансионат и на услугу сиделки.
               </p>
             </div>
 
-            <span className="glass w-fit rounded-full px-4 py-2 text-sm font-semibold text-blue-700">
-              Всего: {requests.length}
-            </span>
+            <div className="flex gap-3">
+              <span className="glass rounded-full px-4 py-2 text-sm font-semibold text-blue-700">
+                Пансионат: {pansionatCount}
+              </span>
+              <span className="glass rounded-full px-4 py-2 text-sm font-semibold text-emerald-700">
+                Сиделки: {caretakerCount}
+              </span>
+            </div>
           </div>
 
           {/* Список заявок */}
           <div className="mt-10 space-y-5">
-            {requests.length === 0 ? (
+            {all.length === 0 ? (
               <div className="glass rounded-[2rem] p-8 text-center">
                 <p className="text-slate-600">
-                  Заявок пока нет. Создайте первую — расскажите о подопечном и выберите тариф.
+                  Заявок пока нет. Оформите первую — в пансионат или на услугу сиделки.
                 </p>
-                <Link
-                  href="/cabinet/new"
-                  className="btn-glass-primary mt-6 inline-block rounded-full px-6 py-3 text-sm font-semibold"
-                >
-                  Создать заявку
-                </Link>
+                <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                  <Link
+                    href="/caretaker"
+                    className="btn-glass-primary rounded-full px-6 py-3 text-sm font-semibold"
+                  >
+                    Заказать сиделку
+                  </Link>
+                  <Link
+                    href="/cabinet/new"
+                    className="btn-glass-ghost rounded-full px-6 py-3 text-sm font-semibold"
+                  >
+                    Заявка в пансионат
+                  </Link>
+                </div>
               </div>
             ) : (
-              requests.map((request, index) => (
-                <Reveal key={request.id} delay={Math.min(index * 80, 320)}>
-                  <article className="glass rounded-[1.75rem] p-6 md:p-7">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">
-                          Заявка №{request.id}
+              all.map((request, index) => (
+                <Reveal key={`${request.kind}-${request.id}`} delay={Math.min(index * 80, 320)}>
+                  {request.kind === "pansionat" ? (
+                    <article className="glass rounded-[1.75rem] p-6 md:p-7">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="rounded-full bg-blue-100/80 px-3 py-1 text-xs font-semibold text-blue-700">
+                              Пансионат · №{request.id}
+                            </span>
+                            <span className="text-xs text-slate-400">
+                              {request.created_at.slice(0, 10)}{" "}
+                              {request.created_at.slice(11, 16)}
+                            </span>
+                          </div>
                         </div>
-                        <div className="mt-1 text-sm text-slate-500">
-                          Отправлена {request.created_at.slice(0, 10)} в{" "}
-                          {request.created_at.slice(11, 16)}
-                        </div>
+
+                        <span
+                          className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                            STATUS_STYLES[request.status] ?? STATUS_STYLES.new
+                          }`}
+                        >
+                          {STATUS_LABELS[request.status] ?? request.status}
+                        </span>
                       </div>
 
-                      <span
-                        className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
-                          STATUS_STYLES[request.status] ?? STATUS_STYLES.new
-                        }`}
-                      >
-                        {STATUS_LABELS[request.status] ?? request.status}
-                      </span>
-                    </div>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {request.ward_name ? (
+                          <span className="rounded-full bg-slate-100/80 px-3 py-1 text-xs font-medium text-slate-600">
+                            Подопечный: {request.ward_name}
+                          </span>
+                        ) : null}
+                        {request.plan_name ? (
+                          <span className="rounded-full bg-blue-100/80 px-3 py-1 text-xs font-semibold text-blue-700">
+                            {request.plan_name}
+                            {request.monthly_price
+                              ? ` · ${formatPrice(request.monthly_price)} ₽/мес`
+                              : ""}
+                          </span>
+                        ) : null}
+                      </div>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {request.ward_name ? (
+                      {request.description ?? request.message ? (
+                        <p className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm leading-6 text-slate-600">
+                          {request.description ?? request.message}
+                        </p>
+                      ) : null}
+
+                      <div className="mt-4 text-sm text-slate-500">
+                        {request.employee_email
+                          ? `Заявку ведёт: ${request.employee_email}`
+                          : "Ждёт распределения к сотруднику"}
+                      </div>
+                    </article>
+                  ) : (
+                    /* ===== Заявка на сиделку — визуально отличается ===== */
+                    <article className="glass rounded-[1.75rem] border-l-4 border-l-emerald-400 p-6 md:p-7">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700">
+                            Сиделка · №{request.id}
+                          </span>
+                          <span className="text-xs text-slate-400">
+                            {request.created_at.slice(0, 10)}{" "}
+                            {request.created_at.slice(11, 16)}
+                          </span>
+                        </div>
+
+                        <span
+                          className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                            STATUS_STYLES[request.status] ?? STATUS_STYLES.matched
+                          }`}
+                        >
+                          {STATUS_LABELS[request.status] ?? request.status}
+                        </span>
+                      </div>
+
+                      <div className="mt-4 flex flex-wrap gap-2">
                         <span className="rounded-full bg-slate-100/80 px-3 py-1 text-xs font-medium text-slate-600">
-                          Подопечный: {request.ward_name}
+                          {request.ward_name}
+                          {request.ward_age ? `, ${request.ward_age} лет` : ""}
                         </span>
-                      ) : null}
-                      {request.plan_name ? (
-                        <span className="rounded-full bg-blue-100/80 px-3 py-1 text-xs font-semibold text-blue-700">
-                          {request.plan_name}
-                          {request.monthly_price
-                            ? ` · ${(request.monthly_price ?? 0).toLocaleString("ru-RU")} ₽/мес`
-                            : ""}
-                        </span>
-                      ) : null}
-                    </div>
+                        {request.address ? (
+                          <span className="rounded-full bg-slate-100/80 px-3 py-1 text-xs font-medium text-slate-600">
+                            {request.address}
+                          </span>
+                        ) : null}
+                        {request.start_date ? (
+                          <span className="rounded-full bg-slate-100/80 px-3 py-1 text-xs font-medium text-slate-600">
+                            с {request.start_date.split("-").reverse().join(".")}
+                          </span>
+                        ) : null}
+                      </div>
 
-                    {(request.description ?? request.message) ? (
-                      <p className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm leading-6 text-slate-600">
-                        {request.description ?? request.message}
-                      </p>
-                    ) : null}
-
-                    <div className="mt-4 text-sm text-slate-500">
-                      {request.employee_email ? (
-                        <>Заявку ведёт: <span className="font-medium text-brand">{request.employee_email}</span></>
-                      ) : (
-                        "Ждёт распределения к сотруднику"
-                      )}
-                      {request.updated_at !== request.created_at ? (
-                        <span className="text-slate-400">
-                          {" "}· обновлена {request.updated_at.slice(0, 10)}
-                        </span>
+                      {request.tasks ? (
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {(JSON.parse(request.tasks) as string[]).map((task) => (
+                            <span
+                              key={task}
+                              className="rounded-full bg-emerald-50/90 px-2.5 py-0.5 text-xs text-emerald-700"
+                            >
+                              {task}
+                            </span>
+                          ))}
+                        </div>
                       ) : null}
-                    </div>
-                  </article>
+
+                      {request.caretaker_name ? (
+                        <div className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm">
+                          <span className="text-slate-500">Подобрана сиделка: </span>
+                          <span className="font-semibold text-brand">{request.caretaker_name}</span>
+                          {request.caretaker_experience ? (
+                            <span className="text-slate-600">
+                              {" "}· стаж {request.caretaker_experience}{" "}
+                              {pluralYears(request.caretaker_experience)}
+                            </span>
+                          ) : null}
+                          {request.arrival_minutes ? (
+                            <span className="text-emerald-600">
+                              {" "}· приедет ~{request.arrival_minutes} мин
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </article>
+                  )}
                 </Reveal>
               ))
             )}
           </div>
 
           {/* Переходник: создание следующей заявки */}
-          {requests.length > 0 ? (
+          {all.length > 0 ? (
             <SectionFooter
-              href="/cabinet/new"
-              next="Создать новую заявку"
-              hint="Можно отправить несколько заявок — например, для двух близких"
+              href="/caretaker"
+              next="Заказать сиделку ещё раз"
+              hint="Анкета займет пару минут — подберём свободную сиделку рядом"
             />
           ) : null}
         </div>

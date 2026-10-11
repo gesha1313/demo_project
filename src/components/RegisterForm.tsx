@@ -16,7 +16,7 @@ const LABEL_COLORS: Record<string, string> = {
   strong: "text-emerald-600",
 };
 
-export default function RegisterForm() {
+export default function RegisterForm({ nextPath = null }: { nextPath?: string | null }) {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -63,7 +63,8 @@ export default function RegisterForm() {
         return;
       }
 
-      router.push("/register/success");
+      // После регистрации — к цели (например, анкете сиделки) или на страницу успеха
+      router.push(nextPath ?? "/register/success");
     } catch {
       setError("Сервер недоступен, попробуйте ещё раз");
     } finally {

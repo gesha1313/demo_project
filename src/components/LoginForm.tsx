@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { isValidEmail } from "@/lib/validation";
 
-export default function LoginForm() {
+export default function LoginForm({ nextPath = null }: { nextPath?: string | null }) {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ export default function LoginForm() {
         return;
       }
 
-      router.push("/cabinet");
+      router.push(nextPath ?? "/cabinet");
       router.refresh();
     } catch {
       setError("Сервер недоступен, попробуйте ещё раз");
@@ -113,7 +113,10 @@ export default function LoginForm() {
 
           <p className="text-center text-sm text-slate-500">
             Нет аккаунта?{" "}
-            <a href="/register" className="font-semibold text-blue-700 hover:text-blue-800">
+            <a
+              href={nextPath ? `/register?next=${encodeURIComponent(nextPath)}` : "/register"}
+              className="font-semibold text-blue-700 hover:text-blue-800"
+            >
               Зарегистрироваться
             </a>
           </p>

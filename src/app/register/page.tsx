@@ -18,12 +18,21 @@ const benefits = [
   "Чат с горячей линией пансионата",
 ];
 
-export default async function RegisterPage() {
+export default async function RegisterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   // Авторизованного пользователя некуда регистрировать — отправляем в кабинет
   const user = await getCurrentUser();
   if (user) {
     redirect("/cabinet");
   }
+
+  // Куда перейти после регистрации (например, сразу к анкете сиделки)
+  const params = await searchParams;
+  const next =
+    typeof params.next === "string" && params.next.startsWith("/") ? params.next : null;
 
   return (
     <>
@@ -71,7 +80,7 @@ export default async function RegisterPage() {
 
           {/* Форма */}
           <div className="flex animate-fade-up justify-center [animation-delay:100ms]">
-            <RegisterForm />
+            <RegisterForm nextPath={next} />
           </div>
         </div>
       </main>
