@@ -135,11 +135,22 @@ const SCHEMA = `
     address          TEXT,
     tasks            TEXT,
     start_date       TEXT,
+    end_date         TEXT,
     notes            TEXT,
     caretaker_user_id INTEGER REFERENCES users(id),
     arrival_minutes  INTEGER,
     created_at       TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at       TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS notifications (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    kind        TEXT NOT NULL DEFAULT 'info',
+    title       TEXT NOT NULL,
+    body        TEXT,
+    is_read     INTEGER NOT NULL DEFAULT 0,
+    created_at  TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
   CREATE INDEX IF NOT EXISTS idx_requests_user     ON requests(user_id);
@@ -217,6 +228,7 @@ const SNAPSHOT_TABLES = [
   "requests",
   "request_deletions",
   "caretaker_requests",
+  "notifications",
   "conversations",
   "messages",
 ] as const;
@@ -301,9 +313,20 @@ async function seedDefaults(client: Client) {
   }
 }
 
-/** Инициализация: схема → (снапшот | демо-данные). Выполняется один раз. */
+/** Добавляет отсутствующие колонки caretaker_requests (миграция старой базы). */
+async function ensureCaretakerColumns(client: Client) {
+  const rs = await client.execute(`PRAGMA table_info(caretaker_requests)`);
+  const columns = new Set(rs.rows.map((row) => String(row.name)));
+
+  if (!columns.has("end_date")) {
+    await client.execute(`ALTER TABLE caretaker_requests ADD COLUMN end_date TEXT`);
+  }
+}
+
+/** Инициализация: схема → миграции → (снапшот | демо-данные). Выполняется один раз. */
 async function initDb(client: Client) {
   await client.executeMultiple(SCHEMA);
+  await ensureCaretakerColumns(client);
 
   const usersRow = await dbGet<{ c: number }>(client, `SELECT COUNT(*) AS c FROM users`);
   if (Number(usersRow?.c ?? 0) > 0) return;

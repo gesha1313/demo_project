@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { dbGet, getDb } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
+import { notify } from "@/lib/notify";
 
 /**
  * Решение сиделки по заявке:
@@ -29,9 +30,9 @@ export async function POST(request: Request) {
   }
 
   const db = await getDb();
-  const req = await dbGet<{ id: number; status: string }>(
+  const req = await dbGet<{ id: number; status: string; user_id: number; ward_name: string }>(
     db,
-    `SELECT id, status FROM caretaker_requests
+    `SELECT id, status, user_id, ward_name FROM caretaker_requests
       WHERE id = ? AND caretaker_user_id = ?`,
     [requestId, user.id],
   );
@@ -44,6 +45,7 @@ export async function POST(request: Request) {
   }
 
   const tx = await db.transaction();
+  let reassignedTo: number | null = null;
   try {
     if (decision === "accept") {
       await tx.execute({
@@ -64,14 +66,15 @@ export async function POST(request: Request) {
         args: [requestId],
       });
 
-      const next = await dbGet<{ user_id: number }>(
-        tx as never,
-        `SELECT cp.user_id FROM caretaker_profiles cp
-          JOIN users u ON u.id = cp.user_id
-         WHERE cp.status = 'free' AND cp.user_id != ?
-         ORDER BY RANDOM() LIMIT 1`,
-        [user.id],
-      );
+      const next = (
+        await tx.execute({
+          sql: `SELECT cp.user_id FROM caretaker_profiles cp
+                 JOIN users u ON u.id = cp.user_id
+                WHERE cp.status = 'free' AND cp.user_id != ?
+                ORDER BY RANDOM() LIMIT 1`,
+          args: [user.id],
+        })
+      ).rows[0] as unknown as { user_id: number } | undefined;
 
       if (next) {
         await tx.execute({
@@ -85,6 +88,7 @@ export async function POST(request: Request) {
                 WHERE user_id = ?`,
           args: [next.user_id],
         });
+        reassignedTo = next.user_id;
       }
 
       // Отказавшая сиделка освобождается, если других предложенных заявок нет
@@ -105,6 +109,46 @@ export async function POST(request: Request) {
   } catch (error) {
     await tx.rollback();
     throw error;
+  }
+
+  // Уведомления клиенту (и новой сиделке при переносе)
+  if (decision === "accept") {
+    const profile = await dbGet<{ full_name: string }>(
+      db,
+      `SELECT full_name FROM caretaker_profiles WHERE user_id = ?`,
+      [user.id],
+    );
+    await notify(
+      req.user_id,
+      "accepted",
+      "Заявка одобрена",
+      `Сиделка ${profile?.full_name ?? ""} приняла заявку №${req.id}. Ожидайте её выезд (~согласно договорённости).`.trim(),
+    );
+  } else if (reassignedTo) {
+    const profile = await dbGet<{ full_name: string }>(
+      db,
+      `SELECT full_name FROM caretaker_profiles WHERE user_id = ?`,
+      [reassignedTo],
+    );
+    await notify(
+      req.user_id,
+      "transferred",
+      "Заявка перенесена",
+      `Сиделка отказалась от заявки №${req.id} — она предложена другой сиделке (${profile?.full_name ?? "скоро подберём"}).`,
+    );
+    await notify(
+      reassignedTo,
+      "offered",
+      "Новый заказ",
+      `Заявка №${req.id}: ${req.ward_name}. Проверьте кабинет — заявка ждёт вашего ответа.`,
+    );
+  } else {
+    await notify(
+      req.user_id,
+      "declined",
+      "Заявка отклонена",
+      `Сиделка отказалась от заявки №${req.id}, свободных сиделок сейчас нет. Заявка в очереди.`,
+    );
   }
 
   return NextResponse.json({ ok: true });

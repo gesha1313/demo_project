@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { dbGet, getDb } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
+import { notify } from "@/lib/notify";
 
 /** Допустимые пункты анкеты (дублируются в CaretakerWizard). */
 const ALLOWED_TASKS = new Set([
@@ -20,6 +21,7 @@ type Body = {
   address?: string;
   tasks?: string[];
   startDate?: string;
+  endDate?: string;
   notes?: string;
 };
 
@@ -45,6 +47,7 @@ export async function POST(request: Request) {
   const wardAge = Number(body.wardAge);
   const address = (body.address ?? "").trim();
   const startDate = (body.startDate ?? "").trim() || null;
+  const endDate = (body.endDate ?? "").trim() || null;
   const notes = (body.notes ?? "").trim() || null;
   const tasks = Array.isArray(body.tasks)
     ? body.tasks.map((t) => String(t).trim()).filter((t) => ALLOWED_TASKS.has(t))
@@ -61,6 +64,12 @@ export async function POST(request: Request) {
   }
   if (tasks.length === 0) {
     return NextResponse.json({ error: "Выберите хотя бы одну услугу" }, { status: 400 });
+  }
+  if (startDate && endDate && endDate < startDate) {
+    return NextResponse.json(
+      { error: "Дата окончания не может быть раньше даты начала" },
+      { status: 400 },
+    );
   }
 
   const db = await getDb();
@@ -86,10 +95,17 @@ export async function POST(request: Request) {
     // Свободных сиделок нет — заявка сохраняется, ждёт освобождения
     const inserted = await db.execute({
       sql: `INSERT INTO caretaker_requests
-              (user_id, status, ward_name, ward_age, address, tasks, start_date, notes, arrival_minutes)
-            VALUES (?, 'new', ?, ?, ?, ?, ?, ?, ?)`,
-      args: [user.id, wardName, wardAge, address, JSON.stringify(tasks), startDate, notes, arrival],
+              (user_id, status, ward_name, ward_age, address, tasks, start_date, end_date, notes, arrival_minutes)
+            VALUES (?, 'new', ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [user.id, wardName, wardAge, address, JSON.stringify(tasks), startDate, endDate, notes, arrival],
     });
+
+    await notify(
+      user.id,
+      "queued",
+      "Заявка на рассмотрении",
+      "Сейчас все сиделки заняты. Заявка в очереди — сообщим, когда кто-то освободится.",
+    );
 
     return NextResponse.json({
       ok: true,
@@ -110,9 +126,9 @@ export async function POST(request: Request) {
 
     const inserted = await tx.execute({
       sql: `INSERT INTO caretaker_requests
-              (user_id, status, ward_name, ward_age, address, tasks, start_date, notes,
+              (user_id, status, ward_name, ward_age, address, tasks, start_date, end_date, notes,
                caretaker_user_id, arrival_minutes)
-            VALUES (?, 'offered', ?, ?, ?, ?, ?, ?, ?, ?)`,
+            VALUES (?, 'offered', ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         user.id,
         wardName,
@@ -120,6 +136,7 @@ export async function POST(request: Request) {
         address,
         JSON.stringify(tasks),
         startDate,
+        endDate,
         notes,
         free.user_id,
         arrival,
@@ -132,6 +149,19 @@ export async function POST(request: Request) {
     await tx.rollback();
     throw error;
   }
+
+  await notify(
+    user.id,
+    "offered",
+    "Заявка на рассмотрении",
+    `Заявка №${requestId} предложена сиделке ${free.full_name}. Ожидаем её ответа.`,
+  );
+  await notify(
+    free.user_id,
+    "offered",
+    "Новый заказ",
+    `Заявка №${requestId}: ${wardName}. Проверьте кабинет — заявка ждёт вашего ответа.`,
+  );
 
   return NextResponse.json({
     ok: true,

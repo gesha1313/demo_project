@@ -49,6 +49,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
   const [wardAge, setWardAge] = useState("");
   const [address, setAddress] = useState("");
   const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState("");
   const [tasks, setTasks] = useState<string[]>([]);
 
@@ -90,6 +91,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
           address,
           tasks,
           startDate,
+          endDate,
           notes,
         }),
       });
@@ -268,34 +270,53 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                 </div>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="start-date" className="mb-2 block text-sm font-medium text-brand">
-                    Дата начала{" "}
-                    <span className="font-normal text-slate-400">(необязательно)</span>
-                  </label>
-                  <input
-                    id="start-date"
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="input-glass"
-                  />
+              <div>
+                <span className="mb-2 block text-sm font-medium text-brand">
+                  Период ухода{" "}
+                  <span className="font-normal text-slate-400">(от и до — необязательно)</span>
+                </span>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="start-date" className="mb-1 block text-xs text-slate-500">
+                      с
+                    </label>
+                    <input
+                      id="start-date"
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="input-glass"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="end-date" className="mb-1 block text-xs text-slate-500">
+                      по
+                    </label>
+                    <input
+                      id="end-date"
+                      type="date"
+                      min={startDate || undefined}
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="input-glass"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="notes" className="mb-2 block text-sm font-medium text-brand">
-                    Пожелания{" "}
-                    <span className="font-normal text-slate-400">(необязательно)</span>
-                  </label>
-                  <input
-                    id="notes"
-                    type="text"
-                    placeholder="Особенности режима, характер"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    className="input-glass"
-                  />
-                </div>
+              </div>
+
+              <div>
+                <label htmlFor="notes" className="mb-2 block text-sm font-medium text-brand">
+                  Пожелания{" "}
+                  <span className="font-normal text-slate-400">(необязательно)</span>
+                </label>
+                <input
+                  id="notes"
+                  type="text"
+                  placeholder="Особенности режима, характер"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  className="input-glass"
+                />
               </div>
 
               {error ? (
@@ -453,6 +474,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                   setAddress("");
                   setTasks([]);
                   setStartDate("");
+                  setEndDate("");
                   setNotes("");
                   setResult(null);
                 }}

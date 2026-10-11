@@ -29,6 +29,7 @@ export async function GET() {
     address: string | null;
     tasks: string | null;
     start_date: string | null;
+    end_date: string | null;
     notes: string | null;
     arrival_minutes: number | null;
     created_at: string;
@@ -38,7 +39,7 @@ export async function GET() {
   }>(
     db,
     `SELECT cr.id, cr.status, cr.ward_name, cr.ward_age, cr.address, cr.tasks,
-            cr.start_date, cr.notes, cr.arrival_minutes, cr.created_at,
+            cr.start_date, cr.end_date, cr.notes, cr.arrival_minutes, cr.created_at,
             u.email AS client_email,
             p.full_name AS client_name,
             p.phone AS client_phone

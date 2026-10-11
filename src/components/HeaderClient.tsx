@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/lib/site";
+import NotificationsBell from "./NotificationsBell";
 
 type HeaderUser = {
   email: string;
@@ -52,6 +53,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
 
         {/* Контакты и аккаунт */}
         <div className="hidden items-center gap-5 md:flex">
+          {user ? <NotificationsBell /> : null}
           {user ? (
             <>
               <Link
@@ -101,11 +103,13 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
           )}
         </div>
 
-        {/* Кнопка мобильного меню */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
+        {/* Мобильные: уведомления + меню */}
+        <div className="flex items-center gap-2 md:hidden">
+          {user ? <NotificationsBell /> : null}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
           aria-expanded={menuOpen}
           className="flex h-11 w-11 flex-col items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md md:hidden"
         >
@@ -120,6 +124,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
             }`}
           />
         </button>
+        </div>
       </div>
 
       {/* Мобильное меню — плавно раскрывается через grid-rows */}

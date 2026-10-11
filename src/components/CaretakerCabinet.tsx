@@ -38,6 +38,7 @@ type Offer = {
   address: string | null;
   tasks: string | null;
   start_date: string | null;
+  end_date: string | null;
   notes: string | null;
   arrival_minutes: number | null;
   created_at: string;
@@ -69,7 +70,7 @@ export default async function CaretakerCabinet({
   const offers = await dbAll<Offer>(
     db,
     `SELECT cr.id, cr.status, cr.ward_name, cr.ward_age, cr.address, cr.tasks,
-            cr.start_date, cr.notes, cr.arrival_minutes, cr.created_at,
+            cr.start_date, cr.end_date, cr.notes, cr.arrival_minutes, cr.created_at,
             u.email AS client_email,
             p.full_name AS client_name,
             p.phone AS client_phone
@@ -201,8 +202,13 @@ export default async function CaretakerCabinet({
                     ) : null}
 
                     <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-500">
-                      {offer.start_date ? (
-                        <span>Начало: {offer.start_date.split("-").reverse().join(".")}</span>
+                      {offer.start_date || offer.end_date ? (
+                        <span>
+                          Период:{" "}
+                          {offer.start_date && offer.end_date
+                            ? `${offer.start_date.split("-").reverse().join(".")} — ${offer.end_date.split("-").reverse().join(".")}`
+                            : `с ${(offer.start_date ?? offer.end_date)!.split("-").reverse().join(".")}`}
+                        </span>
                       ) : null}
                       {offer.arrival_minutes ? <span>Выезд ~{offer.arrival_minutes} мин</span> : null}
                     </div>
@@ -218,6 +224,15 @@ export default async function CaretakerCabinet({
                         <CaretakerDecideButtons requestId={offer.id} />
                       </div>
                     ) : null}
+
+                    <div className="mt-4">
+                      <Link
+                        href={`/cabinet/requests/${offer.id}`}
+                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+                      >
+                        Подробнее →
+                      </Link>
+                    </div>
                   </article>
                 </Reveal>
               ))
