@@ -15,6 +15,10 @@ export const metadata: Metadata = {
 
 export default async function NewRequestPage() {
   const user = await getCurrentUser();
+  // Сиделка оформлять заявки не может — только обрабатывать
+  if (user?.role === "caretaker") {
+    redirect("/cabinet");
+  }
   if (!user) {
     redirect("/login");
   }

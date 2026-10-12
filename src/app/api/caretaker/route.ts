@@ -35,6 +35,12 @@ export async function POST(request: Request) {
   if (!user) {
     return NextResponse.json({ error: "Требуется вход" }, { status: 401 });
   }
+  if (user.role === "caretaker") {
+    return NextResponse.json(
+      { error: "Сиделки не оформляют заказы — только обрабатывают их" },
+      { status: 403 },
+    );
+  }
 
   let body: Body;
   try {

@@ -14,6 +14,10 @@ export const metadata: Metadata = {
 export default async function CaretakerPage() {
   // Неавторизованного отправляем на вход с возвратом сюда же
   const user = await getCurrentUser();
+  // Сиделка оформлять заказы не может — только обрабатывать
+  if (user?.role === "caretaker") {
+    redirect("/cabinet");
+  }
   if (!user) {
     redirect("/login?next=/caretaker");
   }

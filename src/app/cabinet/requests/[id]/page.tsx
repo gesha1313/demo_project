@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TransferButton from "@/components/TransferButton";
+import CancelRequestButton from "@/components/CancelRequestButton";
 import CaretakerDecideButtons from "@/components/CaretakerDecideButtons";
 import { getCurrentUser } from "@/lib/auth";
 import { dbGet, getDb } from "@/lib/db";
@@ -354,7 +355,22 @@ export default async function RequestDetailPage({
           </div>
 
           {/* Действия */}
-          <div className="animate-fade-up mt-8 [animation-delay:200ms]">
+          <div className="animate-fade-up mt-8 space-y-6">
+            {/* Клиент отменяет неактивную заявку на сиделку (в очереди / без сиделки) */}
+            {request.kind === "caretaker" &&
+            isOwner &&
+            (request.status === "new" || request.status === "declined") ? (
+              <div className="glass rounded-[2rem] p-6">
+                <div className="text-sm font-semibold text-brand">Передумали?</div>
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Заявка ещё не активна — её можно отменить.
+                </p>
+                <div className="mt-4">
+                  <CancelRequestButton requestId={request.id} />
+                </div>
+              </div>
+            ) : null}
+
             {/* Сиделка решает по предложенной заявке */}
             {request.kind === "caretaker" && isAssignedCaretaker && request.status === "offered" ? (
               <CaretakerDecideButtons requestId={request.id} />
