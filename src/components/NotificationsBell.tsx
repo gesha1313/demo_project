@@ -124,9 +124,9 @@ export default function NotificationsBell() {
         ) : null}
       </button>
 
-      {/* Панель уведомлений: на мобильных — почти во всю ширину, выше */}
+      {/* Панель уведомлений: непрозрачная; на мобильных — почти во всю ширину */}
       {open ? (
-        <div className="glass-strong fixed left-3 right-3 top-20 z-50 overflow-hidden rounded-2xl p-2 shadow-xl animate-fade-up sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[24rem]">
+        <div className="fixed left-3 right-3 top-20 z-50 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl animate-fade-up sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[24rem]">
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-sm font-semibold text-brand">Уведомления</span>
             {unread > 0 ? (
@@ -149,7 +149,7 @@ export default function NotificationsBell() {
                   <div
                     key={item.id}
                     className={`rounded-xl px-3 py-2.5 ${
-                      isNew ? "bg-white/80 shadow-sm" : "bg-white/35"
+                      isNew ? "bg-slate-50" : "bg-white"
                     }`}
                   >
                     <div className="flex items-start gap-2">
