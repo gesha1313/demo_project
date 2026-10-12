@@ -51,11 +51,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Такой тариф не найден" }, { status: 400 });
   }
 
-  await db.execute({
+  const result = await db.execute({
     sql: `INSERT INTO requests (user_id, status, ward_name, passport, description, plan_id)
           VALUES (?, 'new', ?, ?, ?, ?)`,
     args: [user.id, wardName, passport, description, planId],
   });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, requestId: Number(result.lastInsertRowid) });
 }

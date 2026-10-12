@@ -453,8 +453,14 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/cabinet/requests"
+                href={`/pay/caretaker/${result.requestId}`}
                 className="btn-glass-primary flex-1 rounded-full px-6 py-4 text-center text-sm font-semibold"
+              >
+                Перейти к оплате
+              </Link>
+              <Link
+                href="/cabinet/requests"
+                className="btn-glass-ghost flex-1 rounded-full px-6 py-4 text-center text-sm font-semibold"
               >
                 Мои заявки
               </Link>

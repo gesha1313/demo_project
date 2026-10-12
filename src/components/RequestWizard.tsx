@@ -55,7 +55,9 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
         return;
       }
 
-      router.push("/cabinet");
+      // После создания — сразу на оплату тарифа
+      const data = (await response.json()) as { requestId: number };
+      router.push(`/pay/pansionat/${data.requestId}`);
       router.refresh();
     } catch {
       setError("Сервер недоступен, попробуйте ещё раз");
