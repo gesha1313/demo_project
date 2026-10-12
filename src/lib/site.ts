@@ -1,9 +1,9 @@
 export const site = {
   name: "Патронаж",
   tagline: "Забота и поддержка",
-  phone: "+7 (000) 000-00-00",
-  phoneHref: "tel:+70000000000",
-  email: "example@mail.ru",
+  phone: "+7 (999) 139-39-04",
+  phoneHref: "tel:+79991393904",
+  email: "sarkana999@gmail.com",
 } as const;
 
 export const navLinks = [

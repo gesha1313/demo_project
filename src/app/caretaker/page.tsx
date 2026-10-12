@@ -27,10 +27,7 @@ export default async function CaretakerPage() {
 
         <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-20">
           <div className="animate-fade-up mb-10 text-center md:text-left">
-            <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" />
-              Услуга сиделки
-            </span>
+            
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
               Сиделка на дом в Нижнем Новгороде
             </h1>

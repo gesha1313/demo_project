@@ -185,7 +185,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
       <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/50 blur-3xl" />
 
       <div className="relative">
-        {/* ===================== АНКЕТА ===================== */}
+        {/*АНКЕТА */}
         {phase === "form" ? (
           <>
             <h2 className="text-2xl font-semibold tracking-tight text-brand md:text-3xl">
@@ -231,7 +231,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
 
               <div>
                 <label htmlFor="address" className="mb-2 block text-sm font-medium text-brand">
-                  Адрес (куда приедет сиделка)
+                  Адрес
                 </label>
                 <input
                   id="address"
@@ -245,7 +245,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
 
               <div>
                 <span className="mb-2 block text-sm font-medium text-brand">
-                  Что нужно делать <span className="font-normal text-slate-400">(можно несколько)</span>
+                  Что нужно делать <span className="font-normal text-slate-400"></span>
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {TASK_OPTIONS.map((task) => {
@@ -273,12 +273,12 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
               <div>
                 <span className="mb-2 block text-sm font-medium text-brand">
                   Период ухода{" "}
-                  <span className="font-normal text-slate-400">(от и до — необязательно)</span>
+                  <span className="font-normal text-slate-400"></span>
                 </span>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label htmlFor="start-date" className="mb-1 block text-xs text-slate-500">
-                      с
+                      дата начала 
                     </label>
                     <input
                       id="start-date"
@@ -290,7 +290,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                   </div>
                   <div>
                     <label htmlFor="end-date" className="mb-1 block text-xs text-slate-500">
-                      по
+                      дата окончания
                     </label>
                     <input
                       id="end-date"
@@ -307,7 +307,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
               <div>
                 <label htmlFor="notes" className="mb-2 block text-sm font-medium text-brand">
                   Пожелания{" "}
-                  <span className="font-normal text-slate-400">(необязательно)</span>
+                  <span className="font-normal text-slate-400"></span>
                 </label>
                 <input
                   id="notes"

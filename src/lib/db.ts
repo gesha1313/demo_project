@@ -20,12 +20,18 @@ import seedSnapshotJson from "./db-seed.json";
  * состояние — только у заявки (см. таблицы ниже).
  */
 
-const DATA_DIR = process.env.VERCEL
+// Обращение через скобки: платформы-хостинги не подставят заглушку,
+// и на не-Vercel-хостингах переменная честно останется undefined
+const IS_VERCEL = typeof process.env["VERCEL"] === "string" && process.env["VERCEL"] !== "";
+
+const DATA_DIR = IS_VERCEL
   ? "/tmp/patronage-data"
   : path.join(process.cwd(), "data");
 
-const TURSO_URL = process.env.TURSO_DATABASE_URL;
-const TURSO_TOKEN = process.env.TURSO_AUTH_TOKEN;
+// Скобочный доступ: без значения в панели переменная станет undefined
+// (и сработает честный фолбэк на локальный файл), а не «заглушкой»
+const TURSO_URL = process.env["TURSO_DATABASE_URL"];
+const TURSO_TOKEN = process.env["TURSO_AUTH_TOKEN"];
 
 const DB_URL =
   TURSO_URL && TURSO_TOKEN

@@ -13,7 +13,9 @@ const SESSION_TTL_DAYS = 30;
  * инстанс обработал логин. Продуктивный секрет задаётся переменной
  * AUTH_SECRET; без неё используется девелоперский.
  */
-const SECRET = process.env.AUTH_SECRET ?? "patronage-dev-secret-do-not-use-in-prod";
+// Скобочный доступ: на хостингах без заданного AUTH_SECRET переменная
+// станет undefined (сработает девелоперский секрет), а не «заглушкой»
+const SECRET = process.env["AUTH_SECRET"] || "patronage-dev-secret-do-not-use-in-prod";
 
 export type SessionUser = {
   id: number;
