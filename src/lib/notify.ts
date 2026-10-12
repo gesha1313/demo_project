@@ -33,8 +33,7 @@ export async function listNotifications(userId: number): Promise<NotificationRow
     sql: `SELECT id, kind, title, body, is_read, created_at
             FROM notifications
            WHERE user_id = ?
-           ORDER BY id DESC
-           LIMIT 30`,
+           ORDER BY id DESC`,
     args: [userId],
   });
   return rs.rows as unknown as NotificationRow[];

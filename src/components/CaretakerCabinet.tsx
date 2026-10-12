@@ -210,7 +210,6 @@ export default async function CaretakerCabinet({
                             : `с ${(offer.start_date ?? offer.end_date)!.split("-").reverse().join(".")}`}
                         </span>
                       ) : null}
-                      {offer.arrival_minutes ? <span>Выезд ~{offer.arrival_minutes} мин</span> : null}
                     </div>
 
                     {offer.notes ? (

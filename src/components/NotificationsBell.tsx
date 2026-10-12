@@ -22,6 +22,14 @@ const KIND_STYLES: Record<string, string> = {
   info: "bg-slate-200/80 text-slate-600",
 };
 
+const KIND_LABELS: Record<string, string> = {
+  offered: "на рассмотрении",
+  accepted: "одобрена",
+  declined: "отклонена",
+  transferred: "перенесена",
+  queued: "в очереди",
+};
+
 const formatTime = (value: string) => {
   const date = new Date(value.replace(" ", "T"));
   if (Number.isNaN(date.getTime())) return value;
@@ -116,66 +124,86 @@ export default function NotificationsBell() {
         ) : null}
       </button>
 
-      {/* Панель уведомлений */}
+      {/* Панель уведомлений: на мобильных — почти во всю ширину, выше */}
       {open ? (
-        <div className="glass-strong absolute right-0 top-13 z-50 w-80 max-w-[calc(100vw-3rem)] overflow-hidden rounded-2xl p-2 shadow-xl animate-fade-up">
+        <div className="glass-strong fixed left-3 right-3 top-20 z-50 overflow-hidden rounded-2xl p-2 shadow-xl animate-fade-up sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[24rem]">
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-sm font-semibold text-brand">Уведомления</span>
             {unread > 0 ? (
               <span className="text-xs text-slate-400">{unread} новых</span>
-            ) : null}
+            ) : (
+              <span className="text-xs text-slate-400">все прочитано</span>
+            )}
           </div>
 
-          <div className="max-h-80 space-y-1.5 overflow-y-auto px-1 pb-1">
+          {/* Вся история: новые — жирным, прочитанные — тонким */}
+          <div className="max-h-[62vh] space-y-1.5 overflow-y-auto px-1 pb-1">
             {items.length === 0 ? (
               <p className="px-3 py-6 text-center text-sm text-slate-400">
                 Пока нет уведомлений
               </p>
             ) : (
-              items.map((item) => (
-                <div
-                  key={item.id}
-                  className={`rounded-xl px-3 py-2.5 ${
-                    item.is_read ? "bg-white/40" : "bg-white/75 shadow-sm"
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                        item.is_read ? "bg-slate-300" : "bg-blue-600"
-                      }`}
-                    />
-                    <span className="truncate text-sm font-semibold text-brand">
-                      {item.title}
-                    </span>
-                    <span
-                      className={`ml-auto shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                        KIND_STYLES[item.kind] ?? KIND_STYLES.info
-                      }`}
-                    >
-                      {item.kind === "offered"
-                        ? "на рассмотрении"
-                        : item.kind === "accepted"
-                          ? "одобрена"
-                          : item.kind === "declined"
-                            ? "отклонена"
-                            : item.kind === "transferred"
-                              ? "перенесена"
-                              : item.kind === "queued"
-                                ? "в очереди"
-                                : ""}
-                    </span>
+              items.map((item) => {
+                const isNew = !item.is_read;
+                return (
+                  <div
+                    key={item.id}
+                    className={`rounded-xl px-3 py-2.5 ${
+                      isNew ? "bg-white/80 shadow-sm" : "bg-white/35"
+                    }`}
+                  >
+                    <div className="flex items-start gap-2">
+                      <span
+                        className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
+                          isNew ? "bg-blue-600" : "bg-slate-300"
+                        }`}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                          <span
+                            className={
+                              isNew
+                                ? "text-sm font-bold text-brand"
+                                : "text-sm font-light text-slate-500"
+                            }
+                          >
+                            {item.title}
+                          </span>
+                          {KIND_LABELS[item.kind] ? (
+                            <span
+                              className={`ml-auto shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                                KIND_STYLES[item.kind] ?? KIND_STYLES.info
+                              }`}
+                            >
+                              {KIND_LABELS[item.kind]}
+                            </span>
+                          ) : null}
+                        </div>
+                        {item.body ? (
+                          <p
+                            className={
+                              isNew
+                                ? "mt-0.5 text-xs font-medium leading-5 text-slate-700"
+                                : "mt-0.5 text-xs font-light leading-5 text-slate-400"
+                            }
+                          >
+                            {item.body}
+                          </p>
+                        ) : null}
+                        <div
+                          className={
+                            isNew
+                              ? "mt-1 text-[10px] font-medium text-slate-400"
+                              : "mt-1 text-[10px] font-light text-slate-300"
+                          }
+                        >
+                          {formatTime(item.created_at)}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  {item.body ? (
-                    <p className="mt-1 pl-3.5 text-xs leading-5 text-slate-600">
-                      {item.body}
-                    </p>
-                  ) : null}
-                  <div className="mt-1 pl-3.5 text-[10px] text-slate-400">
-                    {formatTime(item.created_at)}
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>

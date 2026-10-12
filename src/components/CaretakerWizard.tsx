@@ -159,8 +159,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
           {
             balloonContent:
               `<strong>${result.caretakerName}</strong><br/>` +
-              `Стаж: ${result.caretakerExperience} лет<br/>` +
-              `Приедет через ~${result.arrivalMinutes} мин`,
+              `Стаж: ${result.caretakerExperience} лет`,
             hintContent: `${result.caretakerName} · стаж ${result.caretakerExperience} лет`,
           },
           { preset: "islands#redDotIcon" },
@@ -426,7 +425,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             </div>
 
             {/* Данные подобранной сиделки */}
-            <div className="glass mt-6 grid gap-4 rounded-[1.75rem] p-5 sm:grid-cols-3">
+            <div className="glass mt-6 grid gap-4 rounded-[1.75rem] p-5 sm:grid-cols-2">
               <div>
                 <div className="text-xs uppercase tracking-wide text-slate-400">Сиделка</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
@@ -437,12 +436,6 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                 <div className="text-xs uppercase tracking-wide text-slate-400">Стаж</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
                   {pluralYears(result.caretakerExperience ?? 0)}
-                </div>
-              </div>
-              <div>
-                <div className="text-xs uppercase tracking-wide text-slate-400">Приедет через</div>
-                <div className="mt-1 text-lg font-semibold text-emerald-600">
-                  ~{result.arrivalMinutes ?? "—"} мин
                 </div>
               </div>
             </div>

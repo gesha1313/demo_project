@@ -228,11 +228,6 @@ export default async function CabinetPage({
                       {caretaker.caretaker_experience
                         ? ` · стаж ${caretaker.caretaker_experience} лет`
                         : ""}
-                      {caretaker.arrival_minutes ? (
-                        <span className="text-emerald-600">
-                          {" "}· приедет ~{caretaker.arrival_minutes} мин
-                        </span>
-                      ) : null}
                     </>
                   ) : (
                     <>

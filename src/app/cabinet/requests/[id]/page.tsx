@@ -333,9 +333,6 @@ export default async function RequestDetailPage({
                         {" "}· стаж {pluralYears(request.caretaker_experience)}
                       </span>
                     ) : null}
-                    {request.arrival_minutes && request.status === "accepted" ? (
-                      <span className="text-emerald-600"> · приедет ~{request.arrival_minutes} мин</span>
-                    ) : null}
                     <div className="mt-1 text-sm text-slate-500">
                       {request.status === "accepted"
                         ? "Приняла заявку — вы в работе"
