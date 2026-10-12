@@ -10,10 +10,12 @@ type PaymentMockProps = {
   lines: string[];
   /** Тариф за месяц — тогда показываем выбор количества месяцев */
   perMonthPrice?: number;
+  /** Если задан — после «оплаты» вызывается он (вместо экрана успеха) */
+  onPaid?: () => void;
 };
 
 /** Мок-оплата: реквизиты любые, кнопка всегда «проходит». */
-export default function PaymentMock({ amount, lines, perMonthPrice }: PaymentMockProps) {
+export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: PaymentMockProps) {
   const [months, setMonths] = useState(1);
   const [card, setCard] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -32,7 +34,10 @@ export default function PaymentMock({ amount, lines, perMonthPrice }: PaymentMoc
     setError(null);
     setPaying(true);
     // Муляж: через полторы секунды оплата «проходит»
-    window.setTimeout(() => setPaid(true), 1500);
+    window.setTimeout(() => {
+      if (onPaid) onPaid();
+      else setPaid(true);
+    }, 1500);
   };
 
   if (paid) {

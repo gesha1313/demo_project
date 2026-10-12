@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { loadYmaps, NN_CENTER, randomNNPoint } from "@/lib/ymaps";
 import Icon from "./Icon";
+import PaymentMock from "./PaymentMock";
 
 /** Пункты анкеты (список согласован с серверной валидацией). */
 const TASK_OPTIONS = [
@@ -41,7 +42,7 @@ type MatchResult = {
   arrivalMinutes?: number;
 };
 
-type Phase = "form" | "matching" | "result" | "error";
+type Phase = "form" | "payment" | "matching" | "result" | "error";
 
 export default function CaretakerWizard({ userName }: { userName: string }) {
   // Поля анкеты
@@ -54,6 +55,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
   const [tasks, setTasks] = useState<string[]>([]);
 
   const [phase, setPhase] = useState<Phase>("form");
+  const [periodDays, setPeriodDays] = useState(1);
   const [stepIndex, setStepIndex] = useState(0);
   const [result, setResult] = useState<MatchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -75,9 +77,23 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
     );
   };
 
-  const handleSubmit = async () => {
-    if (!formValid || submitting) return;
+  /** Сначала оплата (по датам анкеты), после неё — поиск сиделки */
+  const handleSubmit = () => {
+    if (!formValid) return;
 
+    let days = 1;
+    if (startDate && endDate) {
+      days = Math.max(
+        1,
+        Math.round((new Date(endDate).getTime() - new Date(startDate).getTime()) / 86400000),
+      );
+    }
+    setPeriodDays(days);
+    setPhase("payment");
+  };
+
+  /** Вызывается после «оплаты» — теперь создаём заявку и ищем сиделку */
+  const startMatching = async () => {
     setSubmitting(true);
     setError(null);
 
@@ -342,6 +358,20 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
           </>
         ) : null}
 
+        {/* ===================== ОПЛАТА (до поиска) ===================== */}
+        {phase === "payment" ? (
+          <PaymentMock
+            amount={periodDays * 2500}
+            lines={[
+              "Тариф: 2 500 ₽ за день",
+              periodDays > 1
+                ? `Период: ${periodDays} дн.`
+                : "Период: 1 день",
+            ]}
+            onPaid={() => void startMatching()}
+          />
+        ) : null}
+
         {/* ===================== АНИМАЦИЯ ПОДБОРА ===================== */}
         {phase === "matching" ? (
           <div className="flex flex-col items-center py-16 text-center">
@@ -453,14 +483,8 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
-                href={`/pay/caretaker/${result.requestId}`}
-                className="btn-glass-primary flex-1 rounded-full px-6 py-4 text-center text-sm font-semibold"
-              >
-                Перейти к оплате
-              </Link>
-              <Link
                 href="/cabinet/requests"
-                className="btn-glass-ghost flex-1 rounded-full px-6 py-4 text-center text-sm font-semibold"
+                className="btn-glass-primary flex-1 rounded-full px-6 py-4 text-center text-sm font-semibold"
               >
                 Мои заявки
               </Link>
