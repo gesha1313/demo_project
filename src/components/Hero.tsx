@@ -12,16 +12,16 @@ const chain = [
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden py-14 md:py-20">
+    <section id="top" className="relative overflow-hidden py-14 md:py-20">
       {/* Декоративные световые пятна */}
-      <div className="absolute -right-32 -top-32 h-96 w-96 animate-float rounded-full bg-blue-300/35 blur-3xl" />
-      <div className="absolute -left-24 bottom-0 h-80 w-80 animate-float-slow rounded-full bg-indigo-200/45 blur-3xl" />
+      <div className="absolute -right-32 -top-32 h-96 w-96 animate-float rounded-full bg-sky-300/35 blur-3xl" />
+      <div className="absolute -left-24 bottom-0 h-80 w-80 animate-float-slow rounded-full bg-amber-200/45 blur-3xl" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 md:grid-cols-2 md:gap-14">
         {/* Текст */}
         <div>
-          <div className="mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full glass px-4 py-2 text-sm font-medium text-blue-700">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" />
+          <div className="mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full glass px-4 py-2 text-sm font-medium text-sky-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" />
             Забота о близких
           </div>
 
@@ -53,7 +53,7 @@ export default function Hero() {
 
           {/* Цепочка знакомства с сайтом */}
           <div className="mt-8 animate-fade-up [animation-delay:200ms]">
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
               Знакомство с пансионатом
             </div>
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
@@ -61,7 +61,7 @@ export default function Hero() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="text-sm font-semibold text-slate-600 transition-all duration-200 hover:translate-x-0.5 hover:text-blue-700"
+                  className="text-sm font-semibold text-slate-600 transition-all duration-200 hover:translate-x-0.5 hover:text-sky-700"
                 >
                   {item.label} →
                 </Link>
@@ -74,9 +74,8 @@ export default function Hero() {
             {advantages.map((item) => (
               <span
                 key={item}
-                className="flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-slate-700"
+                className="flex items-center rounded-full glass px-4 py-2 text-sm text-slate-700"
               >
-                <span className="text-blue-700">✓</span>
                 {item}
               </span>
             ))}
@@ -85,13 +84,13 @@ export default function Hero() {
 
         {/* Фото */}
         <div className="relative mt-2 animate-fade-up [animation-delay:250ms] md:mt-0">
-          <div className="absolute -inset-6 hidden animate-float-slow rounded-[3rem] bg-gradient-to-br from-blue-300/40 to-indigo-300/40 blur-2xl md:block" />
+          <div className="absolute -inset-6 hidden animate-float-slow rounded-[3rem] bg-gradient-to-br from-sky-300/40 to-amber-300/40 blur-2xl md:block" />
 
           <div className="glass relative overflow-hidden rounded-[1.5rem] md:glass-strong md:rounded-[2rem] md:p-2">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4rem] md:rounded-[1.7rem]">
               <Image
                 src="/photos/hero.jpg"
-                alt="Сиделка и пожилая женщина рассматривают семейные фотографии в светлом уютном зале"
+                alt="Сиделка тепло обнимает улыбающуюся пожилую женщину в инвалидном кресле"
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -101,15 +100,15 @@ export default function Hero() {
           </div>
 
           {/* Подпись под фото (на десктопе отступ больше — обходим карточку) */}
-          <p className="mt-3 flex items-center justify-center gap-2 text-xs font-medium text-slate-500 md:mt-10 md:justify-start">
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+          <p className="mt-3 flex items-center justify-center gap-2 text-xs font-medium text-slate-700 md:mt-10 md:justify-start">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
             Забота и внимание — каждый день
           </p>
 
           {/* Информационная карточка */}
           <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 animate-float rounded-2xl p-5 md:block">
             <div className="text-sm font-semibold text-brand">Забота начинается с доверия</div>
-            <p className="mt-2 text-sm leading-6 text-slate-500">
+            <p className="mt-2 text-sm leading-6 text-slate-700">
               Здесь будет короткая информация о вашем подходе к работе.
             </p>
           </div>

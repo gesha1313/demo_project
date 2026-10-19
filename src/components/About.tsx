@@ -8,7 +8,11 @@ type SectionProps = {
   footer?: { href: string; next: string; hint?: string };
 };
 
-const points = ["Опытные сотрудники", "Понятные правила работы", "Индивидуальное отношение"];
+const points = [
+  "Опытные сотрудники",
+  "Понятные правила работы",
+  "Индивидуальное отношение",
+];
 
 export default function About({ footer }: SectionProps) {
   return (
@@ -20,7 +24,7 @@ export default function About({ footer }: SectionProps) {
               <div className="relative aspect-[4/3] overflow-hidden rounded-[1.7rem]">
                 <Image
                   src="/photos/about.jpg"
-                  alt="Сотрудница пансионата рядом с постоялицей — тёплый момент заботы"
+                  alt="Сиделка бережно поддерживает пожилую женщину под руку при прогулке"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
@@ -36,15 +40,16 @@ export default function About({ footer }: SectionProps) {
               description="Здесь мы расскажем о команде, опыте сотрудников, принципах работы и о том, почему нам можно доверить заботу о близком человеке."
             />
 
+            <p className="mt-5 border-l-4 border-brand/50 pl-4 text-lg italic leading-8 text-slate-700">
+              Чуткость, эмпатия и понимание — основа нашей работы.
+            </p>
+
             <div className="mt-6 space-y-3">
               {points.map((point) => (
                 <div
                   key={point}
-                  className="glass flex w-fit items-center gap-3 rounded-full py-2 pl-2 pr-5 transition-all duration-300 hover:translate-x-1"
+                  className="glass flex w-fit items-center rounded-full px-5 py-2.5 transition-all duration-300 hover:translate-x-1"
                 >
-                  <div className="glass-strong icon-glow flex h-8 w-8 items-center justify-center rounded-full text-blue-700">
-                    ✓
-                  </div>
                   <span className="text-sm text-slate-700">{point}</span>
                 </div>
               ))}

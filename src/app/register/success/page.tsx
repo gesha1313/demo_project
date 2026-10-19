@@ -31,9 +31,9 @@ export default function RegisterSuccessPage() {
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-indigo-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-blue-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-indigo-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
 
         <div className="relative mx-auto max-w-3xl px-6 py-16 md:py-24">
           <div className="glass-strong animate-fade-up relative overflow-hidden rounded-[2.5rem] p-8 text-center md:p-12">
@@ -41,7 +41,7 @@ export default function RegisterSuccessPage() {
 
             <div className="relative">
               {/* Значок успеха */}
-              <div className="icon-glow mx-auto flex h-20 w-20 animate-fade-up items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl text-white shadow-[0_14px_36px_rgba(37,99,235,0.4),inset_0_1px_0_rgba(255,255,255,0.35)]">
+              <div className="icon-glow mx-auto flex h-20 w-20 animate-fade-up items-center justify-center rounded-full bg-gradient-to-br from-sky-600 to-amber-600 text-3xl text-white shadow-[0_14px_36px_rgba(37,99,235,0.4),inset_0_1px_0_rgba(255,255,255,0.35)]">
                 ✓
               </div>
 
@@ -62,9 +62,9 @@ export default function RegisterSuccessPage() {
                     className="glass animate-fade-up rounded-2xl p-5"
                     style={{ animationDelay: `${150 + index * 50}ms` }}
                   >
-                    <div className="text-sm font-semibold text-blue-700">{step.number}</div>
+                    <div className="text-sm font-semibold text-sky-700">{step.number}</div>
                     <div className="mt-2 text-sm font-semibold text-brand">{step.title}</div>
-                    <p className="mt-1 text-sm leading-6 text-slate-500">{step.text}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{step.text}</p>
                   </div>
                 ))}
               </div>
@@ -87,11 +87,11 @@ export default function RegisterSuccessPage() {
               </div>
 
               {/* Контакт */}
-              <p className="mt-8 animate-fade-up text-sm text-slate-500 [animation-delay:350ms]">
+              <p className="mt-8 animate-fade-up text-sm text-slate-700 [animation-delay:350ms]">
                 Не хочется ждать? Позвоните нам:{" "}
                 <a
                   href={site.phoneHref}
-                  className="font-semibold text-blue-700 transition-colors hover:text-blue-800"
+                  className="font-semibold text-sky-700 transition-colors hover:text-sky-800"
                 >
                   {site.phone}
                 </a>

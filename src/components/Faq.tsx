@@ -70,8 +70,8 @@ export default function Faq({ footer }: SectionProps) {
                     <span
                       className={`icon-glow flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xl transition-all duration-300 ${
                         isOpen
-                          ? "rotate-45 bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md"
-                          : "bg-white/70 text-blue-700"
+                          ? "rotate-45 bg-sky-700 text-white shadow-md"
+                          : "bg-white/70 text-sky-700"
                       }`}
                     >
                       +

@@ -111,11 +111,11 @@ export default function LoginForm({ nextPath = null }: { nextPath?: string | nul
             {loading ? "Входим…" : "Войти"}
           </button>
 
-          <p className="text-center text-sm text-slate-500">
+          <p className="text-center text-sm text-slate-700">
             Нет аккаунта?{" "}
             <a
               href={nextPath ? `/register?next=${encodeURIComponent(nextPath)}` : "/register"}
-              className="font-semibold text-blue-700 hover:text-blue-800"
+              className="font-semibold text-sky-700 hover:text-sky-800"
             >
               Зарегистрироваться
             </a>

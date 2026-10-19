@@ -77,12 +77,12 @@ export default function SupportChat({ myId }: { myId: number }) {
       {/* Шапка чата */}
       <div className="glass-strong flex items-center gap-3 border-b border-white/60 px-6 py-4">
         <span className="relative flex h-3 w-3">
-          <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-          <span className="h-3 w-3 rounded-full bg-emerald-500" />
+          <span className="absolute h-full w-full animate-ping rounded-full bg-sky-400/70" />
+          <span className="h-3 w-3 rounded-full bg-sky-500" />
         </span>
         <div>
           <div className="text-sm font-semibold text-brand">Горячая линия пансионата</div>
-          <div className="text-xs text-slate-500">Мы на связи в рабочее время</div>
+          <div className="text-xs text-slate-700">Мы на связи в рабочее время</div>
         </div>
       </div>
 
@@ -95,14 +95,14 @@ export default function SupportChat({ myId }: { myId: number }) {
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-6 ${
                   mine
-                    ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-700/20"
+                    ? "bg-sky-700 text-white shadow-md shadow-sky-700/20"
                     : "glass-strong text-slate-700"
                 }`}
               >
                 <p>{message.body}</p>
                 <span
                   className={`mt-1 block text-[10px] ${
-                    mine ? "text-blue-100/80" : "text-slate-400"
+                    mine ? "text-sky-100/80" : "text-slate-600"
                   }`}
                 >
                   {message.created_at.slice(11, 16)}
@@ -113,7 +113,7 @@ export default function SupportChat({ myId }: { myId: number }) {
         })}
 
         {messages.length === 0 ? (
-          <p className="pt-10 text-center text-sm text-slate-400">
+          <p className="pt-10 text-center text-sm text-slate-600">
             Загружаем историю сообщений…
           </p>
         ) : null}

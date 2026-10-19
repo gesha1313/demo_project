@@ -51,14 +51,14 @@ export default async function PayPansionatPage({
         <div className="mx-auto max-w-xl px-6 py-16">
           <Link
             href="/cabinet/requests"
-            className="text-sm font-semibold text-blue-700 hover:text-blue-800"
+            className="text-sm font-semibold text-sky-700 hover:text-sky-800"
           >
             ← К заявкам
           </Link>
           <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand">
             Оплата тарифа пансионата
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-slate-700">
             Заявка №{req.id}
             {req.ward_name ? ` · подопечный ${req.ward_name}` : ""}
           </p>

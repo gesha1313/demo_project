@@ -47,7 +47,7 @@ export default function TransferButton({ requestId }: { requestId: number }) {
         </p>
       ) : null}
       {done ? (
-        <p className="mb-2 text-sm font-medium text-emerald-600" role="status">
+        <p className="mb-2 text-sm font-medium text-sky-600" role="status">
           {done}
         </p>
       ) : null}

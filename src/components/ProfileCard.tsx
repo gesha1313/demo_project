@@ -53,7 +53,7 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
   return (
     <div className="glass rounded-[2rem] p-7 md:p-8">
       <h2 className="text-lg font-semibold text-brand">Контакты для связи</h2>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-sm text-slate-700">
         Оставьте имя и телефон — сотрудник пансионата перезвонит вам.
       </p>
 
@@ -101,7 +101,7 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
           </button>
 
           {status === "saved" ? (
-            <span className="text-sm font-medium text-emerald-600" role="status">
+            <span className="text-sm font-medium text-sky-600" role="status">
               Сохранено ✓
             </span>
           ) : null}

@@ -31,7 +31,7 @@ export default function DailyLife({ footer }: SectionProps) {
     <section id="life" className="relative py-14 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
-          eyebrow="Обычный день"
+          eyebrow="Как устроен наш день"
           title="Здесь живут, а не просто получают уход"
           description="Нам важно, чтобы каждый день состоял не только из необходимых процедур, но и из привычных вещей: общения, отдыха, прогулок и ощущения домашнего пространства."
         />
@@ -42,7 +42,7 @@ export default function DailyLife({ footer }: SectionProps) {
             <div className="relative aspect-[16/7] overflow-hidden rounded-[1.7rem]">
               <Image
                 src="/photos/life.jpg"
-                alt="Общая зона пансионата: занятия и общение постояльцев при дневном свете"
+                alt="Чаепитие постояльцев за столом с красивыми чашками в солнечный день"
                 fill
                 sizes="(max-width: 768px) 100vw, 1200px"
                 className="object-cover"
@@ -56,7 +56,7 @@ export default function DailyLife({ footer }: SectionProps) {
           {partsOfDay.map((part, index) => (
             <Reveal key={part.time} delay={index * 120}>
               <div className="glass h-full rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
-                <span className="inline-block rounded-full bg-blue-100/80 px-3 py-1 text-xs font-semibold text-blue-700">
+                <span className="inline-block rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
                   {part.time}
                 </span>
                 <h3 className="mt-4 text-xl font-semibold text-brand">{part.title}</h3>

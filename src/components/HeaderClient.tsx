@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/lib/site";
+import AccessibilityToggle from "./AccessibilityToggle";
 import NotificationsBell from "./NotificationsBell";
 
 type HeaderUser = {
@@ -29,13 +30,13 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
           : "border-transparent bg-white/40 backdrop-blur-sm"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
         {/* Логотип */}
         <Link href="/" className="group">
-          <div className="text-xl font-bold tracking-tight text-brand transition-colors group-hover:text-blue-800">
+          <div className="text-xl font-bold tracking-tight text-brand transition-colors group-hover:text-sky-800">
             {site.name}
           </div>
-          <div className="text-xs text-slate-500">{site.tagline}</div>
+          <div className="text-xs text-slate-700">{site.tagline}</div>
         </Link>
 
         {/* Навигация */}
@@ -44,7 +45,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-4 py-2 text-sm text-slate-600 transition-all duration-200 hover:bg-white/60 hover:text-blue-700"
+              className="rounded-full px-4 py-2 text-sm text-slate-600 transition-all duration-200 hover:bg-white/60 hover:text-sky-700"
             >
               {link.label}
             </Link>
@@ -52,27 +53,28 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
         </nav>
 
         {/* Контакты и аккаунт */}
-        <div className="hidden items-center gap-5 md:flex">
+        <div className="hidden items-center gap-4 md:flex">
+          <AccessibilityToggle />
           {user ? <NotificationsBell /> : null}
           {user ? (
             <>
               <Link
                 href="/cabinet"
-                className="text-sm font-medium text-slate-900 transition-colors hover:text-blue-700"
+                className="text-sm font-medium text-slate-900 transition-colors hover:text-sky-700"
               >
                 Личный кабинет
               </Link>
               {user.role !== "user" ? (
                 <Link
                   href="/admin"
-                  className="text-sm font-medium text-blue-700 transition-colors hover:text-blue-800"
+                  className="text-sm font-medium text-sky-700 transition-colors hover:text-sky-800"
                 >
                   Админ-панель
                 </Link>
               ) : null}
               <Link
                 href="/register"
-                className="btn-glass-primary rounded-full px-5 py-3 text-sm font-semibold"
+                className="btn-glass-primary rounded-full px-4 py-2.5 text-sm font-semibold"
               >
                 Получить консультацию
               </Link>
@@ -81,21 +83,21 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
             <>
               <a
                 href={site.phoneHref}
-                className="text-sm font-medium text-slate-900 transition-colors hover:text-blue-700"
+                className="text-sm font-medium text-slate-900 transition-colors hover:text-sky-700"
               >
                 {site.phone}
               </a>
 
               <Link
                 href="/login"
-                className="btn-glass-ghost rounded-full px-5 py-3 text-sm font-semibold"
+                className="btn-glass-ghost rounded-full px-4 py-2.5 text-sm font-semibold"
               >
                 Войти
               </Link>
 
               <Link
                 href="/register"
-                className="btn-glass-primary rounded-full px-5 py-3 text-sm font-semibold"
+                className="btn-glass-primary rounded-full px-4 py-2.5 text-sm font-semibold"
               >
                 Получить консультацию
               </Link>
@@ -105,6 +107,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
 
         {/* Мобильные: уведомления + меню */}
         <div className="flex items-center gap-2 md:hidden">
+          <AccessibilityToggle />
           {user ? <NotificationsBell /> : null}
           <button
             type="button"
@@ -140,7 +143,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white/70 hover:text-blue-700"
+                className="rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white/70 hover:text-sky-700"
               >
                 {link.label}
               </Link>
@@ -151,7 +154,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                 <Link
                   href="/cabinet"
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white/70 hover:text-blue-700"
+                  className="rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white/70 hover:text-sky-700"
                 >
                   Личный кабинет
                 </Link>
@@ -159,7 +162,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                   <Link
                     href="/admin"
                     onClick={() => setMenuOpen(false)}
-                    className="rounded-xl px-3 py-3 text-sm font-medium text-blue-700 transition-colors hover:bg-white/70"
+                    className="rounded-xl px-3 py-3 text-sm font-medium text-sky-700 transition-colors hover:bg-white/70"
                   >
                     Админ-панель
                   </Link>

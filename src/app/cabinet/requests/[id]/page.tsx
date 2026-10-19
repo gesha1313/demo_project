@@ -25,13 +25,13 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-blue-100/80 text-blue-700",
+  new: "bg-sky-100/80 text-sky-700",
   in_progress: "bg-amber-100/80 text-amber-700",
-  done: "bg-emerald-100/80 text-emerald-700",
-  cancelled: "bg-slate-200/80 text-slate-500",
+  done: "bg-sky-100/80 text-sky-700",
+  cancelled: "bg-slate-200/80 text-slate-700",
   offered: "bg-amber-100/80 text-amber-700",
-  accepted: "bg-emerald-100/80 text-emerald-700",
-  declined: "bg-slate-200/80 text-slate-500",
+  accepted: "bg-sky-100/80 text-sky-700",
+  declined: "bg-slate-200/80 text-slate-700",
 };
 
 const pluralYears = (n: number) => {
@@ -180,16 +180,16 @@ export default async function RequestDetailPage({
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-indigo-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-blue-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-indigo-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
 
         <div className="relative mx-auto max-w-3xl px-6 py-16">
           {/* Заголовок */}
           <div className="animate-fade-up">
             <Link
               href={isAssignedCaretaker && !isOwner ? "/cabinet" : "/cabinet/requests"}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
             >
               ← К заявкам
             </Link>
@@ -206,7 +206,7 @@ export default async function RequestDetailPage({
                 {STATUS_LABELS[request.status] ?? request.status}
               </span>
             </div>
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-sm text-slate-700">
               Создана {request.created_at.slice(0, 10)} в {request.created_at.slice(11, 16)}
               {request.updated_at !== request.created_at
                 ? ` · обновлена ${request.updated_at.slice(0, 10)}`
@@ -219,7 +219,7 @@ export default async function RequestDetailPage({
             <div className="grid gap-6 sm:grid-cols-2">
               {/* Подопечный */}
               <div>
-                <div className="text-xs uppercase tracking-wide text-slate-400">Подопечный</div>
+                <div className="text-xs uppercase tracking-wide text-slate-600">Подопечный</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
                   {request.ward_name ?? "—"}
                   {request.kind === "caretaker" && request.ward_age
@@ -231,14 +231,14 @@ export default async function RequestDetailPage({
               {/* Период / тариф */}
               {request.kind === "caretaker" ? (
                 <div>
-                  <div className="text-xs uppercase tracking-wide text-slate-400">Период ухода</div>
+                  <div className="text-xs uppercase tracking-wide text-slate-600">Период ухода</div>
                   <div className="mt-1 text-lg font-semibold text-brand">
                     {periodLabel ?? "не указан"}
                   </div>
                 </div>
               ) : (
                 <div>
-                  <div className="text-xs uppercase tracking-wide text-slate-400">Тариф</div>
+                  <div className="text-xs uppercase tracking-wide text-slate-600">Тариф</div>
                   <div className="mt-1 text-lg font-semibold text-brand">
                     {request.plan_name ?? "—"}
                     {request.monthly_price
@@ -251,31 +251,31 @@ export default async function RequestDetailPage({
               {/* Адрес */}
               {request.kind === "caretaker" ? (
                 <div>
-                  <div className="text-xs uppercase tracking-wide text-slate-400">Адрес</div>
+                  <div className="text-xs uppercase tracking-wide text-slate-600">Адрес</div>
                   <div className="mt-1 font-medium text-slate-700">{request.address ?? "—"}</div>
                 </div>
               ) : (
                 <div>
-                  <div className="text-xs uppercase tracking-wide text-slate-400">Паспорт</div>
+                  <div className="text-xs uppercase tracking-wide text-slate-600">Паспорт</div>
                   <div className="mt-1 font-medium text-slate-700">{request.passport ?? "—"}</div>
                 </div>
               )}
 
               {/* Клиент */}
               <div>
-                <div className="text-xs uppercase tracking-wide text-slate-400">Клиент</div>
+                <div className="text-xs uppercase tracking-wide text-slate-600">Клиент</div>
                 <div className="mt-1 font-medium text-slate-700">
                   {request.client_name?.trim() || request.client_email}
                 </div>
                 {request.client_phone ? (
                   <a
                     href={`tel:${request.client_phone.replace(/[^+\d]/g, "")}`}
-                    className="text-sm text-blue-700 hover:text-blue-800"
+                    className="text-sm text-sky-700 hover:text-sky-800"
                   >
                     {request.client_phone}
                   </a>
                 ) : (
-                  <div className="text-xs text-slate-400">телефон не оставлен</div>
+                  <div className="text-xs text-slate-600">телефон не оставлен</div>
                 )}
               </div>
             </div>
@@ -283,12 +283,12 @@ export default async function RequestDetailPage({
             {/* Услуги (сиделка) */}
             {request.kind === "caretaker" && tasks.length > 0 ? (
               <div className="mt-6">
-                <div className="text-xs uppercase tracking-wide text-slate-400">Услуги</div>
+                <div className="text-xs uppercase tracking-wide text-slate-600">Услуги</div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {tasks.map((task) => (
                     <span
                       key={task}
-                      className="rounded-full bg-emerald-50/90 px-3 py-1 text-sm text-emerald-700"
+                      className="rounded-full bg-sky-50/90 px-3 py-1 text-sm text-sky-700"
                     >
                       {task}
                     </span>
@@ -302,7 +302,7 @@ export default async function RequestDetailPage({
               ? request.notes
                 ? (
                     <div className="mt-6">
-                      <div className="text-xs uppercase tracking-wide text-slate-400">Пожелания</div>
+                      <div className="text-xs uppercase tracking-wide text-slate-600">Пожелания</div>
                       <p className="glass mt-2 rounded-2xl px-5 py-4 leading-7 text-slate-600">
                         {request.notes}
                       </p>
@@ -312,7 +312,7 @@ export default async function RequestDetailPage({
               : request.description ?? request.message
                 ? (
                     <div className="mt-6">
-                      <div className="text-xs uppercase tracking-wide text-slate-400">
+                      <div className="text-xs uppercase tracking-wide text-slate-600">
                         Описание ситуации
                       </div>
                       <p className="glass mt-2 rounded-2xl px-5 py-4 leading-7 text-slate-600">
@@ -326,7 +326,7 @@ export default async function RequestDetailPage({
             {request.kind === "caretaker" ? (
               request.caretaker_name ? (
                 <div className="glass mt-6 rounded-2xl px-5 py-4">
-                  <div className="text-xs uppercase tracking-wide text-slate-400">Сиделка</div>
+                  <div className="text-xs uppercase tracking-wide text-slate-600">Сиделка</div>
                   <div className="mt-1">
                     <span className="text-lg font-semibold text-brand">{request.caretaker_name}</span>
                     {request.caretaker_experience ? (
@@ -334,7 +334,7 @@ export default async function RequestDetailPage({
                         {" "}· стаж {pluralYears(request.caretaker_experience)}
                       </span>
                     ) : null}
-                    <div className="mt-1 text-sm text-slate-500">
+                    <div className="mt-1 text-sm text-slate-700">
                       {request.status === "accepted"
                         ? "Приняла заявку — вы в работе"
                         : "Заявка ждёт её ответа"}
@@ -348,7 +348,7 @@ export default async function RequestDetailPage({
               ) : null
             ) : request.employee_email ? (
               <div className="glass mt-6 rounded-2xl px-5 py-4 text-sm">
-                <span className="text-slate-500">Заявку ведёт: </span>
+                <span className="text-slate-700">Заявку ведёт: </span>
                 <span className="font-semibold text-brand">{request.employee_email}</span>
               </div>
             ) : null}
@@ -362,7 +362,7 @@ export default async function RequestDetailPage({
             (request.status === "new" || request.status === "declined") ? (
               <div className="glass rounded-[2rem] p-6">
                 <div className="text-sm font-semibold text-brand">Передумали?</div>
-                <p className="mt-1 text-sm leading-6 text-slate-500">
+                <p className="mt-1 text-sm leading-6 text-slate-700">
                   Заявка ещё не активна — её можно отменить.
                 </p>
                 <div className="mt-4">
@@ -384,7 +384,7 @@ export default async function RequestDetailPage({
                 <div className="text-sm font-semibold text-brand">
                   Не подходит сиделка или поменялись планы?
                 </div>
-                <p className="mt-1 text-sm leading-6 text-slate-500">
+                <p className="mt-1 text-sm leading-6 text-slate-700">
                   Перенесите заявку — текущая сиделка освободится, заявку примет
                   другая свободная.
                 </p>

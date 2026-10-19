@@ -9,7 +9,7 @@ import { dbAll, dbGet, getDb } from "@/lib/db";
 const STATUS_META: Record<string, { label: string; className: string; hint: string }> = {
   free: {
     label: "Свободна",
-    className: "bg-emerald-100/80 text-emerald-700",
+    className: "bg-sky-100/80 text-sky-700",
     hint: "Вы в очереди на подбор — новые заявки придут вам первыми",
   },
   waiting: {
@@ -19,7 +19,7 @@ const STATUS_META: Record<string, { label: string; className: string; hint: stri
   },
   busy: {
     label: "В работе",
-    className: "bg-blue-100/80 text-blue-700",
+    className: "bg-sky-100/80 text-sky-700",
     hint: "Вы приняли заявку — новые предложения не приходят",
   },
 };
@@ -88,25 +88,25 @@ export default async function CaretakerCabinet({
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-indigo-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-blue-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-indigo-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
 
         <div className="relative mx-auto max-w-4xl px-6 py-16">
           {/* Приветствие и статус */}
           <div className="animate-fade-up flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
                 Кабинет сиделки
               </span>
               <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
                 {profile?.full_name ?? email}
               </h1>
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-slate-700">
                 {email}
                 {profile ? ` · стаж ${pluralYears(profile.experience_years)}` : ""}
               </p>
-              <p className="mt-2 max-w-md text-sm text-slate-500">{statusMeta.hint}</p>
+              <p className="mt-2 max-w-md text-sm text-slate-700">{statusMeta.hint}</p>
             </div>
 
             <div className="flex flex-col items-start gap-3 md:items-end">
@@ -135,7 +135,7 @@ export default async function CaretakerCabinet({
                 <Reveal key={offer.id} delay={Math.min(index * 80, 320)}>
                   <article
                     className={`glass rounded-[1.75rem] p-6 md:p-7 ${
-                      offer.status === "accepted" ? "border-l-4 border-l-emerald-400" : ""
+                      offer.status === "accepted" ? "border-l-4 border-l-sky-400" : ""
                     }`}
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -143,13 +143,13 @@ export default async function CaretakerCabinet({
                         <span className="rounded-full bg-slate-100/80 px-3 py-1 text-xs font-semibold text-slate-600">
                           Заявка №{offer.id}
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-slate-600">
                           {offer.created_at.slice(0, 10)} {offer.created_at.slice(11, 16)}
                         </span>
                       </div>
 
                       {offer.status === "accepted" ? (
-                        <span className="rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
                           Принята · вы в работе
                         </span>
                       ) : (
@@ -161,23 +161,23 @@ export default async function CaretakerCabinet({
 
                     <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
                       <div>
-                        <div className="text-xs uppercase tracking-wide text-slate-400">Клиент</div>
+                        <div className="text-xs uppercase tracking-wide text-slate-600">Клиент</div>
                         <div className="mt-1 font-medium text-brand">
                           {offer.client_name?.trim() || offer.client_email}
                         </div>
                         {offer.client_phone ? (
                           <a
                             href={`tel:${offer.client_phone.replace(/[^+\d]/g, "")}`}
-                            className="text-blue-700 hover:text-blue-800"
+                            className="text-sky-700 hover:text-sky-800"
                           >
                             {offer.client_phone}
                           </a>
                         ) : (
-                          <div className="text-xs text-slate-400">телефон не оставлен</div>
+                          <div className="text-xs text-slate-600">телефон не оставлен</div>
                         )}
                       </div>
                       <div>
-                        <div className="text-xs uppercase tracking-wide text-slate-400">
+                        <div className="text-xs uppercase tracking-wide text-slate-600">
                           Подопечный и адрес
                         </div>
                         <div className="mt-1 font-medium text-brand">
@@ -193,7 +193,7 @@ export default async function CaretakerCabinet({
                         {(JSON.parse(offer.tasks) as string[]).map((task) => (
                           <span
                             key={task}
-                            className="rounded-full bg-emerald-50/90 px-2.5 py-0.5 text-xs text-emerald-700"
+                            className="rounded-full bg-sky-50/90 px-2.5 py-0.5 text-xs text-sky-700"
                           >
                             {task}
                           </span>
@@ -201,7 +201,7 @@ export default async function CaretakerCabinet({
                       </div>
                     ) : null}
 
-                    <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-500">
+                    <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-700">
                       {offer.start_date || offer.end_date ? (
                         <span>
                           Период:{" "}
@@ -227,7 +227,7 @@ export default async function CaretakerCabinet({
                     <div className="mt-4">
                       <Link
                         href={`/cabinet/requests/${offer.id}`}
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
                       >
                         Подробнее →
                       </Link>
@@ -238,10 +238,10 @@ export default async function CaretakerCabinet({
             )}
           </div>
 
-          <p className="mt-10 text-center text-sm text-slate-400">
+          <p className="mt-10 text-center text-sm text-slate-600">
             Приняли заявку — статус меняется на «В работе», новые предложения
             не приходят. Отказались — вернётесь в очередь «Свободна»,{" "}
-            <Link href="/" className="text-blue-700 hover:text-blue-800">
+            <Link href="/" className="text-sky-700 hover:text-sky-800">
               если других заявок нет
             </Link>
             .

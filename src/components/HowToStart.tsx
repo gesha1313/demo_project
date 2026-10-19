@@ -53,14 +53,14 @@ export default function HowToStart({ footer }: SectionProps) {
               <Reveal key={step.number} delay={index * 120}>
                 <div className="glass flex gap-5 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                   <div
-                    className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-blue-700`}
+                    className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-sky-700`}
                   >
                     {step.number}
                   </div>
 
                   <div>
                     <h3 className="font-semibold text-brand">{step.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-500">{step.text}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{step.text}</p>
                   </div>
                 </div>
               </Reveal>

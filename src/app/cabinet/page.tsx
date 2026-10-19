@@ -24,10 +24,10 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-blue-100/80 text-blue-700",
+  new: "bg-sky-100/80 text-sky-700",
   in_progress: "bg-amber-100/80 text-amber-700",
-  done: "bg-emerald-100/80 text-emerald-700",
-  cancelled: "bg-slate-200/80 text-slate-500",
+  done: "bg-sky-100/80 text-sky-700",
+  cancelled: "bg-slate-200/80 text-slate-700",
 };
 
 const formatPrice = (price: number) => price.toLocaleString("ru-RU");
@@ -131,7 +131,7 @@ export default async function CabinetPage({
         <div className="mt-5 space-y-3 text-sm">
           <div className="glass-strong rounded-2xl px-5 py-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">
+              <div className="text-xs font-semibold uppercase tracking-wide text-sky-700">
                 Заявка №{request.id} · {request.created_at.slice(0, 10)}
               </div>
               {request.ward_name ? (
@@ -145,7 +145,7 @@ export default async function CabinetPage({
               <div className="mt-2 text-sm font-medium text-brand">
                 Тариф: {request.plan_name}
                 {request.monthly_price ? (
-                  <span className="font-normal text-slate-500">
+                  <span className="font-normal text-slate-700">
                     {" "}· {formatPrice(request.monthly_price)} ₽/мес
                   </span>
                 ) : null}
@@ -159,7 +159,7 @@ export default async function CabinetPage({
             ) : null}
           </div>
 
-          <p className="text-slate-500">
+          <p className="text-slate-700">
             {request.employee_email
               ? `Вашей заявкой занимается: ${request.employee_email}`
               : "Заявка ждёт распределения к сотруднику."}
@@ -168,13 +168,13 @@ export default async function CabinetPage({
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link
               href="/cabinet/requests"
-              className="inline-flex items-center gap-2 font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+              className="inline-flex items-center gap-2 font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
             >
               Подробнее — все заявки{totalCount > 1 ? ` (${totalCount})` : ""} →
             </Link>
             <Link
               href="/cabinet/new"
-              className="inline-flex items-center gap-2 font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+              className="inline-flex items-center gap-2 font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
             >
               Создать следующую заявку →
             </Link>
@@ -182,7 +182,7 @@ export default async function CabinetPage({
         </div>
       ) : (
         <div className="mt-5">
-          <p className="text-sm leading-6 text-slate-500">
+          <p className="text-sm leading-6 text-slate-700">
             Заявок пока нет. Создайте первую — расскажите о подопечном
             и выберите тариф, а мы перезвоним и всё обсудим.
           </p>
@@ -199,10 +199,10 @@ export default async function CabinetPage({
 
   // Карточка последней заявки на сиделку — визуально отличается от пансионатных
   const caretakerCard = caretaker ? (
-    <div className="glass h-full rounded-[2rem] border-l-4 border-l-emerald-400 p-7 md:p-8">
+    <div className="glass h-full rounded-[2rem] border-l-4 border-l-sky-400 p-7 md:p-8">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-brand">Заявка на сиделку</h2>
-        <span className="rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700">
+        <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
           Сиделка · №{caretaker.id}
         </span>
       </div>
@@ -212,7 +212,7 @@ export default async function CabinetPage({
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-medium text-brand">{caretaker.ward_name}</span>
                 {caretaker.address ? (
-                  <span className="text-xs text-slate-500">{caretaker.address}</span>
+                  <span className="text-xs text-slate-700">{caretaker.address}</span>
                 ) : null}
               </div>
               {caretaker.status === "new" ? (
@@ -245,7 +245,7 @@ export default async function CabinetPage({
 
         <Link
           href="/cabinet/requests"
-          className="inline-flex items-center gap-2 font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+          className="inline-flex items-center gap-2 font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
         >
           Подробнее — все заявки →
         </Link>
@@ -255,11 +255,11 @@ export default async function CabinetPage({
     <div className="glass flex h-full flex-col rounded-[2rem] p-7 md:p-8">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-brand">Услуга сиделки</h2>
-        <span className="rounded-full bg-emerald-100/80 px-3 py-1 text-xs font-semibold text-emerald-700">
+        <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
           Сиделка
         </span>
       </div>
-      <p className="mt-4 text-sm leading-6 text-slate-500">
+      <p className="mt-4 text-sm leading-6 text-slate-700">
         Нужна сиделка на дом? Заполните короткую анкету — подберём свободную
         рядом с вами и покажем на карте.
       </p>
@@ -309,21 +309,21 @@ export default async function CabinetPage({
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-indigo-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-blue-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-indigo-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-20">
           {/* Приветствие */}
           <div className="animate-fade-up flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
                 Личный кабинет
               </span>
               <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
                 Здравствуйте, {displayName}
               </h1>
-              <p className="mt-1 text-sm text-slate-500">Аккаунт: {user.email}</p>
+              <p className="mt-1 text-sm text-slate-700">Аккаунт: {user.email}</p>
               <p className="mt-2 text-slate-600">
                 {showForm && !user.phone
                   ? "Оставьте номер телефона, чтобы мы могли вам перезвонить."
@@ -371,14 +371,14 @@ export default async function CabinetPage({
             <div className="mt-12 space-y-6">
               <div className="glass animate-fade-up flex flex-col gap-4 rounded-[2rem] px-7 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                  <span className="icon-glow glass-strong flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-blue-700">
+                  <span className="icon-glow glass-strong flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sky-700">
                     ✓
                   </span>
                   <div>
                     <div className="text-sm font-semibold text-brand">
                       {user.fullName?.trim() ? `${user.fullName} · ${user.phone}` : user.phone}
                     </div>
-                    <div className="text-sm text-slate-500">
+                    <div className="text-sm text-slate-700">
                       Контакты сохранены — перезвоним на этот номер
                     </div>
                   </div>
@@ -386,7 +386,7 @@ export default async function CabinetPage({
 
                 <Link
                   href="/cabinet?edit=1"
-                  className="w-fit shrink-0 text-sm font-semibold text-blue-700 transition-colors hover:text-blue-800"
+                  className="w-fit shrink-0 text-sm font-semibold text-sky-700 transition-colors hover:text-sky-800"
                 >
                   Изменить данные
                 </Link>

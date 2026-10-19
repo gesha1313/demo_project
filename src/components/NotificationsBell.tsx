@@ -14,8 +14,8 @@ type Notification = {
 const POLL_INTERVAL_MS = 20000;
 
 const KIND_STYLES: Record<string, string> = {
-  offered: "bg-blue-100/80 text-blue-700",
-  accepted: "bg-emerald-100/80 text-emerald-700",
+  offered: "bg-sky-100/80 text-sky-700",
+  accepted: "bg-sky-100/80 text-sky-700",
   declined: "bg-red-100/80 text-red-600",
   transferred: "bg-amber-100/80 text-amber-700",
   queued: "bg-amber-100/80 text-amber-700",
@@ -130,16 +130,16 @@ export default function NotificationsBell() {
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-sm font-semibold text-brand">Уведомления</span>
             {unread > 0 ? (
-              <span className="text-xs text-slate-400">{unread} новых</span>
+              <span className="text-xs text-slate-600">{unread} новых</span>
             ) : (
-              <span className="text-xs text-slate-400">все прочитано</span>
+              <span className="text-xs text-slate-600">все прочитано</span>
             )}
           </div>
 
           {/* Вся история: новые — жирным, прочитанные — тонким */}
           <div className="max-h-[62vh] space-y-1.5 overflow-y-auto px-1 pb-1">
             {items.length === 0 ? (
-              <p className="px-3 py-6 text-center text-sm text-slate-400">
+              <p className="px-3 py-6 text-center text-sm text-slate-600">
                 Пока нет уведомлений
               </p>
             ) : (
@@ -155,7 +155,7 @@ export default function NotificationsBell() {
                     <div className="flex items-start gap-2">
                       <span
                         className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
-                          isNew ? "bg-blue-600" : "bg-slate-300"
+                          isNew ? "bg-sky-600" : "bg-slate-300"
                         }`}
                       />
                       <div className="min-w-0 flex-1">
@@ -164,7 +164,7 @@ export default function NotificationsBell() {
                             className={
                               isNew
                                 ? "text-sm font-bold text-brand"
-                                : "text-sm font-light text-slate-500"
+                                : "text-sm font-light text-slate-700"
                             }
                           >
                             {item.title}
@@ -184,7 +184,7 @@ export default function NotificationsBell() {
                             className={
                               isNew
                                 ? "mt-0.5 text-xs font-medium leading-5 text-slate-700"
-                                : "mt-0.5 text-xs font-light leading-5 text-slate-400"
+                                : "mt-0.5 text-xs font-light leading-5 text-slate-600"
                             }
                           >
                             {item.body}
@@ -193,7 +193,7 @@ export default function NotificationsBell() {
                         <div
                           className={
                             isNew
-                              ? "mt-1 text-[10px] font-medium text-slate-400"
+                              ? "mt-1 text-[10px] font-medium text-slate-600"
                               : "mt-1 text-[10px] font-light text-slate-300"
                           }
                         >

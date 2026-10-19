@@ -7,13 +7,13 @@ import { isValidEmail, scorePassword } from "@/lib/validation";
 const SEGMENT_COLORS: Record<string, string> = {
   weak: "bg-red-500",
   medium: "bg-orange-400",
-  strong: "bg-emerald-500",
+  strong: "bg-sky-500",
 };
 
 const LABEL_COLORS: Record<string, string> = {
   weak: "text-red-600",
   medium: "text-orange-500",
-  strong: "text-emerald-600",
+  strong: "text-sky-600",
 };
 
 export default function RegisterForm({ nextPath = null }: { nextPath?: string | null }) {
@@ -144,7 +144,7 @@ export default function RegisterForm({ nextPath = null }: { nextPath?: string | 
               </div>
             ) : null}
 
-            <p className="mt-2 text-xs leading-5 text-slate-400">
+            <p className="mt-2 text-xs leading-5 text-slate-600">
               Надёжный пароль: 8+ символов, заглавные и строчные буквы, цифры, спецсимволы
             </p>
           </div>
@@ -176,7 +176,7 @@ export default function RegisterForm({ nextPath = null }: { nextPath?: string | 
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-md border border-slate-300 bg-white/70 transition-all checked:border-blue-600 checked:bg-blue-600 checked:bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%2220 6 9 17 4 12%22/></svg>')] checked:bg-[length:12px_12px] checked:bg-center checked:bg-no-repeat"
+              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-md border border-slate-300 bg-white/70 transition-all checked:border-sky-600 checked:bg-sky-600 checked:bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%2220 6 9 17 4 12%22/></svg>')] checked:bg-[length:12px_12px] checked:bg-center checked:bg-no-repeat"
             />
             <span>
               Соглашаюсь с обработкой персональных данных и политикой конфиденциальности
@@ -197,9 +197,9 @@ export default function RegisterForm({ nextPath = null }: { nextPath?: string | 
             {loading ? "Создаём аккаунт…" : "Зарегистрироваться"}
           </button>
 
-          <p className="text-center text-sm text-slate-500">
+          <p className="text-center text-sm text-slate-700">
             Уже есть аккаунт?{" "}
-            <a href="/login" className="font-semibold text-blue-700 hover:text-blue-800">
+            <a href="/login" className="font-semibold text-sky-700 hover:text-sky-800">
               Войти
             </a>
           </p>

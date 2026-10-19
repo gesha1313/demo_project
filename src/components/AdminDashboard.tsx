@@ -54,10 +54,10 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-blue-100/80 text-blue-700",
+  new: "bg-sky-100/80 text-sky-700",
   in_progress: "bg-amber-100/80 text-amber-700",
-  done: "bg-emerald-100/80 text-emerald-700",
-  cancelled: "bg-slate-200/80 text-slate-500",
+  done: "bg-sky-100/80 text-sky-700",
+  cancelled: "bg-slate-200/80 text-slate-700",
 };
 
 const ROLE_OPTIONS = [
@@ -220,8 +220,8 @@ export default function AdminDashboard({
               }}
               className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
                 tab === t.id
-                  ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-700/25"
-                  : "text-slate-600 hover:bg-white/60 hover:text-blue-700"
+                  ? "bg-sky-700 text-white shadow-md shadow-sky-700/25"
+                  : "text-slate-600 hover:bg-white/60 hover:text-sky-700"
               }`}
             >
               {t.label}
@@ -233,7 +233,7 @@ export default function AdminDashboard({
       {tab === "requests" ? (
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {requests.length === 0 ? (
-            <p className="glass rounded-2xl px-6 py-8 text-sm text-slate-500">
+            <p className="glass rounded-2xl px-6 py-8 text-sm text-slate-700">
               {role === "admin"
                 ? "Заявок пока нет."
                 : "У вас пока нет назначенных заявок — распределение выполняет администратор."}
@@ -247,7 +247,7 @@ export default function AdminDashboard({
                   <div className="text-sm font-semibold text-brand">
                     {request.full_name?.trim() || request.email}
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className="text-xs text-slate-700">
                     №{request.id} · {request.created_at.slice(0, 10)} · {request.email}
                   </div>
                 </div>
@@ -263,15 +263,15 @@ export default function AdminDashboard({
               <div className="mt-4 space-y-1 text-sm text-slate-600">
                 {request.ward_name ? (
                   <div>
-                    <span className="text-slate-400">Подопечный: </span>
+                    <span className="text-slate-600">Подопечный: </span>
                     <span className="font-medium text-brand">{request.ward_name}</span>
                   </div>
                 ) : null}
 
                 {request.plan_name ? (
                   <div>
-                    <span className="text-slate-400">Тариф: </span>
-                    <span className="rounded-full bg-blue-100/80 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
+                    <span className="text-slate-600">Тариф: </span>
+                    <span className="rounded-full bg-sky-100/80 px-2.5 py-0.5 text-xs font-semibold text-sky-700">
                       {request.plan_name}
                       {request.monthly_price
                         ? ` · ${request.monthly_price.toLocaleString("ru-RU")} ₽/мес`
@@ -281,13 +281,13 @@ export default function AdminDashboard({
                 ) : null}
 
                 <div>
-                  <span className="text-slate-400">Телефон: </span>
-                  {request.phone ?? <span className="text-slate-400">не оставлен</span>}
+                  <span className="text-slate-600">Телефон: </span>
+                  {request.phone ?? <span className="text-slate-600">не оставлен</span>}
                 </div>
 
                 {request.passport ? (
                   <div>
-                    <span className="text-slate-400">Паспорт: </span>
+                    <span className="text-slate-600">Паспорт: </span>
                     {request.passport}
                   </div>
                 ) : null}
@@ -334,7 +334,7 @@ export default function AdminDashboard({
                     ))}
                   </select>
                 ) : (
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-slate-600">
                     {request.employee_email
                       ? `Сотрудник: ${request.employee_email}`
                       : "Сотрудник не назначен"}
@@ -344,7 +344,7 @@ export default function AdminDashboard({
                 <button
                   type="button"
                   onClick={() => void openChatWithUser(request.user_id)}
-                  className="ml-auto text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+                  className="ml-auto text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
                 >
                   Переписка →
                 </button>
@@ -373,7 +373,7 @@ export default function AdminDashboard({
                     className="block text-sm font-medium text-brand"
                   >
                     Причина удаления{" "}
-                    <span className="font-normal text-slate-400">
+                    <span className="font-normal text-slate-600">
                       (минимум 20 символов: {deleteReason.trim().length}/20)
                     </span>
                   </label>
@@ -425,7 +425,7 @@ export default function AdminDashboard({
         <div className="glass mt-8 overflow-x-auto rounded-[1.75rem]">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
-              <tr className="border-b border-white/60 text-xs uppercase tracking-wide text-slate-400">
+              <tr className="border-b border-white/60 text-xs uppercase tracking-wide text-slate-600">
                 <th className="px-6 py-4 font-semibold">Пользователь</th>
                 <th className="px-6 py-4 font-semibold">Телефон</th>
                 <th className="px-6 py-4 font-semibold">Заявок</th>
@@ -439,12 +439,12 @@ export default function AdminDashboard({
                     <div className="font-medium text-brand">
                       {user.full_name?.trim() || user.email}
                     </div>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-xs text-slate-600">
                       {user.email} · с {user.created_at.slice(0, 10)}
                     </div>
                   </td>
                   <td className="px-6 py-4 text-slate-600">
-                    {user.phone ?? <span className="text-slate-400">—</span>}
+                    {user.phone ?? <span className="text-slate-600">—</span>}
                   </td>
                   <td className="px-6 py-4 text-slate-600">{user.requests_count}</td>
                   <td className="px-6 py-4">
@@ -551,7 +551,7 @@ function AdminChat({
       {/* Список диалогов */}
       <div className="glass max-h-[70vh] space-y-2 overflow-y-auto rounded-[1.75rem] p-4">
         {conversations.length === 0 ? (
-          <p className="px-3 py-6 text-sm text-slate-400">Обращений в чат пока нет</p>
+          <p className="px-3 py-6 text-sm text-slate-600">Обращений в чат пока нет</p>
         ) : null}
 
         {conversations.map((conversation) => (
@@ -569,11 +569,11 @@ function AdminChat({
               <span className="truncate text-sm font-semibold text-brand">
                 {conversation.email}
               </span>
-              <span className="shrink-0 text-[10px] text-slate-400">
+              <span className="shrink-0 text-[10px] text-slate-600">
                 {conversation.updated_at.slice(5, 16).replace("T", " ")}
               </span>
             </div>
-            <p className="mt-1 truncate text-xs text-slate-500">
+            <p className="mt-1 truncate text-xs text-slate-700">
               {conversation.last_message ?? "Нет сообщений"}
             </p>
           </button>
@@ -583,7 +583,7 @@ function AdminChat({
       {/* Переписка */}
       <div className="glass flex h-[70vh] min-h-[420px] flex-col overflow-hidden rounded-[1.75rem]">
         {activeId === null ? (
-          <div className="flex flex-1 items-center justify-center px-6 text-center text-sm text-slate-400">
+          <div className="flex flex-1 items-center justify-center px-6 text-center text-sm text-slate-600">
             Выберите диалог слева, чтобы ответить клиенту
           </div>
         ) : (
@@ -596,19 +596,19 @@ function AdminChat({
                     <div
                       className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-6 ${
                         mine
-                          ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-700/20"
+                          ? "bg-sky-700 text-white shadow-md shadow-sky-700/20"
                           : "glass-strong text-slate-700"
                       }`}
                     >
                       {!mine ? (
-                        <span className="mb-0.5 block text-[10px] font-semibold text-blue-700">
+                        <span className="mb-0.5 block text-[10px] font-semibold text-sky-700">
                           {message.sender_email}
                         </span>
                       ) : null}
                       <p>{message.body}</p>
                       <span
                         className={`mt-1 block text-[10px] ${
-                          mine ? "text-blue-100/80" : "text-slate-400"
+                          mine ? "text-sky-100/80" : "text-slate-600"
                         }`}
                       >
                         {message.created_at.slice(11, 16)}

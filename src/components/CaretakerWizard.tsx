@@ -206,7 +206,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             <h2 className="text-2xl font-semibold tracking-tight text-brand md:text-3xl">
               Анкета для подбора сиделки
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-500">
+            <p className="mt-2 text-sm leading-6 text-slate-700">
               {userName}, заполните короткую анкету — подберём свободную сиделку
               в вашем районе Нижнего Новгорода.
             </p>
@@ -260,7 +260,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
 
               <div>
                 <span className="mb-2 block text-sm font-medium text-brand">
-                  Что нужно делать <span className="font-normal text-slate-400"></span>
+                  Что нужно делать <span className="font-normal text-slate-600"></span>
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {TASK_OPTIONS.map((task) => {
@@ -273,8 +273,8 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                         aria-pressed={active}
                         className={`rounded-full border px-4 py-2 text-sm transition-all duration-200 ${
                           active
-                            ? "border-blue-600 bg-blue-50/80 font-semibold text-blue-700 shadow-sm"
-                            : "glass border-transparent text-slate-600 hover:text-blue-700"
+                            ? "border-sky-600 bg-sky-50/80 font-semibold text-sky-700 shadow-sm"
+                            : "glass border-transparent text-slate-600 hover:text-sky-700"
                         }`}
                       >
                         {active ? "✓ " : ""}
@@ -288,11 +288,11 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
               <div>
                 <span className="mb-2 block text-sm font-medium text-brand">
                   Период ухода{" "}
-                  <span className="font-normal text-slate-400"></span>
+                  <span className="font-normal text-slate-600"></span>
                 </span>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label htmlFor="start-date" className="mb-1 block text-xs text-slate-500">
+                    <label htmlFor="start-date" className="mb-1 block text-xs text-slate-700">
                       дата начала 
                     </label>
                     <input
@@ -304,7 +304,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                     />
                   </div>
                   <div>
-                    <label htmlFor="end-date" className="mb-1 block text-xs text-slate-500">
+                    <label htmlFor="end-date" className="mb-1 block text-xs text-slate-700">
                       дата окончания
                     </label>
                     <input
@@ -322,7 +322,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
               <div>
                 <label htmlFor="notes" className="mb-2 block text-sm font-medium text-brand">
                   Пожелания{" "}
-                  <span className="font-normal text-slate-400"></span>
+                  <span className="font-normal text-slate-600"></span>
                 </label>
                 <input
                   id="notes"
@@ -350,7 +350,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
               </button>
 
               {!formValid ? (
-                <p className="text-center text-xs text-slate-400">
+                <p className="text-center text-xs text-slate-600">
                   Заполните ФИО, возраст, адрес и выберите услуги
                 </p>
               ) : null}
@@ -376,14 +376,14 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
         {phase === "matching" ? (
           <div className="flex flex-col items-center py-16 text-center">
             <span className="relative flex h-20 w-20 items-center justify-center">
-              <span className="absolute h-full w-full animate-ping rounded-full bg-blue-400/40" />
-              <span className="flex h-16 w-16 animate-spin items-center justify-center rounded-full border-4 border-blue-100 border-t-blue-600" />
+              <span className="absolute h-full w-full animate-ping rounded-full bg-sky-400/40" />
+              <span className="flex h-16 w-16 animate-spin items-center justify-center rounded-full border-4 border-sky-100 border-t-sky-600" />
             </span>
 
             <h2 className="mt-7 text-xl font-semibold text-brand md:text-2xl">
               Подбираем сиделку
             </h2>
-            <p className="mt-2 text-sm text-slate-500" aria-live="polite">
+            <p className="mt-2 text-sm text-slate-700" aria-live="polite">
               {MATCHING_STEPS[stepIndex]}
             </p>
 
@@ -392,7 +392,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                 <span
                   key={index}
                   className={`h-1.5 w-8 rounded-full transition-colors duration-300 ${
-                    index <= stepIndex ? "bg-blue-600" : "bg-slate-200"
+                    index <= stepIndex ? "bg-sky-600" : "bg-slate-200"
                   }`}
                 />
               ))}
@@ -403,14 +403,14 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
         {/* ===================== РЕЗУЛЬТАТ: СВОБОДНЫХ НЕТ ===================== */}
         {phase === "result" && result && !result.matched ? (
           <div className="flex flex-col items-center py-10 text-center">
-            <span className="icon-glow glass-strong flex h-16 w-16 items-center justify-center rounded-2xl text-blue-700">
+            <span className="icon-glow glass-strong flex h-16 w-16 items-center justify-center rounded-2xl text-sky-700">
               <Icon name="clock" className="h-8 w-8" />
             </span>
 
             <h2 className="mt-6 text-2xl font-semibold tracking-tight text-brand">
               На данный момент свободных сотрудников нет
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-6 text-slate-500">
+            <p className="mt-3 max-w-md text-sm leading-6 text-slate-700">
               Все сиделки сейчас заняты. Ваша заявка №{result.requestId} сохранена —
               как только кто-то освободится, мы свяжемся с вами по телефону
               из личного кабинета.
@@ -448,7 +448,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                 <h2 className="text-2xl font-semibold tracking-tight text-brand">
                   Сиделка подобрана
                 </h2>
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm text-slate-700">
                   Заявка №{result.requestId} сохранена в личном кабинете
                 </p>
               </div>
@@ -457,13 +457,13 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             {/* Данные подобранной сиделки */}
             <div className="glass mt-6 grid gap-4 rounded-[1.75rem] p-5 sm:grid-cols-2">
               <div>
-                <div className="text-xs uppercase tracking-wide text-slate-400">Сиделка</div>
+                <div className="text-xs uppercase tracking-wide text-slate-600">Сиделка</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
                   {result.caretakerName ?? "Сиделка"}
                 </div>
               </div>
               <div>
-                <div className="text-xs uppercase tracking-wide text-slate-400">Стаж</div>
+                <div className="text-xs uppercase tracking-wide text-slate-600">Стаж</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
                   {pluralYears(result.caretakerExperience ?? 0)}
                 </div>
@@ -476,7 +476,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                 ref={mapNodeRef}
                 className="h-[280px] w-full overflow-hidden rounded-[1.4rem] bg-slate-200"
               />
-              <p className="px-3 py-2 text-center text-xs text-slate-500">
+              <p className="px-3 py-2 text-center text-xs text-slate-700">
                 Красная метка — район, из которого выезжает сиделка
               </p>
             </div>

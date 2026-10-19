@@ -6,13 +6,13 @@ export default function CtaSection() {
     <section className="relative overflow-hidden py-14 md:py-20">
       <div className="mx-auto max-w-5xl px-6">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#0b2a5b] via-[#122f63] to-[#1e3a8a] px-6 py-10 text-center text-white shadow-2xl shadow-blue-900/30 md:rounded-[2.5rem] md:px-16 md:py-14">
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#4a7ba6] via-[#3f6f9f] to-[#2f5578] px-6 py-10 text-center text-white shadow-2xl shadow-sky-900/30 md:rounded-[2.5rem] md:px-16 md:py-14">
             {/* Световые пятна на тёмном стекле */}
-            <div className="absolute -right-20 -top-20 h-64 w-64 animate-float rounded-full bg-blue-500/30 blur-3xl" />
-            <div className="absolute -bottom-24 -left-16 h-64 w-64 animate-float-slow rounded-full bg-indigo-400/25 blur-3xl" />
+            <div className="absolute -right-20 -top-20 h-64 w-64 animate-float rounded-full bg-sky-500/30 blur-3xl" />
+            <div className="absolute -bottom-24 -left-16 h-64 w-64 animate-float-slow rounded-full bg-amber-400/25 blur-3xl" />
 
             <div className="glass-dark relative mx-auto max-w-2xl rounded-[1.75rem] px-6 py-8 md:rounded-[2rem] md:px-8 md:py-12">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-200 md:text-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-200 md:text-sm">
                 Мы готовы поговорить
               </p>
 
@@ -20,7 +20,7 @@ export default function CtaSection() {
                 Давайте обсудим ситуацию вашего близкого
               </h2>
 
-              <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-blue-100/90 md:mt-5 md:text-base md:leading-7">
+              <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-100 md:mt-5 md:text-base md:leading-7">
                 Расскажите нам о ситуации — мы ответим на вопросы и объясним,
                 какие варианты могут подойти.
               </p>

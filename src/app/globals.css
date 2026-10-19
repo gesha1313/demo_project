@@ -2,9 +2,18 @@
 
 @theme {
   /* Фирменные цвета сайта */
-  --color-brand: #0b2a5b;
-  --color-brand-dark: #06182f;
-  --color-surface: #f5f9ff;
+  --color-brand: #3f6996;
+  --color-brand-dark: #2f5578;
+  --color-surface: #f6f4ec;
+
+  /* Палитра «Надежность и забота» с терракотовым акцентом CTA.
+     Значения подобраны под контраст WCAG 2.1: текст >= 4.5:1,
+     крупный текст и рамки >= 3:1. */
+  --color-primary: #3f6996;
+  --color-primary-hover: #2f5578;
+  --color-accent-soft: #a2d9ce;
+  --color-cta: #b34700;
+  --color-cta-hover: #993d00;
 
   /* Анимации появления и декора */
   --animate-fade-up: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -44,7 +53,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope);
+  --font-sans: var(--font-ptserif);
 }
 
 html {
@@ -57,13 +66,14 @@ body {
   /* Тонированная подложка вместо белой: стекло читается на контрасте,
      страницы не «сливаются в одно» */
   background:
-    radial-gradient(60rem 42rem at 88% -12%, rgba(147, 197, 253, 0.22), transparent 60%),
-    radial-gradient(52rem 38rem at -12% 28%, rgba(165, 180, 252, 0.16), transparent 62%),
-    radial-gradient(46rem 32rem at 50% 112%, rgba(125, 211, 252, 0.14), transparent 60%),
-    linear-gradient(180deg, #f2f5fa 0%, #ecf1f8 100%);
+    radial-gradient(60rem 42rem at 88% -12%, rgba(167, 201, 173, 0.24), transparent 60%),
+    radial-gradient(52rem 38rem at -12% 28%, rgba(214, 197, 164, 0.2), transparent 62%),
+    radial-gradient(46rem 32rem at 50% 112%, rgba(191, 214, 178, 0.18), transparent 60%),
+    linear-gradient(180deg, #f6f4ec 0%, #efeade 100%);
   background-attachment: fixed;
-  color: #171717;
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  color: #2c3e50;
+  font-family: var(--font-ptserif), Georgia, "Times New Roman", serif;
+  font-size: 1rem;
   text-rendering: optimizeLegibility;
 }
 
@@ -85,8 +95,8 @@ body {
   backdrop-filter: blur(18px) saturate(1.5);
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
-    0 12px 36px rgba(13, 36, 74, 0.1),
-    0 0 0 1px rgba(11, 42, 91, 0.03),
+    0 12px 36px rgba(58, 46, 32, 0.1),
+    0 0 0 1px rgba(58, 90, 122, 0.03),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
@@ -96,8 +106,8 @@ body {
   backdrop-filter: blur(26px) saturate(1.6);
   border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow:
-    0 16px 44px rgba(13, 36, 74, 0.13),
-    0 0 0 1px rgba(11, 42, 91, 0.04),
+    0 16px 44px rgba(58, 46, 32, 0.13),
+    0 0 0 1px rgba(58, 90, 122, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
@@ -107,7 +117,7 @@ body {
   backdrop-filter: blur(20px) saturate(1.4);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
-    0 8px 32px rgba(2, 10, 26, 0.35),
+    0 8px 32px rgba(26, 36, 24, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
@@ -118,9 +128,11 @@ body {
   overflow: hidden;
   isolation: isolate;
   color: #ffffff;
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 55%, #4338ca 100%);
+  /* Терракотовый CTA: точечно — только кнопки «Записаться» и «Позвонить».
+     Белый текст на #b34700 даёт контраст 5.1:1 (WCAG AA). */
+  background: #b34700;
   box-shadow:
-    0 10px 30px rgba(37, 99, 235, 0.35),
+    0 10px 30px rgba(154, 64, 10, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
@@ -143,9 +155,18 @@ body {
 .btn-glass-primary:hover {
   filter: brightness(1.07);
   transform: translateY(-1px);
+  background: #993d00;
   box-shadow:
-    0 14px 36px rgba(37, 99, 235, 0.45),
+    0 14px 36px rgba(154, 64, 10, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* Неактивная кнопка: остаётся различимой (контраст >= 3:1) */
+.btn-glass-primary:disabled {
+  background: #8a8a8a;
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
 }
 
 .btn-glass-primary:hover::after {
@@ -164,7 +185,7 @@ body {
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
-    0 6px 24px rgba(11, 42, 91, 0.08),
+    0 6px 24px rgba(58, 90, 122, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
@@ -173,7 +194,7 @@ body {
   background: rgba(255, 255, 255, 0.85);
   transform: translateY(-1px);
   box-shadow:
-    0 10px 28px rgba(11, 42, 91, 0.12),
+    0 10px 28px rgba(58, 90, 122, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
@@ -191,20 +212,20 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
   padding: 0.875rem 1.125rem;
-  color: #0b2a5b;
+  color: #2f5578;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .input-glass::placeholder {
-  color: #94a3b8;
+  color: #6b6353;
 }
 
 .input-glass:focus {
   background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(37, 99, 235, 0.45);
+  border-color: rgba(84, 129, 170, 0.45);
   box-shadow:
-    0 0 0 4px rgba(37, 99, 235, 0.12),
+    0 0 0 4px rgba(84, 129, 170, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
@@ -223,8 +244,8 @@ body {
   border-radius: 9999px;
   background: radial-gradient(
     closest-side,
-    rgba(96, 165, 250, 0.5),
-    rgba(129, 140, 248, 0.25) 55%,
+    rgba(139, 183, 219, 0.5),
+    rgba(199, 181, 134, 0.3) 55%,
     transparent 100%
   );
   filter: blur(10px);
@@ -261,13 +282,13 @@ body {
 .section-band {
   background: rgba(255, 255, 255, 0.55);
   border-top: 1px solid rgba(255, 255, 255, 0.85);
-  border-bottom: 1px solid rgba(203, 213, 225, 0.55);
-  box-shadow: inset 0 12px 28px -20px rgba(13, 36, 74, 0.12);
+  border-bottom: 1px solid rgba(214, 205, 182, 0.6);
+  box-shadow: inset 0 12px 28px -20px rgba(58, 46, 32, 0.12);
 }
 
 /* Тёмная navy-полоса: акцентный контраст в композиции страницы */
 .section-dark {
-  background: linear-gradient(135deg, #0d2144 0%, #12305e 55%, #16386b 100%);
+  background: linear-gradient(135deg, #1f4230 0%, #2d5a3d 55%, #46582f 100%);
   color: #ffffff;
 }
 
@@ -312,4 +333,108 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ============================================================
+   Версия для слабовидящих (ГОСТ / WCAG): чёрный фон,
+   жёлто-белый текст, оранжевые акценты. Включается классом
+   .hc на <html> — кнопкой в шапке, выбор сохраняется.
+   Переопределяем тему Tailwind: утилиты вида text-sky-700
+   читают эти переменные и перекрашиваются каскадом.
+   ============================================================ */
+html.hc {
+  --color-brand: #ff9900;
+  --color-brand-dark: #ff9900;
+  --color-sky-700: #ff9900;
+  --color-sky-800: #ff9900;
+  --color-sky-100: #1a1a1a;
+  --color-amber-500: #ff9900;
+  --color-slate-400: #ffffff;
+  --color-slate-500: #ffffff;
+  --color-slate-600: #ffffff;
+  --color-slate-700: #ffff00;
+  --color-slate-800: #ffff00;
+  --color-slate-900: #ffff00;
+}
+
+html.hc body {
+  background: #000000 !important;
+  color: #ffff00;
+  font-size: 1.125rem;
+}
+
+/* Внутренние страницы тянут собственные светлые градиенты на
+   main/header/footer — гасим их, иначе фон остаётся белым */
+html.hc main,
+html.hc header,
+html.hc footer,
+html.hc section {
+  background: #000000 !important;
+  background-image: none !important;
+}
+
+html.hc .glass,
+html.hc .glass-strong {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html.hc .section-band,
+html.hc .section-dark {
+  background: #000000 !important;
+  color: #ffff00;
+  border-color: #ffffff;
+  box-shadow: none;
+}
+
+html.hc .btn-glass-primary {
+  background: #ff9900 !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+}
+
+html.hc .btn-glass-primary:hover {
+  background: #ffcc00 !important;
+}
+
+html.hc .btn-glass-ghost,
+html.hc .input-glass {
+  background: #000000 !important;
+  color: #ffff00 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html.hc .input-glass::placeholder {
+  color: #dddddd;
+}
+
+html.hc .input-glass:focus {
+  border-color: #ff9900 !important;
+  box-shadow: 0 0 0 3px #ff9900 !important;
+}
+
+html.hc img {
+  filter: grayscale(100%);
+}
+
+/* Декоративные размытые круги отключаем только в режиме
+   слабовидящих — цветовые утилиты при этом не трогаем */
+html.hc .blur-3xl,
+html.hc .blur-2xl {
+  background: transparent !important;
+}
+
+html.hc a {
+  color: #ffff00;
+}
+
+html.hc a:hover {
+  background: #1a1a1a;
+  color: #ff9900;
 }

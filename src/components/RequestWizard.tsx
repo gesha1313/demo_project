@@ -83,16 +83,16 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                 <span
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 ${
                     passed
-                      ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white"
+                      ? "bg-sky-700 text-white"
                       : active
-                        ? "glass-strong text-blue-700 ring-2 ring-blue-500/40"
-                        : "bg-white/50 text-slate-400"
+                        ? "glass-strong text-sky-700 ring-2 ring-sky-500/40"
+                        : "bg-white/50 text-slate-600"
                   }`}
                 >
                   {passed ? "✓" : number}
                 </span>
                 <span
-                  className={`text-sm font-medium ${active ? "text-brand" : "text-slate-400"}`}
+                  className={`text-sm font-medium ${active ? "text-brand" : "text-slate-600"}`}
                 >
                   {label}
                 </span>
@@ -109,7 +109,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
               <h2 className="text-2xl font-semibold tracking-tight text-brand">
                 Расскажите о подопечном
               </h2>
-              <p className="mt-2 text-sm leading-6 text-slate-500">
+              <p className="mt-2 text-sm leading-6 text-slate-700">
                 Эти данные увидит сотрудник, который будет вести заявку.
               </p>
             </div>
@@ -166,7 +166,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
             </button>
 
             {!step1Valid ? (
-              <p className="text-center text-xs text-slate-400">
+              <p className="text-center text-xs text-slate-600">
                 Заполните все поля, чтобы перейти к выбору тарифа
               </p>
             ) : null}
@@ -178,7 +178,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
               <h2 className="text-2xl font-semibold tracking-tight text-brand">
                 Выберите тариф
               </h2>
-              <p className="text-sm leading-6 text-slate-500">
+              <p className="text-sm leading-6 text-slate-700">
                 Подопечный: <span className="font-medium text-slate-700">{wardName.trim()}</span>.
                 Тариф можно будет изменить по согласованию.
               </p>
@@ -196,13 +196,13 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                     aria-pressed={selected}
                     className={`relative w-full rounded-[1.75rem] border-2 p-5 text-left transition-all duration-300 md:p-6 ${
                       selected
-                        ? "glass-strong border-blue-600 shadow-[0_16px_44px_rgba(37,99,235,0.22)] ring-4 ring-blue-500/25"
-                        : "glass border-transparent hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
+                        ? "glass-strong border-sky-600 shadow-[0_16px_44px_rgba(37,99,235,0.22)] ring-4 ring-sky-500/25"
+                        : "glass border-transparent hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
                     }`}
                   >
                     {/* Бейдж выбранного тарифа */}
                     <span
-                      className={`absolute right-5 top-5 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 px-3 py-1 text-xs font-semibold text-white shadow-md transition-all duration-300 ${
+                      className={`absolute right-5 top-5 rounded-full bg-gradient-to-br from-sky-600 to-amber-600 px-3 py-1 text-xs font-semibold text-white shadow-md transition-all duration-300 ${
                         selected ? "scale-100 opacity-100" : "scale-75 opacity-0"
                       }`}
                     >
@@ -213,13 +213,13 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                         <div className="flex items-center gap-2">
                           <h3 className="text-lg font-semibold text-brand">{plan.name}</h3>
                           {plan.isPopular ? (
-                            <span className="rounded-full bg-blue-100/80 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
+                            <span className="rounded-full bg-sky-100/80 px-2.5 py-0.5 text-xs font-semibold text-sky-700">
                               Популярный
                             </span>
                           ) : null}
                         </div>
                         {plan.note ? (
-                          <p className="mt-0.5 text-sm text-slate-500">{plan.note}</p>
+                          <p className="mt-0.5 text-sm text-slate-700">{plan.note}</p>
                         ) : null}
                       </div>
 
@@ -227,7 +227,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                         <div className="text-xl font-semibold text-brand">
                           {formatPrice(plan.monthlyPrice)} ₽
                         </div>
-                        <div className="text-xs text-slate-400">в месяц</div>
+                        <div className="text-xs text-slate-600">в месяц</div>
                       </div>
                     </div>
 
@@ -237,7 +237,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                           key={feature}
                           className="flex items-start gap-2 text-sm text-slate-600"
                         >
-                          <span className="mt-0.5 text-blue-700">✓</span>
+                          <span className="mt-0.5 text-sky-700">✓</span>
                           {feature}
                         </li>
                       ))}
@@ -274,7 +274,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
             </div>
 
             {planId === null ? (
-              <p className="mt-4 text-center text-xs text-slate-400">
+              <p className="mt-4 text-center text-xs text-slate-600">
                 Выберите тариф, чтобы создать заявку
               </p>
             ) : null}

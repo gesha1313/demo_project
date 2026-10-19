@@ -25,13 +25,13 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-blue-100/80 text-blue-700",
+  new: "bg-sky-100/80 text-sky-700",
   in_progress: "bg-amber-100/80 text-amber-700",
-  done: "bg-emerald-100/80 text-emerald-700",
-  cancelled: "bg-slate-200/80 text-slate-500",
+  done: "bg-sky-100/80 text-sky-700",
+  cancelled: "bg-slate-200/80 text-slate-700",
   offered: "bg-amber-100/80 text-amber-700",
-  accepted: "bg-emerald-100/80 text-emerald-700",
-  declined: "bg-slate-200/80 text-slate-500",
+  accepted: "bg-sky-100/80 text-sky-700",
+  declined: "bg-slate-200/80 text-slate-700",
 };
 
 const formatPrice = (price: number) => price.toLocaleString("ru-RU");
@@ -120,8 +120,8 @@ export default async function CabinetRequestsPage() {
     <>
       <Header />
       <main className="relative flex-1 overflow-hidden">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-blue-300/30 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-indigo-200/40 blur-3xl" />
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/30 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/40 blur-3xl" />
 
         <div className="relative mx-auto max-w-4xl px-6 py-16">
           {/* Заголовок */}
@@ -129,7 +129,7 @@ export default async function CabinetRequestsPage() {
             <div>
               <Link
                 href="/cabinet"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
               >
                 ← В личный кабинет
               </Link>
@@ -142,10 +142,10 @@ export default async function CabinetRequestsPage() {
             </div>
 
             <div className="flex gap-3">
-              <span className="glass rounded-full px-4 py-2 text-sm font-semibold text-blue-700">
+              <span className="glass rounded-full px-4 py-2 text-sm font-semibold text-sky-700">
                 Пансионат: {pansionatCount}
               </span>
-              <span className="glass rounded-full px-4 py-2 text-sm font-semibold text-emerald-700">
+              <span className="glass rounded-full px-4 py-2 text-sm font-semibold text-sky-700">
                 Сиделки: {caretakerCount}
               </span>
             </div>
@@ -181,10 +181,10 @@ export default async function CabinetRequestsPage() {
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="rounded-full bg-blue-100/80 px-3 py-1 text-xs font-semibold text-blue-700">
+                            <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
                               Пансионат · №{request.id}
                             </span>
-                            <span className="text-xs text-slate-400">
+                            <span className="text-xs text-slate-600">
                               {request.created_at.slice(0, 10)}{" "}
                               {request.created_at.slice(11, 16)}
                             </span>
@@ -207,7 +207,7 @@ export default async function CabinetRequestsPage() {
                           </span>
                         ) : null}
                         {request.plan_name ? (
-                          <span className="rounded-full bg-blue-100/80 px-3 py-1 text-xs font-semibold text-blue-700">
+                          <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
                             {request.plan_name}
                             {request.monthly_price
                               ? ` · ${formatPrice(request.monthly_price)} ₽/мес`
@@ -222,7 +222,7 @@ export default async function CabinetRequestsPage() {
                         </p>
                       ) : null}
 
-                      <div className="mt-4 text-sm text-slate-500">
+                      <div className="mt-4 text-sm text-slate-700">
                         {request.employee_email
                           ? `Заявку ведёт: ${request.employee_email}`
                           : "Ждёт распределения к сотруднику"}
@@ -231,7 +231,7 @@ export default async function CabinetRequestsPage() {
                       <div className="mt-4">
                         <Link
                           href={`/cabinet/requests/${request.id}`}
-                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
                         >
                           Подробнее →
                         </Link>
@@ -239,7 +239,7 @@ export default async function CabinetRequestsPage() {
                     </article>
                   ) : (
                     /* ===== Заявка на сиделку — визуально отличается ===== */
-                    <article className="glass rounded-[1.75rem] border-l-4 border-l-emerald-400 p-6 md:p-7">
+                    <article className="glass rounded-[1.75rem] border-l-4 border-l-sky-400 p-6 md:p-7">
                       <div className="flex items-start justify-between gap-3">
                        
 
@@ -270,7 +270,7 @@ export default async function CabinetRequestsPage() {
                           {(JSON.parse(request.tasks) as string[]).map((task) => (
                             <span
                               key={task}
-                              className="rounded-full bg-emerald-50/90 px-2.5 py-0.5 text-xs text-emerald-700"
+                              className="rounded-full bg-sky-50/90 px-2.5 py-0.5 text-xs text-sky-700"
                             >
                               {task}
                             </span>
@@ -301,7 +301,7 @@ export default async function CabinetRequestsPage() {
                       <div className="mt-4">
                         <Link
                           href={`/cabinet/requests/${request.id}`}
-                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 transition-all duration-200 hover:translate-x-1 hover:text-blue-800"
+                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
                         >
                           Подробнее →
                         </Link>

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Manrope } from "next/font/google";
+import { PT_Serif } from "next/font/google";
 import ScrollRestoration from "@/components/ScrollRestoration";
 import "./globals.css";
 
-const manrope = Manrope({
+const ptSerif = PT_Serif({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-manrope",
+  weight: ["400", "700"],
+  variable: "--font-ptserif",
   display: "swap",
 });
 
@@ -26,13 +27,14 @@ export const metadata: Metadata = {
  */
 const SCROLL_RESTORE_SCRIPT = `(function(){try{
 if('scrollRestoration' in history){history.scrollRestoration='manual';}
+if(localStorage.getItem('patronage:hc')==='1'){document.documentElement.classList.add('hc');}
 var y=+sessionStorage.getItem('patronage:scroll:'+location.pathname);
 if(y>0){requestAnimationFrame(function(){window.scrollTo({top:y,behavior:'instant'});});}
 }catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ru" className={`${manrope.variable} h-full antialiased`}>
+    <html lang="ru" className={`${ptSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
         <script dangerouslySetInnerHTML={{ __html: SCROLL_RESTORE_SCRIPT }} />
         {children}

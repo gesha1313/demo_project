@@ -43,11 +43,11 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
   if (paid) {
     return (
       <div className="glass-strong rounded-[2rem] p-8 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-2xl text-white shadow-lg">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-teal-600 text-2xl text-white shadow-lg">
           ✓
         </div>
         <h2 className="mt-5 text-2xl font-semibold text-brand">Оплата прошла</h2>
-        <p className="mt-2 text-sm text-slate-500">
+        <p className="mt-2 text-sm text-slate-700">
           Оплачено {total.toLocaleString("ru-RU")} ₽. Квитанция сохранена в заявке.
         </p>
         <Link
@@ -67,7 +67,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
       <div className="mt-4 space-y-1.5">
         {lines.map((line) => (
           <div key={line} className="flex items-center gap-2 text-sm text-slate-600">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+            <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
             {line}
           </div>
         ))}
@@ -76,7 +76,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
       {perMonthPrice ? (
         <div className="glass mt-5 flex items-center justify-between gap-4 rounded-2xl px-5 py-4">
           <div>
-            <div className="text-xs uppercase tracking-wide text-slate-400">На сколько месяцев</div>
+            <div className="text-xs uppercase tracking-wide text-slate-600">На сколько месяцев</div>
             <div className="text-sm text-slate-600">{perMonthPrice.toLocaleString("ru-RU")} ₽ / месяц</div>
           </div>
           <select
@@ -158,7 +158,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
         {paying ? "Обрабатываем оплату…" : `Оплатить ${total.toLocaleString("ru-RU")} ₽`}
       </button>
 
-      <p className="mt-3 text-center text-xs text-slate-400">
+      <p className="mt-3 text-center text-xs text-slate-600">
         Демонстрационная оплата — данные карты никуда не отправляются
       </p>
     </div>
