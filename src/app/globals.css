@@ -60,6 +60,20 @@ html {
   scroll-behavior: smooth;
   /* Отступ при переходе по якорям, чтобы липкая шапка не закрывала заголовок */
   scroll-padding-top: 5.5rem;
+
+  /* Android (Xiaomi/MIUI, Samsung): запрещаем авто-раздувание шрифтов
+     и выравниваем ширину контента — без этого вёрстка «разъезжается» */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  /* Защита от горизонтальной прокрутки на узких экранах
+     (clip не ломает sticky-шапку, в отличие от hidden) */
+  overflow-x: clip;
+
+  /* Длинные русские слова переносятся, а не вылезают за карточку */
+  overflow-wrap: break-word;
 }
 
 body {

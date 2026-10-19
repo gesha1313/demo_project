@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { PT_Serif } from "next/font/google";
 import ScrollRestoration from "@/components/ScrollRestoration";
@@ -10,6 +10,12 @@ const ptSerif = PT_Serif({
   variable: "--font-ptserif",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: {

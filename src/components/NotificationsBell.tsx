@@ -100,7 +100,7 @@ export default function NotificationsBell() {
           if (!open && unread > 0) void markRead();
         }}
         aria-label={`Уведомления${unread ? ` (${unread} новых)` : ""}`}
-        className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md transition-colors hover:bg-white/80"
+        className="relative flex h-9 w-9 items-center justify-center rounded-full md:h-11 md:w-11 border border-white/70 bg-white/50 backdrop-blur-md transition-colors hover:bg-white/80"
       >
         {/* Колокол */}
         <svg

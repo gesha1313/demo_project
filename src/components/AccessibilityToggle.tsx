@@ -31,7 +31,7 @@ export default function AccessibilityToggle() {
       aria-pressed={on}
       aria-label="Версия для слабовидящих"
       title={on ? "Вернуть обычную версию" : "Версия для слабовидящих"}
-      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-200 ${
+      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-200 md:h-11 md:w-11 ${
         on
           ? "border-sky-300 bg-sky-100/80 text-sky-800"
           : "border-white/70 bg-white/50 text-slate-700 hover:bg-white/70"
@@ -44,7 +44,7 @@ export default function AccessibilityToggle() {
         strokeWidth={1.8}
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="h-5 w-5"
+        className="h-4 w-4 md:h-5 md:w-5"
         aria-hidden="true"
       >
         <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />

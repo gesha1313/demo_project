@@ -32,11 +32,11 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
         {/* Логотип */}
-        <Link href="/" className="group">
-          <div className="text-xl font-bold tracking-tight text-brand transition-colors group-hover:text-sky-800">
+        <Link href="/" className="group shrink-0">
+          <div className="text-lg font-bold tracking-tight text-brand transition-colors group-hover:text-sky-800 min-[400px]:text-xl">
             {site.name}
           </div>
-          <div className="text-xs text-slate-700">{site.tagline}</div>
+          <div className="hidden text-xs text-slate-700 min-[400px]:block">{site.tagline}</div>
         </Link>
 
         {/* Навигация */}
@@ -106,16 +106,16 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
         </div>
 
         {/* Мобильные: уведомления + меню */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-1.5 md:hidden">
           <AccessibilityToggle />
           {user ? <NotificationsBell /> : null}
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
-          aria-expanded={menuOpen}
-          className="flex h-11 w-11 flex-col items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md md:hidden"
-        >
+            aria-expanded={menuOpen}
+            className="flex h-9 w-9 flex-col items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md md:hidden"
+          >
           <span
             className={`block h-0.5 w-6 rounded bg-slate-800 transition-all duration-300 ${
               menuOpen ? "translate-y-[4px] rotate-45" : ""
