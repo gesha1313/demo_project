@@ -1,10 +1,10 @@
 export const site = {
-  name: "Патронаж",
+  name: "Патронаж Народный",
   tagline: "Забота и поддержка",
-  phone: "+7 (999) 139-39-04",
-  phoneHref: "tel:+79991393904",
+  phone: "+7 (903) 600-60-80",
+  phoneHref: "tel:+79036006080",
   email: "sarkana999@gmail.com",
-  address: "г. Москва, ул. Тихая, 12",
+  address: "г. Нижний Новгород, ул. Тихая, 12",
   hours: "Ежедневно, круглосуточно",
   maxChannel: "https://max.ru/patronage_family_chat",
   telegram: "https://t.me/patronage_care",
@@ -17,10 +17,12 @@ export const site = {
 } as const;
 
 export const navLinks = [
-  { href: "/register", label: "Заявка в пансионат" },
-  { href: "/about", label: "О пансионате" },
-  { href: "/services", label: "Услуги и условия" },
-  { href: "/#contacts", label: "Контакты" },
+  { href: "/about", label: "О нас" },
+  { href: "/sidelki", label: "Услуга сиделки" },
+  { href: "/pansionat", label: "Пансионат" },
+  { href: "/social", label: "Социальная программа" },
+  { href: "/transport", label: "Перевозка" },
+  { href: "/#reviews", label: "Отзывы" },
 ] as const;
 
 /** Быстрые ссылки в подвале: Услуги, Отзывы, Прайс, Документы */

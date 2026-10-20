@@ -38,7 +38,7 @@ export default function Hero() {
           {/* Кнопки */}
           <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:150ms] sm:flex-row">
             <Link
-              href="/caretaker"
+              href="/sidelki"
               className="btn-glass-primary rounded-full px-7 py-4 text-center font-semibold"
             >
               Подобрать сиделку

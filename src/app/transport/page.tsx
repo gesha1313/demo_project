@@ -1,0 +1,41 @@
+import type { Metadata } from "next";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import PageHeader from "@/components/PageHeader";
+import Reveal from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Перевозка",
+  description: "Транспортировка маломобильных людей — раздел готовится.",
+};
+
+export default function TransportPage() {
+  return (
+    <>
+      <Header />
+      <main className="flex-1">
+        <PageHeader
+          eyebrow="Перевозка"
+          title="Транспортировка маломобильных людей"
+        />
+        <section className="py-14 md:py-20">
+          <div className="mx-auto max-w-3xl px-6">
+            <Reveal>
+              <div className="glass rounded-[2rem] p-10 text-center">
+                <div className="text-xl font-semibold text-brand">Раздел готовится</div>
+                <p className="mt-3 leading-7 text-slate-600">
+                  Скоро здесь появится информация о транспортировке к врачам,
+                  в больницу и на реабилитацию с сопровождением.
+                </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  Пока — звоните, договоримся по телефону.
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}
