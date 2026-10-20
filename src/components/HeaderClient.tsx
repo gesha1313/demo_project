@@ -35,7 +35,7 @@ function PhoneIcon({ className }: { className?: string }) {
 
 function LogoMark() {
   return (
-    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)] transition-transform duration-200 group-hover:scale-105 min-[400px]:h-11 min-[400px]:w-11">
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)] transition-transform duration-200 group-hover:scale-105 min-[400px]:h-11 min-[400px]:w-11">
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -120,26 +120,31 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
             : "border-transparent bg-white/40 backdrop-blur-sm"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
-          {/* Слева: бургер (только ПК) + логотип */}
-          <div className="flex items-center gap-3">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
+          {/* Слева: бургер (только ПК) + логотип.
+              min-w-0 позволяет блоку сжиматься, а тексту — обрезаться */}
+          <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
               onClick={() => setDrawerOpen((open) => !open)}
               aria-label={drawerOpen ? "Закрыть меню" : "Открыть меню"}
               aria-expanded={drawerOpen}
-              className="hidden h-10 w-10 flex-col items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md transition-colors hover:bg-white/80 md:flex"
+              className="hidden h-10 w-10 shrink-0 flex-col items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md transition-colors hover:bg-white/80 md:flex"
             >
               <BurgerLines open={drawerOpen} />
             </button>
 
-            <Link href="/" className="group flex shrink-0 items-center gap-2.5">
+            <Link
+              href="/"
+              className="group flex min-w-0 items-center gap-2 min-[400px]:gap-2.5"
+            >
               <LogoMark />
-              <div>
-                <div className="text-lg font-bold leading-tight tracking-tight text-brand transition-colors group-hover:text-sky-800 min-[400px]:text-xl">
+              <div className="min-w-0">
+                <div className="truncate text-base font-bold leading-tight tracking-tight text-brand transition-colors group-hover:text-sky-800 min-[400px]:text-xl">
                   {site.name}
                 </div>
-                <div className="hidden text-xs text-slate-700 min-[400px]:block">
+                {/* Подпись: скрыта на узких экранах и на планшетах, где шапка и так заполнена */}
+                <div className="hidden truncate text-xs text-slate-700 min-[400px]:block md:hidden lg:block">
                   {site.tagline}
                 </div>
               </div>
@@ -147,13 +152,13 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
           </div>
 
           {/* ПК: только главное — телефон и заказ услуг */}
-          <div className="ml-auto hidden items-center gap-4 md:flex">
+          <div className="ml-auto hidden shrink-0 items-center gap-4 md:flex">
             <AccessibilityToggle />
             {user ? <NotificationsBell /> : null}
 
             <a
               href={site.phoneHref}
-              className="flex items-center gap-1.5 rounded-full border-[1.5px] border-slate-400 bg-white/60 px-4 py-2.5 text-sm font-semibold text-slate-900 backdrop-blur-md transition-all duration-200 hover:border-sky-500 hover:bg-white/70 hover:text-sky-700 hover:ring-1 hover:ring-sky-500"
+              className="flex items-center gap-1.5 whitespace-nowrap rounded-full border-[1.5px] border-slate-400 bg-white/60 px-4 py-2.5 text-sm font-semibold text-slate-900 backdrop-blur-md transition-all duration-200 hover:border-sky-500 hover:bg-white/70 hover:text-sky-700 hover:ring-1 hover:ring-sky-500"
             >
               <PhoneIcon className="h-4 w-4 text-sky-700" />
               {site.phone}
@@ -161,14 +166,15 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
 
             <Link
               href="/register"
-              className="btn-glass-primary rounded-full px-4 py-2.5 text-sm font-semibold"
+              className="btn-glass-primary whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold"
             >
               Получить консультацию →
             </Link>
           </div>
 
-          {/* Мобильные: уведомления + бургер (только < md) */}
-          <div className="flex items-center gap-1.5 md:hidden">
+          {/* Мобильные: доступность + уведомления + бургер (только < md).
+              shrink-0 — иконки никогда не сжимаются и не налезают на текст */}
+          <div className="flex shrink-0 items-center gap-1 min-[400px]:gap-1.5 md:hidden">
             <AccessibilityToggle />
             {user ? <NotificationsBell /> : null}
             <button
@@ -176,7 +182,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
               onClick={() => setMenuOpen((open) => !open)}
               aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
               aria-expanded={menuOpen}
-              className="flex h-9 w-9 flex-col items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md"
+              className="flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-full border border-white/70 bg-white/50 backdrop-blur-md"
             >
               <BurgerLines open={menuOpen} />
             </button>
@@ -190,7 +196,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
           }`}
         >
           <div className="overflow-hidden">
-            <nav className="flex flex-col gap-1 border-t border-white/60 px-6 pb-6 pt-4">
+            <nav className="flex flex-col gap-1 border-t border-white/60 px-4 pb-6 pt-4 sm:px-6">
               {navLinks.map((link) =>
                 link.href.includes("#") ? (
                   <a
