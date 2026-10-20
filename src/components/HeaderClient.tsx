@@ -238,23 +238,27 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                     </Link>
                   ) : null}
                 </>
-              ) : (
-                <>
-                  <a
-                    href={site.phoneHref}
-                    className="mt-2 px-3 py-3 text-sm font-semibold text-brand"
-                  >
-                    {site.phone}
-                  </a>
-                  <Link
-                    href="/login"
-                    onClick={() => setMenuOpen(false)}
-                    className="btn-glass-ghost mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold"
-                  >
-                    Войти
-                  </Link>
-                </>
-              )}
+              ) : null}
+
+              {/* Телефон — для всех, и для гостей, и для авторизованных */}
+              <a
+                href={site.phoneHref}
+                onClick={() => setMenuOpen(false)}
+                className="mt-2 flex items-center justify-center gap-2 whitespace-nowrap rounded-full border-[1.5px] border-slate-400 bg-white/60 px-5 py-3 text-sm font-semibold text-slate-900 backdrop-blur-md transition-all duration-200 hover:border-sky-500 hover:text-sky-700"
+              >
+                <PhoneIcon className="h-4 w-4 text-sky-700" />
+                {site.phone}
+              </a>
+
+              {!user ? (
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="btn-glass-ghost mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold"
+                >
+                  Войти
+                </Link>
+              ) : null}
 
               <Link
                 href="/register"
