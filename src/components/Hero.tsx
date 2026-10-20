@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const advantages = ["Круглосуточный уход", "Опытные специалисты", "Индивидуальный подход"];
+const advantages = ["Проверенные сиделки", "Медсёстры с сертификатами", "Уход на дому 24/7"];
 
 const chain = [
   { href: "/caretaker", label: "Услуга сиделки" },
+  { href: "#services", label: "Услуги и цены" },
   { href: "/about", label: "О пансионате" },
-  { href: "/services", label: "Услуги и условия" },
-  { href: "/services#faq", label: "Частые вопросы" },
+  { href: "#faq", label: "Частые вопросы" },
 ];
 
 export default function Hero() {
@@ -22,39 +22,40 @@ export default function Hero() {
         <div>
           <div className="mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full glass px-4 py-2 text-sm font-medium text-sky-700">
             <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" />
-            Забота о близких
+            Сиделки и патронаж на дому
           </div>
 
           <h1 className="max-w-2xl animate-fade-up text-4xl font-semibold leading-[1.08] tracking-tight text-brand [animation-delay:50ms] md:text-5xl">
-            Место, где о ваших близких заботятся каждый день
+            Сиделки, которым можно доверить заботу о близком
           </h1>
 
           <p className="mt-6 max-w-xl animate-fade-up text-lg leading-8 text-slate-600 [animation-delay:100ms]">
-            Помогаем пожилым людям и людям с ограниченной мобильностью получать
-            необходимый уход, внимание и комфорт в безопасных условиях.
+            Подбираем проверенных сиделок и патронажных сестёр: уход на дому,
+            медицинские процедуры, сопровождение и ежедневные отчёты семье.
+            Если человеку комфортнее в пансионате — подберём и это.
           </p>
 
           {/* Кнопки */}
           <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:150ms] sm:flex-row">
             <Link
-              href="/register"
+              href="/caretaker"
               className="btn-glass-primary rounded-full px-7 py-4 text-center font-semibold"
             >
-              Получить консультацию
+              Подобрать сиделку
             </Link>
 
             <Link
-              href="/about"
+              href="/register"
               className="btn-glass-ghost rounded-full px-7 py-4 text-center font-semibold"
             >
-              Как устроен день
+              Получить консультацию
             </Link>
           </div>
 
           {/* Цепочка знакомства с сайтом */}
           <div className="mt-8 animate-fade-up [animation-delay:200ms]">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
-              Знакомство с пансионатом
+              Знакомство с сервисом ухода
             </div>
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
               {chain.map((item) => (
@@ -106,10 +107,11 @@ export default function Hero() {
           </p>
 
           {/* Информационная карточка */}
-          <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 animate-float rounded-2xl p-5 md:block">
+          <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 rounded-2xl p-5 md:block">
             <div className="text-sm font-semibold text-brand">Забота начинается с доверия</div>
             <p className="mt-2 text-sm leading-6 text-slate-700">
-              Здесь будет короткая информация о вашем подходе к работе.
+              Подбираем сиделку под характер и привычки человека. Не подошло —
+              заменим бесплатно в течение суток.
             </p>
           </div>
         </div>

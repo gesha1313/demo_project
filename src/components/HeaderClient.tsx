@@ -43,8 +43,10 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
         <nav className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
             <Link
-              key={link.href}
-              href={link.href}
+              key={link.label}
+              href={
+                link.href === "/register" && user ? "/cabinet/new" : link.href
+              }
               className="rounded-full px-4 py-2 text-sm text-slate-600 transition-all duration-200 hover:bg-white/60 hover:text-sky-700"
             >
               {link.label}
@@ -140,8 +142,10 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
           <nav className="flex flex-col gap-1 border-t border-white/60 px-6 pb-6 pt-4">
             {navLinks.map((link) => (
               <Link
-                key={link.href}
-                href={link.href}
+                key={link.label}
+                href={
+                  link.href === "/register" && user ? "/cabinet/new" : link.href
+                }
                 onClick={() => setMenuOpen(false)}
                 className="rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white/70 hover:text-sky-700"
               >
