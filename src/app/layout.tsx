@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { PT_Serif } from "next/font/google";
 import ScrollRestoration from "@/components/ScrollRestoration";
 import FloatingActions from "@/components/FloatingActions";
+import { getCurrentUser } from "@/lib/auth";
 import ScrollProgress from "@/components/ScrollProgress";
 import CookieBar from "@/components/CookieBar";
 import "./globals.css";
@@ -41,7 +42,10 @@ var y=+sessionStorage.getItem('patronage:scroll:'+location.pathname);
 if(y>0){requestAnimationFrame(function(){window.scrollTo({top:y,behavior:'instant'});});}
 }catch(e){}})();`;
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  // Пользователь нужен FAB-кнопке чата: авторизованным — живой чат
+  const user = await getCurrentUser();
+
   return (
     <html lang="ru" className={`${ptSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
@@ -49,7 +53,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <ScrollRestoration />
         <ScrollProgress />
-        <FloatingActions />
+        <FloatingActions myId={user?.id ?? null} />
         <CookieBar />
       </body>
     </html>
