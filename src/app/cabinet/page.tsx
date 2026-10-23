@@ -181,17 +181,26 @@ export default async function CabinetPage({
           </div>
         </div>
       ) : (
-        <div className="mt-5">
-          <p className="text-sm leading-6 text-slate-700">
-            Заявок пока нет. Создайте первую — расскажите о подопечном
-            и выберите тариф, а мы перезвоним и всё обсудим.
-          </p>
-          <Link
-            href="/cabinet/new"
-            className="btn-glass-primary mt-5 inline-block rounded-full px-6 py-3 text-sm font-semibold"
-          >
-            Создать заявку
-          </Link>
+        <div className="glass mt-5 flex flex-col items-center gap-3 rounded-xl px-7 py-10 text-center sm:flex-row sm:text-left">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)]">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
+              strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-semibold text-brand">Заявок пока нет</p>
+            <p className="mt-1 text-sm leading-6 text-slate-700">
+              Создайте первую — расскажите о подопечном и выберите тариф,
+              а мы перезвоним и всё обсудим.
+            </p>
+            <Link
+              href="/cabinet/new"
+              className="btn-glass-primary mt-4 inline-block rounded-xl px-6 py-3 text-sm font-semibold"
+            >
+              Создать заявку
+            </Link>
+          </div>
         </div>
       )}
     </div>

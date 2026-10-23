@@ -39,9 +39,9 @@ export default function WhyUs() {
           description="Мы собрали всё, что снимает главные сомнения родственников, в один список."
         />
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
           {advantages.map((item, index) => (
-            <Reveal key={item.title} delay={index * 100}>
+            <Reveal key={item.title} delay={index * 100} className={index < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
               <div className="glass h-full rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <h3 className="font-semibold text-brand">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>

@@ -27,6 +27,7 @@ type LeadFormProps = {
     отправка не уходит на бэкенд, показываем подтверждение. */
 export default function LeadForm({ variant }: LeadFormProps) {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
   const [homeVisit, setHomeVisit] = useState(false);
   const [phone, setPhone] = useState("");
 
@@ -46,7 +47,12 @@ export default function LeadForm({ variant }: LeadFormProps) {
       className="glass-strong space-y-4 rounded-xl p-7"
       onSubmit={(e) => {
         e.preventDefault();
-        setSent(true);
+        setSending(true);
+        /* Демо-режим: имитируем отправку на сервер */
+        setTimeout(() => {
+          setSending(false);
+          setSent(true);
+        }, 900);
       }}
     >
       <input
@@ -101,8 +107,16 @@ export default function LeadForm({ variant }: LeadFormProps) {
         </label>
       ) : null}
 
-      <button type="submit" className="btn-glass-primary w-full rounded-xl px-6 py-3.5 text-sm font-semibold">
-        {variant === "quick" ? "Отправить заявку" : "Отправить сообщение"}
+      <button
+        type="submit"
+        disabled={sending}
+        className="btn-glass-primary w-full rounded-xl px-6 py-3.5 text-sm font-semibold disabled:cursor-not-allowed"
+      >
+        {sending
+          ? "Отправка…"
+          : variant === "quick"
+            ? "Отправить заявку"
+            : "Отправить сообщение"}
       </button>
 
       {variant === "quick" ? (

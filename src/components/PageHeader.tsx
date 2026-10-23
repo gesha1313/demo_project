@@ -16,6 +16,15 @@ export default function PageHeader({ eyebrow, title, description, links }: PageH
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="max-w-2xl animate-fade-up">
+          {/* Хлебные крошки: Главная / текущий раздел */}
+          <nav aria-label="Хлебные крошки" className="mb-4 text-xs text-slate-600">
+            <Link href="/" className="transition-colors hover:text-sky-700">
+              Главная
+            </Link>
+            <span className="mx-1.5 text-slate-400">/</span>
+            <span className="font-semibold text-slate-700">{eyebrow}</span>
+          </nav>
+
           <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
             <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" />
             {eyebrow}

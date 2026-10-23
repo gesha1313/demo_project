@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { PT_Serif } from "next/font/google";
 import ScrollRestoration from "@/components/ScrollRestoration";
 import FloatingActions from "@/components/FloatingActions";
+import ScrollProgress from "@/components/ScrollProgress";
+import CookieBar from "@/components/CookieBar";
 import "./globals.css";
 
 const ptSerif = PT_Serif({
@@ -46,7 +48,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: SCROLL_RESTORE_SCRIPT }} />
         {children}
         <ScrollRestoration />
+        <ScrollProgress />
         <FloatingActions />
+        <CookieBar />
       </body>
     </html>
   );

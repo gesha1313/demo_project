@@ -66,9 +66,9 @@ export default function Services({ footer }: SectionProps) {
           description="Каждая услуга — с частотой посещений и ориентировочной стоимостью. Точный план и цену фиксируем в договоре после бесплатной консультации."
         />
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
           {services.map((service, index) => (
-            <Reveal key={service.title} delay={index * 120}>
+            <Reveal key={service.title} delay={index * 120} className={index < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
               <div className="glass group flex h-full flex-col rounded-xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <div
                   className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-12 w-12 items-center justify-center rounded-xl text-sky-700`}

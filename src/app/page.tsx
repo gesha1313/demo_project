@@ -13,6 +13,7 @@ import Pricing from "@/components/Pricing";
 import Faq from "@/components/Faq";
 import Contacts from "@/components/Contacts";
 import QuickForm from "@/components/QuickForm";
+import StickyNav from "@/components/StickyNav";
 import Guarantees from "@/components/Guarantees";
 import Footer from "@/components/Footer";
 
@@ -40,6 +41,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <QuickForm />
+        <StickyNav />
         <Trust />
         <About />
         <DailyLife />

@@ -16,7 +16,7 @@ export default function SupportChat({ myId }: { myId: number }) {
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const load = useCallback(async () => {
     try {
@@ -39,7 +39,16 @@ export default function SupportChat({ myId }: { myId: number }) {
   }, [load]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const list = listRef.current;
+    if (!list) return;
+    // Прокручиваем к новому сообщению только если пользователь и так
+    // был у низа ленты; скроллится сам контейнер, а не вся страница —
+    // иначе чтение истории постоянно сбрасывалось при опросе
+    const nearBottom =
+      list.scrollHeight - list.scrollTop - list.clientHeight < 120;
+    if (nearBottom) {
+      list.scrollTo({ top: list.scrollHeight });
+    }
   }, [messages.length]);
 
   const handleSend = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -87,7 +96,7 @@ export default function SupportChat({ myId }: { myId: number }) {
       </div>
 
       {/* Лента сообщений */}
-      <div className="flex-1 space-y-3 overflow-y-auto px-5 py-5">
+      <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-5 py-5">
         {messages.map((message) => {
           const mine = message.sender_id === myId;
           return (
@@ -118,7 +127,6 @@ export default function SupportChat({ myId }: { myId: number }) {
           </p>
         ) : null}
 
-        <div ref={bottomRef} />
       </div>
 
       {/* Поле ввода */}
