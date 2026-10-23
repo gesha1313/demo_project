@@ -67,8 +67,15 @@ export default function SupportChat({ myId }: { myId: number }) {
       });
 
       if (!response.ok) {
-        const data = (await response.json()) as { error?: string };
-        setError(data.error ?? "Не удалось отправить сообщение");
+        let message = "Не удалось отправить сообщение";
+        try {
+          const data = (await response.json()) as { error?: string };
+          if (data.error) message = data.error;
+        } catch {
+          /* сервер вернул не-JSON (например, страницу ошибки) —
+             показываем общий текст вместо «сервер недоступен» */
+        }
+        setError(message);
         return;
       }
 
