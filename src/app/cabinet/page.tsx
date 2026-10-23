@@ -111,7 +111,7 @@ export default async function CabinetPage({
 
   // Карточка статуса последней заявки — одна на обе композиции
   const statusCard = (
-    <div className="glass h-full rounded-[2rem] p-7 md:p-8">
+    <div className="glass h-full rounded-xl p-7 md:p-8">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-brand">
           {request ? "Последняя заявка" : "Заявки"}
@@ -129,7 +129,7 @@ export default async function CabinetPage({
 
       {request ? (
         <div className="mt-5 space-y-3 text-sm">
-          <div className="glass-strong rounded-2xl px-5 py-4">
+          <div className="glass-strong rounded-xl px-5 py-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-xs font-semibold uppercase tracking-wide text-sky-700">
                 Заявка №{request.id} · {request.created_at.slice(0, 10)}
@@ -199,7 +199,7 @@ export default async function CabinetPage({
 
   // Карточка последней заявки на сиделку — визуально отличается от пансионатных
   const caretakerCard = caretaker ? (
-    <div className="glass h-full rounded-[2rem] border-l-4 border-l-sky-400 p-7 md:p-8">
+    <div className="glass h-full rounded-xl border-l-4 border-l-sky-400 p-7 md:p-8">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-brand">Заявка на сиделку</h2>
         <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
@@ -208,7 +208,7 @@ export default async function CabinetPage({
       </div>
 
           <div className="mt-5 space-y-3 text-sm">
-            <div className="glass-strong rounded-2xl px-5 py-4">
+            <div className="glass-strong rounded-xl px-5 py-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-medium text-brand">{caretaker.ward_name}</span>
                 {caretaker.address ? (
@@ -252,7 +252,7 @@ export default async function CabinetPage({
       </div>
     </div>
   ) : (
-    <div className="glass flex h-full flex-col rounded-[2rem] p-7 md:p-8">
+    <div className="glass flex h-full flex-col rounded-xl p-7 md:p-8">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-brand">Услуга сиделки</h2>
         <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
@@ -275,7 +275,7 @@ export default async function CabinetPage({
   // Карточка горячей линии — широкая (внизу) или компактная (половина сетки)
   const supportCard = (compact: boolean) =>
     compact ? (
-      <div className="glass flex h-full flex-col rounded-[2rem] p-7 md:p-8">
+      <div className="glass flex h-full flex-col rounded-xl p-7 md:p-8">
         <h2 className="text-lg font-semibold text-brand">Горячая линия</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
           Есть вопрос о проживании, уходе или документах? Напишите в чат —
@@ -289,7 +289,7 @@ export default async function CabinetPage({
         </Link>
       </div>
     ) : (
-      <div className="glass flex h-full flex-col items-start gap-5 rounded-[2rem] p-7 md:flex-row md:items-center md:justify-between md:p-8">
+      <div className="glass flex h-full flex-col items-start gap-5 rounded-xl p-7 md:flex-row md:items-center md:justify-between md:p-8">
         <div>
           <h2 className="text-lg font-semibold text-brand">Горячая линия</h2>
           <p className="mt-1 max-w-lg text-sm leading-6 text-slate-600">
@@ -369,16 +369,24 @@ export default async function CabinetPage({
             /* Контакты сохранены: вместо формы — компактная полоска,
                заявки (пансионат и сиделка) встают рядом */
             <div className="mt-12 space-y-6">
-              <div className="glass animate-fade-up flex flex-col gap-4 rounded-[2rem] px-7 py-5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="glass animate-fade-up flex flex-col gap-4 rounded-xl px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                  <span className="icon-glow glass-strong flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sky-700">
-                    ✓
-                  </span>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)]">
+                    <svg
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
+                      strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true"
+                    >
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z" />
+                    </svg>
+                  </div>
                   <div>
-                    <div className="text-sm font-semibold text-brand">
-                      {user.fullName?.trim() ? `${user.fullName} · ${user.phone}` : user.phone}
+                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+                      {user.fullName?.trim() || "Ваш профиль"}
                     </div>
-                    <div className="text-sm text-slate-700">
+                    <div className="mt-0.5 block text-xl font-bold text-brand">
+                      {user.phone}
+                    </div>
+                    <div className="text-xs text-slate-600">
                       Контакты сохранены — перезвоним на этот номер
                     </div>
                   </div>
@@ -386,7 +394,7 @@ export default async function CabinetPage({
 
                 <Link
                   href="/cabinet?edit=1"
-                  className="w-fit shrink-0 text-sm font-semibold text-sky-700 transition-colors hover:text-sky-800"
+                  className="w-fit shrink-0 rounded-xl border-[1.5px] border-slate-400 bg-white/60 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-all duration-200 hover:border-sky-500 hover:text-sky-700"
                 >
                   Изменить данные
                 </Link>

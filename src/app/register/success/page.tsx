@@ -59,7 +59,7 @@ export default function RegisterSuccessPage() {
                 {steps.map((step, index) => (
                   <div
                     key={step.number}
-                    className="glass animate-fade-up rounded-2xl p-5"
+                    className="glass animate-fade-up rounded-xl p-5"
                     style={{ animationDelay: `${150 + index * 50}ms` }}
                   >
                     <div className="text-sm font-semibold text-sky-700">{step.number}</div>

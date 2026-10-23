@@ -3,15 +3,15 @@ import Reveal from "./Reveal";
 
 export default function CtaSection() {
   return (
-    <section className="relative overflow-hidden py-14 md:py-20">
+    <section className="relative overflow-hidden py-10 md:py-14">
       <div className="mx-auto max-w-5xl px-6">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#4a7ba6] via-[#3f6f9f] to-[#2f5578] px-6 py-10 text-center text-white shadow-2xl shadow-sky-900/30 md:rounded-[2.5rem] md:px-16 md:py-14">
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#4a7ba6] via-[#3f6f9f] to-[#2f5578] px-6 py-10 text-center text-white shadow-2xl shadow-sky-900/30 md:rounded-[2.5rem] md:px-16 md:py-14">
             {/* Световые пятна на тёмном стекле */}
             <div className="absolute -right-20 -top-20 h-64 w-64 animate-float rounded-full bg-sky-500/30 blur-3xl" />
             <div className="absolute -bottom-24 -left-16 h-64 w-64 animate-float-slow rounded-full bg-amber-400/25 blur-3xl" />
 
-            <div className="glass-dark relative mx-auto max-w-2xl rounded-[1.75rem] px-6 py-8 md:rounded-[2rem] md:px-8 md:py-12">
+            <div className="glass-dark relative mx-auto max-w-2xl rounded-xl px-6 py-8 md:rounded-xl md:px-8 md:py-12">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-200 md:text-sm">
                 Мы готовы поговорить
               </p>

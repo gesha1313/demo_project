@@ -15,7 +15,7 @@ export default function Trust() {
       <div className="relative mx-auto grid max-w-7xl gap-4 px-6 md:grid-cols-3">
         {items.map((item, index) => (
           <Reveal key={item.number} delay={index * 120}>
-            <div className="glass-dark h-full rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1">
+            <div className="glass-dark h-full rounded-xl p-7 transition-all duration-300 hover:-translate-y-1">
               <div className="text-3xl font-semibold text-sky-200">{item.number}</div>
               <h3 className="mt-3 font-semibold text-white">{item.title}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>

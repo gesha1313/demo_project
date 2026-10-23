@@ -28,7 +28,7 @@ const partsOfDay = [
 
 export default function DailyLife({ footer }: SectionProps) {
   return (
-    <section id="life" className="relative py-14 md:py-20">
+    <section id="life" className="relative py-10 md:py-14">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Как устроен наш день"
@@ -38,8 +38,8 @@ export default function DailyLife({ footer }: SectionProps) {
 
         {/* Большая фотография */}
         <Reveal className="mt-10" delay={150}>
-          <div className="glass-strong overflow-hidden rounded-[2rem] p-2 transition-shadow duration-300 hover:shadow-[0_18px_48px_rgba(13,36,74,0.15)]">
-            <div className="relative aspect-[16/7] overflow-hidden rounded-[1.7rem]">
+          <div className="glass-strong overflow-hidden rounded-xl p-2 transition-shadow duration-300 hover:shadow-[0_18px_48px_rgba(13,36,74,0.15)]">
+            <div className="relative aspect-[16/7] overflow-hidden rounded-xl">
               <Image
                 src="/photos/life.jpg"
                 alt="Чаепитие постояльцев за столом с красивыми чашками в солнечный день"
@@ -55,7 +55,7 @@ export default function DailyLife({ footer }: SectionProps) {
         <div className="mt-5 grid gap-5 md:grid-cols-3">
           {partsOfDay.map((part, index) => (
             <Reveal key={part.time} delay={index * 120}>
-              <div className="glass h-full rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+              <div className="glass h-full rounded-xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <span className="inline-block rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
                   {part.time}
                 </span>

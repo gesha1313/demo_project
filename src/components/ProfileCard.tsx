@@ -51,7 +51,7 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
   };
 
   return (
-    <div className="glass rounded-[2rem] p-7 md:p-8">
+    <div className="glass rounded-xl p-7 md:p-8">
       <h2 className="text-lg font-semibold text-brand">Контакты для связи</h2>
       <p className="mt-1 text-sm text-slate-700">
         Оставьте имя и телефон — сотрудник пансионата перезвонит вам.

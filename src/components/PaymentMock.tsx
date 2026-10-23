@@ -42,7 +42,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
 
   if (paid) {
     return (
-      <div className="glass-strong rounded-[2rem] p-8 text-center">
+      <div className="glass-strong rounded-xl p-8 text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-teal-600 text-2xl text-white shadow-lg">
           ✓
         </div>
@@ -61,7 +61,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
   }
 
   return (
-    <div className="glass-strong rounded-[2rem] p-7 md:p-8">
+    <div className="glass-strong rounded-xl p-7 md:p-8">
       <h2 className="text-xl font-semibold text-brand">Оплата</h2>
 
       <div className="mt-4 space-y-1.5">
@@ -74,7 +74,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
       </div>
 
       {perMonthPrice ? (
-        <div className="glass mt-5 flex items-center justify-between gap-4 rounded-2xl px-5 py-4">
+        <div className="glass mt-5 flex items-center justify-between gap-4 rounded-xl px-5 py-4">
           <div>
             <div className="text-xs uppercase tracking-wide text-slate-600">На сколько месяцев</div>
             <div className="text-sm text-slate-600">{perMonthPrice.toLocaleString("ru-RU")} ₽ / месяц</div>
@@ -94,7 +94,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
         </div>
       ) : null}
 
-      <div className="glass mt-5 flex items-center justify-between rounded-2xl px-5 py-4">
+      <div className="glass mt-5 flex items-center justify-between rounded-xl px-5 py-4">
         <span className="text-sm font-medium text-slate-600">Итого к оплате</span>
         <span className="text-2xl font-semibold text-brand">{total.toLocaleString("ru-RU")} ₽</span>
       </div>

@@ -5,7 +5,7 @@ import LeadForm from "./LeadForm";
 
 export default function Contacts() {
   return (
-    <section id="contacts" className="relative py-14 md:py-20">
+    <section id="contacts" className="relative py-10 md:py-14">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Контакты"
@@ -16,7 +16,7 @@ export default function Contacts() {
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           <Reveal>
             <div className="flex h-full flex-col gap-5">
-              <div className="glass rounded-3xl p-7">
+              <div className="glass rounded-xl p-7">
                 <div className="space-y-3 text-sm text-slate-600">
                   <p>
                     <span className="font-semibold text-brand">Адрес:</span> {site.address}
@@ -53,11 +53,11 @@ export default function Contacts() {
                 </div>
               </div>
 
-              <div className="glass flex-1 overflow-hidden rounded-3xl p-2">
+              <div className="glass flex-1 overflow-hidden rounded-xl p-2">
                 <iframe
                   title="Регион покрытия на карте"
                   src="https://www.openstreetmap.org/export/embed.html?bbox=37.35%2C55.58%2C37.85%2C55.92&layer=mapnik"
-                  className="h-64 w-full rounded-[1.3rem] border-0 md:h-full md:min-h-64"
+                  className="h-64 w-full rounded-lg border-0 md:h-full md:min-h-64"
                   loading="lazy"
                 />
               </div>

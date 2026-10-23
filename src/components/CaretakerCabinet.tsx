@@ -123,7 +123,7 @@ export default async function CaretakerCabinet({
           <div className="mt-12 space-y-5">
             {offers.length === 0 ? (
               <Reveal>
-                <div className="glass rounded-[2rem] p-8 text-center">
+                <div className="glass rounded-xl p-8 text-center">
                   <p className="text-slate-600">
                     Заявок пока нет. Как только клиент оформит заказ на сиделку,
                     он появится здесь.
@@ -134,7 +134,7 @@ export default async function CaretakerCabinet({
               offers.map((offer, index) => (
                 <Reveal key={offer.id} delay={Math.min(index * 80, 320)}>
                   <article
-                    className={`glass rounded-[1.75rem] p-6 md:p-7 ${
+                    className={`glass rounded-xl p-6 md:p-7 ${
                       offer.status === "accepted" ? "border-l-4 border-l-sky-400" : ""
                     }`}
                   >
@@ -213,7 +213,7 @@ export default async function CaretakerCabinet({
                     </div>
 
                     {offer.notes ? (
-                      <p className="glass-strong mt-4 rounded-2xl px-4 py-3 text-sm leading-6 text-slate-600">
+                      <p className="glass-strong mt-4 rounded-xl px-4 py-3 text-sm leading-6 text-slate-600">
                         {offer.notes}
                       </p>
                     ) : null}

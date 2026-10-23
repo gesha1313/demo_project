@@ -335,7 +335,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
               </div>
 
               {error ? (
-                <p className="glass rounded-2xl px-4 py-3 text-sm text-red-600" role="alert">
+                <p className="glass rounded-xl px-4 py-3 text-sm text-red-600" role="alert">
                   {error}
                 </p>
               ) : null}
@@ -403,7 +403,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
         {/* ===================== РЕЗУЛЬТАТ: СВОБОДНЫХ НЕТ ===================== */}
         {phase === "result" && result && !result.matched ? (
           <div className="flex flex-col items-center py-10 text-center">
-            <span className="icon-glow glass-strong flex h-16 w-16 items-center justify-center rounded-2xl text-sky-700">
+            <span className="icon-glow glass-strong flex h-16 w-16 items-center justify-center rounded-xl text-sky-700">
               <Icon name="clock" className="h-8 w-8" />
             </span>
 
@@ -441,7 +441,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
         {phase === "result" && result && result.matched ? (
           <div>
             <div className="flex items-start gap-4">
-              <span className="icon-glow glass-strong flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-2xl">
+              <span className="icon-glow glass-strong flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-2xl">
                 ✓
               </span>
               <div>
@@ -455,7 +455,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             </div>
 
             {/* Данные подобранной сиделки */}
-            <div className="glass mt-6 grid gap-4 rounded-[1.75rem] p-5 sm:grid-cols-2">
+            <div className="glass mt-6 grid gap-4 rounded-xl p-5 sm:grid-cols-2">
               <div>
                 <div className="text-xs uppercase tracking-wide text-slate-600">Сиделка</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
@@ -471,10 +471,10 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             </div>
 
             {/* Карта с меткой */}
-            <div className="glass mt-5 overflow-hidden rounded-[1.75rem] p-2">
+            <div className="glass mt-5 overflow-hidden rounded-xl p-2">
               <div
                 ref={mapNodeRef}
-                className="h-[280px] w-full overflow-hidden rounded-[1.4rem] bg-slate-200"
+                className="h-[280px] w-full overflow-hidden rounded-lg bg-slate-200"
               />
               <p className="px-3 py-2 text-center text-xs text-slate-700">
                 Красная метка — район, из которого выезжает сиделка

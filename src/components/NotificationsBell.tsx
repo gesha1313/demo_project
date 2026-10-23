@@ -126,7 +126,7 @@ export default function NotificationsBell() {
 
       {/* Панель уведомлений: непрозрачная; на мобильных — почти во всю ширину */}
       {open ? (
-        <div className="fixed left-3 right-3 top-20 z-50 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[24rem]">
+        <div className="fixed left-3 right-3 top-20 z-50 overflow-hidden rounded-xl border border-slate-200 bg-white p-2 shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[24rem]">
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-sm font-semibold text-brand">Уведомления</span>
             {unread > 0 ? (

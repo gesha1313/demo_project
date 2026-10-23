@@ -2,6 +2,22 @@
 
 import { useState } from "react";
 
+/** Маска: любые вводимые цифры превращаются в +7 (XXX) XXX-XX-XX */
+function formatPhone(value: string) {
+  const digits = value
+    .replace(/\D/g, "")
+    .replace(/^8/, "7")
+    .replace(/^[^7]/, "7$&")
+    .slice(0, 11);
+  const rest = digits.slice(1);
+  let out = "+7";
+  if (rest.length > 0) out += ` (${rest.slice(0, 3)}`;
+  if (rest.length >= 3) out += `) ${rest.slice(3, 6)}`;
+  if (rest.length >= 6) out += `-${rest.slice(6, 8)}`;
+  if (rest.length >= 8) out += `-${rest.slice(8, 10)}`;
+  return out;
+}
+
 type LeadFormProps = {
   /** Быстрая форма заявки или форма обратной связи в контактах */
   variant: "quick" | "contact";
@@ -12,10 +28,11 @@ type LeadFormProps = {
 export default function LeadForm({ variant }: LeadFormProps) {
   const [sent, setSent] = useState(false);
   const [homeVisit, setHomeVisit] = useState(false);
+  const [phone, setPhone] = useState("");
 
   if (sent) {
     return (
-      <div className="glass-strong rounded-3xl p-8 text-center">
+      <div className="glass-strong rounded-xl p-8 text-center">
         <p className="text-lg font-semibold text-brand">Заявка отправлена!</p>
         <p className="mt-2 text-sm text-slate-600">
           Мы перезвоним в течение 30 минут в рабочее время.
@@ -26,7 +43,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
 
   return (
     <form
-      className="glass-strong space-y-4 rounded-3xl p-7"
+      className="glass-strong space-y-4 rounded-xl p-7"
       onSubmit={(e) => {
         e.preventDefault();
         setSent(true);
@@ -44,8 +61,11 @@ export default function LeadForm({ variant }: LeadFormProps) {
         className="input-glass"
         name="phone"
         type="tel"
-        placeholder="Телефон"
+        placeholder="+7 (___) ___-__-__"
         autoComplete="tel"
+        inputMode="tel"
+        value={phone}
+        onChange={(e) => setPhone(formatPhone(e.target.value))}
       />
 
       {variant === "quick" ? (
@@ -81,7 +101,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
         </label>
       ) : null}
 
-      <button type="submit" className="btn-glass-primary w-full rounded-2xl px-6 py-3.5 text-sm font-semibold">
+      <button type="submit" className="btn-glass-primary w-full rounded-xl px-6 py-3.5 text-sm font-semibold">
         {variant === "quick" ? "Отправить заявку" : "Отправить сообщение"}
       </button>
 

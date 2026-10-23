@@ -28,7 +28,7 @@ const steps = [
 
 export default function HowToStart({ footer }: SectionProps) {
   return (
-    <section id="how" className="relative py-14 md:py-20">
+    <section id="how" className="relative py-10 md:py-14">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
@@ -51,7 +51,7 @@ export default function HowToStart({ footer }: SectionProps) {
           <div className="space-y-4">
             {steps.map((step, index) => (
               <Reveal key={step.number} delay={index * 120}>
-                <div className="glass flex gap-5 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+                <div className="glass flex gap-5 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                   <div
                     className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-sky-700`}
                   >

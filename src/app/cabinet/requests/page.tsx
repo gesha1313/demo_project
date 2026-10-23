@@ -154,7 +154,7 @@ export default async function CabinetRequestsPage() {
           {/* Список заявок */}
           <div className="mt-10 space-y-5">
             {all.length === 0 ? (
-              <div className="glass rounded-[2rem] p-8 text-center">
+              <div className="glass rounded-xl p-8 text-center">
                 <p className="text-slate-600">
                   Заявок пока нет. Оформите первую — в пансионат или на услугу сиделки.
                 </p>
@@ -177,7 +177,7 @@ export default async function CabinetRequestsPage() {
               all.map((request, index) => (
                 <Reveal key={`${request.kind}-${request.id}`} delay={Math.min(index * 80, 320)}>
                   {request.kind === "pansionat" ? (
-                    <article className="glass rounded-[1.75rem] p-6 md:p-7">
+                    <article className="glass rounded-xl p-6 md:p-7">
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
@@ -217,7 +217,7 @@ export default async function CabinetRequestsPage() {
                       </div>
 
                       {request.description ?? request.message ? (
-                        <p className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm leading-6 text-slate-600">
+                        <p className="glass-strong mt-4 rounded-xl px-5 py-4 text-sm leading-6 text-slate-600">
                           {request.description ?? request.message}
                         </p>
                       ) : null}
@@ -239,7 +239,7 @@ export default async function CabinetRequestsPage() {
                     </article>
                   ) : (
                     /* ===== Заявка на сиделку — визуально отличается ===== */
-                    <article className="glass rounded-[1.75rem] border-l-4 border-l-sky-400 p-6 md:p-7">
+                    <article className="glass rounded-xl border-l-4 border-l-sky-400 p-6 md:p-7">
                       <div className="flex items-start justify-between gap-3">
                        
 
@@ -279,7 +279,7 @@ export default async function CabinetRequestsPage() {
                       ) : null}
 
                       {request.caretaker_name ? (
-                        <div className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm">
+                        <div className="glass-strong mt-4 rounded-xl px-5 py-4 text-sm">
                           <span className="font-bold text-brand">
                             {request.status === "accepted" ? "Сиделка приняла заявку: " : "Предложена сиделке: "}
                           </span>
@@ -293,7 +293,7 @@ export default async function CabinetRequestsPage() {
 
                         </div>
                       ) : request.status === "new" ? (
-                        <p className="glass-strong mt-4 rounded-2xl px-5 py-4 text-sm leading-6 text-amber-700">
+                        <p className="glass-strong mt-4 rounded-xl px-5 py-4 text-sm leading-6 text-amber-700">
                           Сейчас все сиделки заняты — заявка в очереди.
                         </p>
                       ) : null}

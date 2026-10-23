@@ -233,7 +233,7 @@ export default function AdminDashboard({
       {tab === "requests" ? (
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {requests.length === 0 ? (
-            <p className="glass rounded-2xl px-6 py-8 text-sm text-slate-700">
+            <p className="glass rounded-xl px-6 py-8 text-sm text-slate-700">
               {role === "admin"
                 ? "Заявок пока нет."
                 : "У вас пока нет назначенных заявок — распределение выполняет администратор."}
@@ -241,7 +241,7 @@ export default function AdminDashboard({
           ) : null}
 
           {requests.map((request) => (
-            <div key={request.id} className="glass rounded-[1.75rem] p-6">
+            <div key={request.id} className="glass rounded-xl p-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-sm font-semibold text-brand">
@@ -293,7 +293,7 @@ export default function AdminDashboard({
                 ) : null}
 
                 {(request.description ?? request.message) ? (
-                  <p className="glass-strong mt-2 rounded-2xl px-4 py-3 leading-6">
+                  <p className="glass-strong mt-2 rounded-xl px-4 py-3 leading-6">
                     {request.description ?? request.message}
                   </p>
                 ) : null}
@@ -367,7 +367,7 @@ export default function AdminDashboard({
 
               {/* Форма удаления с обязательной причиной */}
               {deletingRowId === request.id ? (
-                <div className="glass-strong mt-4 rounded-2xl p-4">
+                <div className="glass-strong mt-4 rounded-xl p-4">
                   <label
                     htmlFor={`delete-reason-${request.id}`}
                     className="block text-sm font-medium text-brand"
@@ -422,7 +422,7 @@ export default function AdminDashboard({
 
       {/* === ПОЛЬЗОВАТЕЛИ === */}
       {tab === "users" && role === "admin" ? (
-        <div className="glass mt-8 overflow-x-auto rounded-[1.75rem]">
+        <div className="glass mt-8 overflow-x-auto rounded-xl">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
               <tr className="border-b border-white/60 text-xs uppercase tracking-wide text-slate-600">
@@ -549,7 +549,7 @@ function AdminChat({
   return (
     <div className="mt-8 grid gap-5 lg:grid-cols-[340px_1fr]">
       {/* Список диалогов */}
-      <div className="glass max-h-[70vh] space-y-2 overflow-y-auto rounded-[1.75rem] p-4">
+      <div className="glass max-h-[70vh] space-y-2 overflow-y-auto rounded-xl p-4">
         {conversations.length === 0 ? (
           <p className="px-3 py-6 text-sm text-slate-600">Обращений в чат пока нет</p>
         ) : null}
@@ -559,7 +559,7 @@ function AdminChat({
             key={conversation.id}
             type="button"
             onClick={() => onSelect(conversation.id)}
-            className={`w-full rounded-2xl px-4 py-3 text-left transition-all duration-200 ${
+            className={`w-full rounded-xl px-4 py-3 text-left transition-all duration-200 ${
               activeId === conversation.id
                 ? "glass-strong shadow-md"
                 : "hover:bg-white/50"
@@ -581,7 +581,7 @@ function AdminChat({
       </div>
 
       {/* Переписка */}
-      <div className="glass flex h-[70vh] min-h-[420px] flex-col overflow-hidden rounded-[1.75rem]">
+      <div className="glass flex h-[70vh] min-h-[420px] flex-col overflow-hidden rounded-xl">
         {activeId === null ? (
           <div className="flex flex-1 items-center justify-center px-6 text-center text-sm text-slate-600">
             Выберите диалог слева, чтобы ответить клиенту
@@ -594,7 +594,7 @@ function AdminChat({
                 return (
                   <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                     <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-6 ${
+                      className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm leading-6 ${
                         mine
                           ? "bg-sky-700 text-white shadow-md shadow-sky-700/20"
                           : "glass-strong text-slate-700"

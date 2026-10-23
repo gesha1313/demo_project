@@ -3,16 +3,9 @@ import Image from "next/image";
 
 const advantages = ["Проверенные сиделки", "Медсёстры с сертификатами", "Уход на дому 24/7"];
 
-const chain = [
-  { href: "/caretaker", label: "Услуга сиделки" },
-  { href: "#services", label: "Услуги и цены" },
-  { href: "/about", label: "О пансионате" },
-  { href: "#faq", label: "Частые вопросы" },
-];
-
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden py-14 md:py-20">
+    <section id="top" className="relative overflow-hidden py-10 md:py-14">
       {/* Декоративные световые пятна */}
       <div className="absolute -right-32 -top-32 h-96 w-96 animate-float rounded-full bg-sky-300/35 blur-3xl" />
       <div className="absolute -left-24 bottom-0 h-80 w-80 animate-float-slow rounded-full bg-amber-200/45 blur-3xl" />
@@ -35,6 +28,20 @@ export default function Hero() {
             Если человеку комфортнее в пансионате — подберём и это.
           </p>
 
+          {/* Цифры доверия */}
+          <div className="mt-6 flex flex-wrap gap-x-10 gap-y-3">
+            {[
+              ["8 лет", "ухода за близкими"],
+              ["400+", "семей доверились"],
+              ["30", "специалистов в штате"],
+            ].map(([num, label]) => (
+              <div key={label}>
+                <div className="text-2xl font-bold text-brand">{num}</div>
+                <div className="text-xs text-slate-600">{label}</div>
+              </div>
+            ))}
+          </div>
+
           {/* Кнопки */}
           <div className="mt-8 flex animate-fade-up flex-col gap-4 [animation-delay:150ms] sm:flex-row">
             <Link
@@ -52,24 +59,6 @@ export default function Hero() {
             </Link>
           </div>
 
-          {/* Цепочка знакомства с сайтом */}
-          <div className="mt-8 animate-fade-up [animation-delay:200ms]">
-            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
-              Знакомство с сервисом ухода
-            </div>
-            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-              {chain.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="text-sm font-semibold text-slate-600 transition-all duration-200 hover:translate-x-0.5 hover:text-sky-700"
-                >
-                  {item.label} →
-                </Link>
-              ))}
-            </div>
-          </div>
-
           {/* Преимущества */}
           <div className="mt-8 flex animate-fade-up flex-wrap gap-3 [animation-delay:250ms]">
             {advantages.map((item) => (
@@ -85,10 +74,10 @@ export default function Hero() {
 
         {/* Фото */}
         <div className="relative mt-2 animate-fade-up [animation-delay:250ms] md:mt-0">
-          <div className="absolute -inset-6 hidden animate-float-slow rounded-[3rem] bg-gradient-to-br from-sky-300/40 to-amber-300/40 blur-2xl md:block" />
+          <div className="absolute -inset-6 hidden animate-float-slow rounded-2xl bg-gradient-to-br from-sky-300/40 to-amber-300/40 blur-2xl md:block" />
 
-          <div className="glass relative overflow-hidden rounded-[1.5rem] md:glass-strong md:rounded-[2rem] md:p-2">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4rem] md:rounded-[1.7rem]">
+          <div className="glass relative overflow-hidden rounded-xl md:glass-strong md:rounded-xl md:p-2">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg md:rounded-xl">
               <Image
                 src="/photos/hero.jpg"
                 alt="Сиделка тепло обнимает улыбающуюся пожилую женщину в инвалидном кресле"
@@ -107,7 +96,7 @@ export default function Hero() {
           </p>
 
           {/* Информационная карточка */}
-          <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 rounded-2xl p-5 md:block">
+          <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 rounded-xl p-5 md:block">
             <div className="text-sm font-semibold text-brand">Забота начинается с доверия</div>
             <p className="mt-2 text-sm leading-6 text-slate-700">
               Подбираем сиделку под характер и привычки человека. Не подошло —

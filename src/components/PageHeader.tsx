@@ -10,7 +10,7 @@ type PageHeaderProps = {
 
 export default function PageHeader({ eyebrow, title, description, links }: PageHeaderProps) {
   return (
-    <section className="relative overflow-hidden py-12 md:py-16">
+    <section className="relative overflow-hidden py-8 md:py-12">
       <div className="absolute -right-32 -top-24 h-80 w-80 animate-float rounded-full bg-sky-300/30 blur-3xl" />
       <div className="absolute -left-24 bottom-0 h-72 w-72 animate-float-slow rounded-full bg-amber-200/40 blur-3xl" />
 

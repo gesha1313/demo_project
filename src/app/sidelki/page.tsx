@@ -47,7 +47,7 @@ export default function SidelkiPage() {
           description="Проверенные специалисты с опытом и медицинской подготовкой. Подбираем под характер и привычки человека — если не подошло, заменим бесплатно в течение суток."
         />
 
-        <section className="section-band py-14 md:py-20">
+        <section className="section-band py-10 md:py-14">
           <div className="mx-auto max-w-7xl px-6">
             <SectionHeading
               eyebrow="Тарифы"
@@ -57,7 +57,12 @@ export default function SidelkiPage() {
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               {tariffs.map((t, i) => (
                 <Reveal key={t.title} delay={i * 100}>
-                  <div className="glass flex h-full flex-col rounded-3xl p-7 transition-transform duration-300 hover:-translate-y-1">
+                  <div className="glass relative flex h-full flex-col rounded-xl p-7 transition-transform duration-300 hover:-translate-y-1">
+                    {t.title.includes("12") ? (
+                      <span className="absolute -top-3 right-5 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white shadow-md">
+                        Популярный
+                      </span>
+                    ) : null}
                     <span className="glass-strong w-fit rounded-full px-3 py-1 text-xs font-semibold text-sky-700">
                       {t.time}
                     </span>

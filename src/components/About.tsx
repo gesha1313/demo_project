@@ -16,12 +16,12 @@ const points = [
 
 export default function About({ footer }: SectionProps) {
   return (
-    <section id="about" className="relative py-14 md:py-20">
+    <section id="about" className="relative py-10 md:py-14">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
-            <div className="glass-strong overflow-hidden rounded-[2rem] p-2">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[1.7rem]">
+            <div className="glass-strong overflow-hidden rounded-xl p-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
                 <Image
                   src="/photos/about.jpg"
                   alt="Сиделка бережно поддерживает пожилую женщину под руку при прогулке"

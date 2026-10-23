@@ -98,7 +98,7 @@ export default function LoginForm({ nextPath = null }: { nextPath?: string | nul
           </div>
 
           {error ? (
-            <p className="glass rounded-2xl px-4 py-3 text-sm text-red-600" role="alert">
+            <p className="glass rounded-xl px-4 py-3 text-sm text-red-600" role="alert">
               {error}
             </p>
           ) : null}

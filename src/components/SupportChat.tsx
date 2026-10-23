@@ -73,7 +73,7 @@ export default function SupportChat({ myId }: { myId: number }) {
   };
 
   return (
-    <div className="glass flex h-[70vh] min-h-[480px] flex-col overflow-hidden rounded-[2rem]">
+    <div className="glass flex h-[70vh] min-h-[480px] flex-col overflow-hidden rounded-xl">
       {/* Шапка чата */}
       <div className="glass-strong flex items-center gap-3 border-b border-white/60 px-6 py-4">
         <span className="relative flex h-3 w-3">
@@ -93,7 +93,7 @@ export default function SupportChat({ myId }: { myId: number }) {
           return (
             <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-6 ${
+                className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm leading-6 ${
                   mine
                     ? "bg-sky-700 text-white shadow-md shadow-sky-700/20"
                     : "glass-strong text-slate-700"

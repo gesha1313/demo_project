@@ -215,7 +215,7 @@ export default async function RequestDetailPage({
           </div>
 
           {/* Основная информация */}
-          <div className="glass-strong animate-fade-up mt-8 rounded-[2rem] p-7 md:p-8 [animation-delay:100ms]">
+          <div className="glass-strong animate-fade-up mt-8 rounded-xl p-7 md:p-8 [animation-delay:100ms]">
             <div className="grid gap-6 sm:grid-cols-2">
               {/* Подопечный */}
               <div>
@@ -303,7 +303,7 @@ export default async function RequestDetailPage({
                 ? (
                     <div className="mt-6">
                       <div className="text-xs uppercase tracking-wide text-slate-600">Пожелания</div>
-                      <p className="glass mt-2 rounded-2xl px-5 py-4 leading-7 text-slate-600">
+                      <p className="glass mt-2 rounded-xl px-5 py-4 leading-7 text-slate-600">
                         {request.notes}
                       </p>
                     </div>
@@ -315,7 +315,7 @@ export default async function RequestDetailPage({
                       <div className="text-xs uppercase tracking-wide text-slate-600">
                         Описание ситуации
                       </div>
-                      <p className="glass mt-2 rounded-2xl px-5 py-4 leading-7 text-slate-600">
+                      <p className="glass mt-2 rounded-xl px-5 py-4 leading-7 text-slate-600">
                         {request.description ?? request.message}
                       </p>
                     </div>
@@ -325,7 +325,7 @@ export default async function RequestDetailPage({
             {/* Сиделка / сотрудник */}
             {request.kind === "caretaker" ? (
               request.caretaker_name ? (
-                <div className="glass mt-6 rounded-2xl px-5 py-4">
+                <div className="glass mt-6 rounded-xl px-5 py-4">
                   <div className="text-xs uppercase tracking-wide text-slate-600">Сиделка</div>
                   <div className="mt-1">
                     <span className="text-lg font-semibold text-brand">{request.caretaker_name}</span>
@@ -342,12 +342,12 @@ export default async function RequestDetailPage({
                   </div>
                 </div>
               ) : request.status === "new" ? (
-                <p className="glass mt-6 rounded-2xl px-5 py-4 text-sm leading-6 text-amber-700">
+                <p className="glass mt-6 rounded-xl px-5 py-4 text-sm leading-6 text-amber-700">
                   Сейчас все сиделки заняты — заявка в очереди.
                 </p>
               ) : null
             ) : request.employee_email ? (
-              <div className="glass mt-6 rounded-2xl px-5 py-4 text-sm">
+              <div className="glass mt-6 rounded-xl px-5 py-4 text-sm">
                 <span className="text-slate-700">Заявку ведёт: </span>
                 <span className="font-semibold text-brand">{request.employee_email}</span>
               </div>
@@ -360,7 +360,7 @@ export default async function RequestDetailPage({
             {request.kind === "caretaker" &&
             isOwner &&
             (request.status === "new" || request.status === "declined") ? (
-              <div className="glass rounded-[2rem] p-6">
+              <div className="glass rounded-xl p-6">
                 <div className="text-sm font-semibold text-brand">Передумали?</div>
                 <p className="mt-1 text-sm leading-6 text-slate-700">
                   Заявка ещё не активна — её можно отменить.
@@ -380,7 +380,7 @@ export default async function RequestDetailPage({
             {request.kind === "caretaker" &&
             isOwner &&
             (request.status === "offered" || request.status === "accepted") ? (
-              <div className="glass rounded-[2rem] p-6">
+              <div className="glass rounded-xl p-6">
                 <div className="text-sm font-semibold text-brand">
                   Не подходит сиделка или поменялись планы?
                 </div>

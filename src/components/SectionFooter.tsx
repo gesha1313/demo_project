@@ -17,7 +17,7 @@ export default function SectionFooter({ href, next, hint }: SectionFooterProps) 
     <Reveal className="mt-12">
       <Link
         href={href}
-        className="group glass flex items-center justify-between gap-5 rounded-2xl px-6 py-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(13,36,74,0.14)]"
+        className="group glass flex items-center justify-between gap-5 rounded-xl px-6 py-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(13,36,74,0.14)]"
       >
         <div>
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">

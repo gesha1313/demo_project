@@ -194,7 +194,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                     type="button"
                     onClick={() => setPlanId(plan.id)}
                     aria-pressed={selected}
-                    className={`relative w-full rounded-[1.75rem] border-2 p-5 text-left transition-all duration-300 md:p-6 ${
+                    className={`relative w-full rounded-xl border-2 p-5 text-left transition-all duration-300 md:p-6 ${
                       selected
                         ? "glass-strong border-sky-600 shadow-[0_16px_44px_rgba(37,99,235,0.22)] ring-4 ring-sky-500/25"
                         : "glass border-transparent hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
@@ -248,7 +248,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
             </div>
 
             {error ? (
-              <p className="glass mt-5 rounded-2xl px-4 py-3 text-sm text-red-600" role="alert">
+              <p className="glass mt-5 rounded-xl px-4 py-3 text-sm text-red-600" role="alert">
                 {error}
               </p>
             ) : null}

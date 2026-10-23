@@ -4,7 +4,7 @@ import LeadForm from "./LeadForm";
 
 export default function QuickForm() {
   return (
-    <section id="request" className="section-band relative py-14 md:py-20">
+    <section id="request" className="section-band relative py-10 md:py-14">
       <div className="mx-auto max-w-3xl px-6">
         <SectionHeading
           eyebrow="Быстрая заявка"

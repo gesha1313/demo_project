@@ -42,7 +42,7 @@ export default function Faq({ footer }: SectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="relative py-14 md:py-20">
+    <section id="faq" className="relative py-10 md:py-14">
       <div className="mx-auto max-w-4xl px-6">
         <SectionHeading eyebrow="FAQ" title="Частые вопросы" align="center" />
 
@@ -53,7 +53,7 @@ export default function Faq({ footer }: SectionProps) {
             return (
               <Reveal key={faq.question} delay={index * 80}>
                 <div
-                  className={`rounded-2xl p-6 transition-all duration-300 ${
+                  className={`rounded-xl p-6 transition-all duration-300 ${
                     isOpen
                       ? "glass-strong shadow-[0_16px_40px_rgba(11,42,91,0.12)]"
                       : "glass hover:shadow-[0_10px_28px_rgba(11,42,91,0.08)]"

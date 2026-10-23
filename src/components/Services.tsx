@@ -12,42 +12,42 @@ type SectionProps = {
 const services = [
   {
     title: "Патронаж",
-    text: "Посещение на дому, мониторинг состояния, контроль приёма лекарств.",
+    text: "Визиты домой, контроль состояния и лекарств.",
     icon: "person" as const,
     freq: "от 1 раза в неделю",
     price: "от 1 500 ₽/визит",
   },
   {
     title: "Домашний уход",
-    text: "Гигиена, кормление, помощь в передвижении и бытовые дела рядом с человеком.",
+    text: "Гигиена, кормление, помощь в быту.",
     icon: "home" as const,
     freq: "ежедневно или почасово",
     price: "от 2 500 ₽/день",
   },
   {
     title: "Медицинские процедуры на дому",
-    text: "Инъекции, перевязки, измерение давления — выполняет медицинская сестра.",
+    text: "Инъекции, перевязки, контроль давления.",
     icon: "heart" as const,
     freq: "по назначению врача",
     price: "от 900 ₽/процедура",
   },
   {
     title: "Сопровождение к врачам",
-    text: "Транспортировка и сопровождение на приёмы, помощь в поликлинике.",
+    text: "Доставка до врача, помощь на приёме.",
     icon: "calendar" as const,
     freq: "по записи",
     price: "от 2 000 ₽/выезд",
   },
   {
     title: "Социальная адаптация",
-    text: "Общение, прогулки, занятия и эмоциональная поддержка для комфортной жизни.",
+    text: "Общение, прогулки, поддержка.",
     icon: "chat" as const,
     freq: "2–3 раза в неделю",
     price: "от 1 200 ₽/визит",
   },
   {
     title: "Сменный уход",
-    text: "Круглосуточное наблюдение посменно, когда семья не может быть рядом.",
+    text: "Круглосуточное наблюдение посменно.",
     icon: "clock" as const,
     freq: "24/7 посменно",
     price: "от 6 500 ₽/сутки",
@@ -56,7 +56,7 @@ const services = [
 
 export default function Services({ footer }: SectionProps) {
   return (
-    <section id="services" className="section-band relative overflow-hidden py-14 md:py-20">
+    <section id="services" className="section-band relative overflow-hidden py-10 md:py-14">
       <div className="absolute -left-32 top-24 h-80 w-80 animate-float-slow rounded-full bg-sky-200/40 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6">
@@ -69,9 +69,9 @@ export default function Services({ footer }: SectionProps) {
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <Reveal key={service.title} delay={index * 120}>
-              <div className="glass group flex h-full flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+              <div className="glass group flex h-full flex-col rounded-xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <div
-                  className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-12 w-12 items-center justify-center rounded-2xl text-sky-700`}
+                  className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-12 w-12 items-center justify-center rounded-xl text-sky-700`}
                 >
                   <Icon name={service.icon} className="h-6 w-6" />
                 </div>

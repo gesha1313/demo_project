@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { PT_Serif } from "next/font/google";
 import ScrollRestoration from "@/components/ScrollRestoration";
+import FloatingActions from "@/components/FloatingActions";
 import "./globals.css";
 
 const ptSerif = PT_Serif({
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: SCROLL_RESTORE_SCRIPT }} />
         {children}
         <ScrollRestoration />
+        <FloatingActions />
       </body>
     </html>
   );
