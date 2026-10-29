@@ -17,7 +17,7 @@ export default function Contacts() {
           <Reveal>
             <div className="flex h-full flex-col gap-5">
               <div className="glass rounded-lg p-6">
-                <div className="space-y-3 text-sm text-slate-600">
+                <div className="space-y-3 text-base text-slate-600">
                   <p>
                     <span className="font-semibold text-brand">Адрес:</span> {site.address}
                   </p>

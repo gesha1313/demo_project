@@ -29,7 +29,7 @@ export default function SectionFooter({ href, next, hint }: SectionFooterProps) 
         </div>
 
         {hint ? (
-          <p className="hidden max-w-xs text-sm leading-6 text-slate-700 lg:block">{hint}</p>
+          <p className="hidden max-w-xs text-base leading-7 text-slate-700 lg:block">{hint}</p>
         ) : null}
 
         <span

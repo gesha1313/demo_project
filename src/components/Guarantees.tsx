@@ -31,7 +31,7 @@ export default function Guarantees() {
             <Reveal key={item.title} delay={index * 100}>
               <div className="glass h-full rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <h3 className="text-lg font-semibold text-brand">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
+                <p className="mt-3 text-base leading-7 text-slate-600">{item.text}</p>
               </div>
             </Reveal>
           ))}
@@ -48,7 +48,7 @@ export default function Guarantees() {
             >
               Договор оферты (PDF)
             </a>
-            <a href="#" className="text-brand hover:underline">
+            <a href="/privacy" className="text-brand hover:underline">
               Политика конфиденциальности (PDF)
             </a>
           </div>

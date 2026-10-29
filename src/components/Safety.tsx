@@ -10,20 +10,20 @@ type SectionProps = {
 
 const items = [
   {
-    title: "Медицинское сопровождение",
-    text: "Состояние постояльцев под контролем медперсонала — ежедневно.",
+    title: "Гигиена и чистота",
+    text: "Обработка помещений по графику, индивидуальная гигиена.",
   },
   {
-    title: "Гигиенические процедуры",
-    text: "Индивидуальная гигиена и помощь в самообслуживании.",
+    title: "Медицинские протоколы",
+    text: "Процедуры — по протоколам и назначению врача.",
   },
   {
-    title: "Здоровое питание",
-    text: "Меню — согласно рекомендациям Роспотребнадзора, победителя национального проекта «Здоровое питание».",
+    title: "Вакцинация персонала",
+    text: "Ежегодная вакцинация и медосмотры, медкнижки у всех.",
   },
   {
-    title: "Уборка и смена белья",
-    text: "Помещения и номера содержатся в чистоте, бельё меняем регулярно.",
+    title: "Контроль медикаментов",
+    text: "Лекарства — под контролем медсестры, по расписанию.",
   },
 ];
 
@@ -43,7 +43,7 @@ export default function Safety({ footer }: SectionProps) {
             <Reveal key={item.title} delay={index * 120}>
               <div className="glass h-full rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <h3 className="text-lg font-semibold text-brand">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
+                <p className="mt-3 text-base leading-7 text-slate-600">{item.text}</p>
               </div>
             </Reveal>
           ))}

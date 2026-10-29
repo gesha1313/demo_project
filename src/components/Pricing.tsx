@@ -51,7 +51,7 @@ export default function Pricing({ footer }: SectionProps) {
               <div
                 className={`relative h-full rounded-lg p-6 transition-all duration-300 ${
                   index === 1
-                    ? "glass-strong border-2 border-brand shadow-[0_10px_30px -12px_rgba(47,85,120,0.35)]"
+                    ? "glass-strong border-2 border-brand shadow-[0_10px_30px -12px_rgba(59,84,68,0.35)]"
                     : "glass"
                 }`}
               >
@@ -68,7 +68,7 @@ export default function Pricing({ footer }: SectionProps) {
                   {category.price}
                   <span className="ml-1 text-sm font-medium text-slate-600">{category.unit}</span>
                 </div>
-                <ul className="mt-4 space-y-2 text-sm text-slate-700">
+                <ul className="mt-4 space-y-2 text-base text-slate-700">
                   {category.features.map((feature) => (
                     <li key={feature} className="flex gap-2">
                       <span className="mt-0.5 text-brand">✓</span>

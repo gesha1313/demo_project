@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* Фирменные цвета сайта: синяя шкала brand (фон → текст) */
-  --color-brand: #3f6996;
-  --color-brand-dark: #2f5578;
-  --color-brand-50: #eff4f9;
-  --color-brand-100: #dfe9f3;
-  --color-brand-200: #c3d6e8;
-  --color-brand-300: #9cb9d4;
-  --color-brand-400: #6e94bc;
-  --color-surface: #f6f4ec;
+  /* Фирменные цвета сайта: спокойная зелёно-бежево-коричневая гамма (ТЗ).
+     Тёмно-зелёный brand — «терапевтический» основной, бежевый фон — тепло,
+     терракотовая кнопка (.btn-glass-primary) — тёплый коричневый акцент CTA */
+  --color-brand: #3e6b4f;
+  --color-brand-dark: #2f5440;
+  --color-brand-50: #eff4ef;
+  --color-brand-100: #dfeae1;
+  --color-brand-200: #c2d8c8;
+  --color-brand-300: #9dbfa9;
+  --color-brand-400: #6fa185;
+  --color-surface: #f7f2e9;
 
   /* Появление при скролле: только прозрачность, быстро и незаметно */
   --animate-fade-up: fade-up 0.3s ease-out both;
@@ -142,13 +144,13 @@ body {
 
 .glass {
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(47, 85, 120, 0.16);
+  border: 1px solid rgba(59, 84, 68, 0.16);
   box-shadow: 0 1px 2px rgba(44, 62, 80, 0.05);
 }
 
 .glass-strong {
   background: rgba(255, 255, 255, 0.98);
-  border: 1px solid rgba(47, 85, 120, 0.18);
+  border: 1px solid rgba(59, 84, 68, 0.18);
   box-shadow: 0 1px 3px rgba(44, 62, 80, 0.08);
 }
 
@@ -192,14 +194,14 @@ body {
 .btn-glass-ghost {
   color: var(--color-brand-dark);
   background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(63, 105, 150, 0.35);
+  border: 1px solid rgba(62, 107, 79, 0.35);
   box-shadow: 0 1px 2px rgba(44, 62, 80, 0.06);
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-glass-ghost:hover {
   background: #ffffff;
-  border-color: rgba(63, 105, 150, 0.55);
+  border-color: rgba(62, 107, 79, 0.55);
   box-shadow: 0 1px 3px rgba(44, 62, 80, 0.1);
 }
 
@@ -208,7 +210,7 @@ body {
   width: 100%;
   border-radius: 0.625rem;
   background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(47, 85, 120, 0.22);
+  border: 1px solid rgba(59, 84, 68, 0.22);
   padding: 0.875rem 1.125rem;
   color: #2f5578;
   outline: none;
@@ -221,8 +223,8 @@ body {
 
 .input-glass:focus {
   background: #ffffff;
-  border-color: rgba(63, 105, 150, 0.55);
-  box-shadow: 0 0 0 4px rgba(63, 105, 150, 0.15);
+  border-color: rgba(62, 107, 79, 0.55);
+  box-shadow: 0 0 0 4px rgba(62, 107, 79, 0.15);
 }
 
 /* Ореолы за иконками убраны — упрощённый спокойный дизайн */
@@ -264,13 +266,13 @@ body {
 .section-band {
   background: rgba(255, 255, 255, 0.75);
   border-top: 1px solid rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid rgba(120, 140, 165, 0.28);
+  border-bottom: 1px solid rgba(108, 130, 112, 0.3);
   box-shadow: inset 0 12px 28px -20px rgba(44, 62, 80, 0.14);
 }
 
 /* Тёмная полоса: однотонный фирменный тёмно-синий */
 .section-dark {
-  background: #2f5578;
+  background: #2f5440;
   color: #ffffff;
 }
 

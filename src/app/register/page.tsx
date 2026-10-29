@@ -45,7 +45,7 @@ export default async function RegisterPage({
           {/* Текстовый блок */}
           <div className="animate-fade-up">
             <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(63,105,150,0.9)]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(62,107,79,0.9)]" />
               Регистрация
             </span>
 

@@ -62,7 +62,7 @@ export default function HowToStart({ footer }: SectionProps) {
             {/* Документы для заселения */}
             <div className="glass mt-7 rounded-lg p-6">
               <h3 className="font-semibold text-brand">Какие нужны документы</h3>
-              <ul className="mt-3 space-y-2 text-sm text-slate-700">
+              <ul className="mt-3 space-y-2 text-base text-slate-700">
                 {documents.map((doc) => (
                   <li key={doc} className="flex gap-2">
                     <span className="mt-0.5 text-brand">✓</span>
@@ -85,7 +85,7 @@ export default function HowToStart({ footer }: SectionProps) {
 
                   <div>
                     <h3 className="font-semibold text-brand">{step.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-700">{step.text}</p>
+                    <p className="mt-1 text-base leading-7 text-slate-700">{step.text}</p>
                   </div>
                 </div>
               </Reveal>

@@ -182,7 +182,7 @@ export default async function CabinetPage({
         </div>
       ) : (
         <div className="glass mt-5 flex flex-col items-center gap-3 rounded-lg px-7 py-10 text-center sm:flex-row sm:text-left">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)]">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-[0_6px_16px_rgba(62,107,79,0.35)]">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
               strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6" aria-hidden="true">
               <path d="M12 5v14M5 12h14" />
@@ -380,7 +380,7 @@ export default async function CabinetPage({
             <div className="mt-12 space-y-6">
               <div className="glass animate-fade-up flex flex-col gap-4 rounded-lg px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)]">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-[0_6px_16px_rgba(62,107,79,0.35)]">
                     <svg
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
                       strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true"

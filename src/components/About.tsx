@@ -41,7 +41,7 @@ export default function About({ footer }: SectionProps) {
             />
 
             <p className="mt-5 border-l-4 border-brand/50 pl-4 text-lg italic leading-8 text-slate-700">
-              Комфорт, забота и внимание — каждый день, а не по расписанию.
+              Чуткость, эмпатия и понимание — основа нашей работы.
             </p>
 
             <div className="mt-6 space-y-3">

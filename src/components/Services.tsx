@@ -77,7 +77,7 @@ export default function Services({ footer }: SectionProps) {
                 </div>
 
                 <h3 className="mt-6 text-lg font-semibold text-brand">{service.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{service.text}</p>
+                <p className="mt-3 text-base leading-7 text-slate-600">{service.text}</p>
 
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
                   <span className="glass-strong rounded-lg px-3 py-1 font-semibold text-brand">

@@ -14,7 +14,7 @@ export default function Hero() {
         {/* Текст */}
         <div>
           <div className="mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full glass px-4 py-2 text-sm font-medium text-brand">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(63,105,150,0.9)]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(62,107,79,0.9)]" />
             Пансионат для пожилых в Нижнем Новгороде
           </div>
 
@@ -91,14 +91,14 @@ export default function Hero() {
 
           {/* Подпись под фото (на десктопе отступ больше — обходим карточку) */}
           <p className="mt-3 flex items-center justify-center gap-2 text-xs font-medium text-slate-700 md:mt-10 md:justify-start">
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand shadow-[0_0_8px_rgba(63,105,150,0.9)]" />
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand shadow-[0_0_8px_rgba(62,107,79,0.9)]" />
             ул. 3-я Озёрная, 2 — Сормовский район
           </p>
 
           {/* Информационная карточка */}
           <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 rounded-lg p-6 md:block">
             <div className="text-sm font-semibold text-brand">Акция: 900 ₽ в сутки</div>
-            <p className="mt-2 text-sm leading-6 text-slate-700">
+            <p className="mt-2 text-base leading-7 text-slate-700">
               Действует для всех категорий проживания. Приезжайте на
               экскурсию — покажем и расскажем всё сами.
             </p>

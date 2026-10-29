@@ -196,7 +196,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                     aria-pressed={selected}
                     className={`relative w-full rounded-lg border-2 p-5 text-left transition-all duration-300 md:p-6 ${
                       selected
-                        ? "glass-strong border-brand shadow-[0_16px_44px_rgba(63,105,150,0.22)] ring-4 ring-brand/25"
+                        ? "glass-strong border-brand shadow-[0_16px_44px_rgba(62,107,79,0.22)] ring-4 ring-brand/25"
                         : "glass border-transparent hover:border-brand-200 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
                     }`}
                   >

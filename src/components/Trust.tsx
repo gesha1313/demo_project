@@ -30,7 +30,7 @@ export default function Trust() {
             <div className="glass-dark h-full rounded-lg p-6 transition-all duration-300">
               <div className="text-2xl font-semibold text-white/80">{item.number}</div>
               <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+              <p className="mt-2 text-base leading-7 text-slate-300">{item.text}</p>
             </div>
           </Reveal>
         ))}

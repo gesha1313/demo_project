@@ -78,7 +78,7 @@ export default function Reviews({ footer }: SectionProps) {
             <Reveal key={review.author} delay={index * 100}>
               <div className="glass flex h-full flex-col rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <div className="text-2xl leading-none text-brand/60">&ldquo;</div>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{review.text}</p>
+                <p className="mt-3 text-base leading-7 text-slate-600">{review.text}</p>
                 <div className="mt-auto flex items-center gap-3 pt-6">
                   <div className="bg-brand-100/70 flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold text-brand">
                     {review.author[0]}
@@ -103,7 +103,7 @@ export default function Reviews({ footer }: SectionProps) {
                     {item.time}
                   </span>
                 </div>
-                <div className="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+                <div className="mt-4 space-y-3 text-base leading-7 text-slate-600">
                   <p>
                     <span className="font-semibold text-slate-700">Ситуация:</span>{" "}
                     {item.situation}

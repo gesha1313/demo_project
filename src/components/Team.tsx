@@ -51,8 +51,8 @@ export default function Team() {
                 </div>
                 <h3 className="mt-5 text-lg font-semibold text-brand">{person.name}</h3>
                 <p className="mt-1 text-sm font-medium text-brand">{person.role}</p>
-                <p className="mt-3 text-sm text-slate-700">{person.exp}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{person.spec}</p>
+                <p className="mt-3 text-base text-slate-700">{person.exp}</p>
+                <p className="mt-2 text-base leading-7 text-slate-600">{person.spec}</p>
                 <p className="mt-auto pt-4 text-xs leading-5 text-slate-600">{person.docs}</p>
               </div>
             </Reveal>

@@ -32,7 +32,7 @@ export default function DailyLife({ footer }: SectionProps) {
     <section id="life" className="relative py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
-          eyebrow="Наш досуг"
+          eyebrow="Как устроен наш день"
           title="Здесь живут, а не просто получают уход"
           description="Восстановительные тренажёры, массажное оборудование, музыкальный час, прогулки, ЛФК, игры и развлечения — все досуговые мероприятия входят в стоимость проживания."
         />
@@ -61,7 +61,7 @@ export default function DailyLife({ footer }: SectionProps) {
                   {part.time}
                 </span>
                 <h3 className="mt-4 text-lg font-semibold text-brand">{part.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{part.text}</p>
+                <p className="mt-3 text-base leading-7 text-slate-600">{part.text}</p>
               </div>
             </Reveal>
           ))}
