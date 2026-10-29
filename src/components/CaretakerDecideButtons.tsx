@@ -46,7 +46,7 @@ export default function CaretakerDecideButtons({ requestId }: { requestId: numbe
           type="button"
           onClick={() => void decide("accept")}
           disabled={busy !== null}
-          className="btn-glass-primary rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-50"
+          className="btn-glass-primary rounded-lg px-6 py-3 text-sm font-semibold disabled:opacity-50"
         >
           {busy === "accept" ? "Принимаем…" : "Принять"}
         </button>

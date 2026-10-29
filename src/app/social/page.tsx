@@ -25,7 +25,7 @@ export default function SocialPage() {
         <section className="py-10 md:py-14">
           <div className="mx-auto max-w-4xl px-6">
             <Reveal>
-              <div className="glass-strong rounded-xl p-8 md:p-12">
+              <div className="glass-strong rounded-lg p-8 md:p-12">
                 <div className="space-y-5 leading-8 text-slate-600">
                   <p>
                     Мы работаем в системе государственного заказа социальных услуг и включены в
@@ -45,7 +45,7 @@ export default function SocialPage() {
                 </div>
                 <Link
                   href="/register"
-                  className="btn-glass-primary mt-8 inline-block rounded-full px-8 py-3.5 text-sm font-semibold"
+                  className="btn-glass-primary mt-8 inline-block rounded-lg px-8 py-3.5 text-sm font-semibold"
                 >
                   Обсудить с менеджером
                 </Link>

@@ -63,7 +63,7 @@ export default async function PayCaretakerPage({
         <div className="mx-auto max-w-xl px-6 py-16">
           <Link
             href="/cabinet/requests"
-            className="text-sm font-semibold text-sky-700 hover:text-sky-800"
+            className="text-sm font-semibold text-brand hover:text-brand-dark"
           >
             ← К заявкам
           </Link>

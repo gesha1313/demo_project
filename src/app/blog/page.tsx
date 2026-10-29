@@ -55,9 +55,9 @@ export default function BlogPage() {
             <div className="grid gap-5 md:grid-cols-3">
               {posts.map((post, index) => (
                 <Reveal key={post.title} delay={index * 100}>
-                  <article className="glass flex h-full flex-col rounded-xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+                  <article className="glass flex h-full flex-col rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                     <div className="flex items-center gap-2 text-xs">
-                      <span className="glass-strong rounded-full px-3 py-1 font-semibold text-sky-700">
+                      <span className="glass-strong rounded-lg px-3 py-1 font-semibold text-brand">
                         {post.tag}
                       </span>
                       <span className="text-slate-600">{post.date}</span>
@@ -66,7 +66,7 @@ export default function BlogPage() {
                     <p className="mt-3 text-sm leading-6 text-slate-600">{post.excerpt}</p>
                     <Link
                       href={post.href}
-                      className="mt-auto w-fit pt-5 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
+                      className="mt-auto w-fit pt-5 text-sm font-semibold text-brand transition-all duration-200 hover:text-brand-dark"
                     >
                       Читать статью →
                     </Link>
@@ -80,8 +80,8 @@ export default function BlogPage() {
         <section id="psychology" className="section-band relative py-10 md:py-14">
           <div className="mx-auto max-w-4xl px-6">
             <Reveal>
-              <div className="glass-strong rounded-xl p-8 md:p-12">
-                <div className="text-xs font-semibold uppercase tracking-widest text-sky-700">
+              <div className="glass-strong rounded-lg p-8 md:p-12">
+                <div className="text-xs font-semibold uppercase tracking-widest text-brand">
                   Психологическая помощь и поддержка родственников
                 </div>
                 <h2 className="mt-4 text-2xl font-bold text-brand md:text-3xl">
@@ -100,7 +100,7 @@ export default function BlogPage() {
                 </div>
                 <Link
                   href="/#contacts"
-                  className="btn-glass-primary mt-8 inline-block rounded-full px-8 py-3.5 text-sm font-semibold"
+                  className="btn-glass-primary mt-8 inline-block rounded-lg px-8 py-3.5 text-sm font-semibold"
                 >
                   Записаться на консультацию психолога
                 </Link>

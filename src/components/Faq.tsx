@@ -53,7 +53,7 @@ export default function Faq({ footer }: SectionProps) {
             return (
               <Reveal key={faq.question} delay={index * 80}>
                 <div
-                  className={`rounded-xl p-6 transition-all duration-300 ${
+                  className={`rounded-lg p-6 transition-all duration-300 ${
                     isOpen
                       ? "glass-strong shadow-[0_16px_40px_rgba(11,42,91,0.12)]"
                       : "glass hover:shadow-[0_10px_28px_rgba(11,42,91,0.08)]"
@@ -70,8 +70,8 @@ export default function Faq({ footer }: SectionProps) {
                     <span
                       className={`icon-glow flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xl transition-all duration-300 ${
                         isOpen
-                          ? "rotate-45 bg-sky-700 text-white shadow-md"
-                          : "bg-white/70 text-sky-700"
+                          ? "rotate-45 bg-brand text-white shadow-md"
+                          : "bg-white/70 text-brand"
                       }`}
                     >
                       +

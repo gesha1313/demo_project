@@ -51,7 +51,7 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
   };
 
   return (
-    <div className="glass rounded-xl p-7 md:p-8">
+    <div className="glass rounded-lg p-7 md:p-8">
       <h2 className="text-lg font-semibold text-brand">Контакты для связи</h2>
       <p className="mt-1 text-sm text-slate-700">
         Оставьте имя и телефон — сотрудник пансионата перезвонит вам.
@@ -95,13 +95,13 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
           <button
             type="submit"
             disabled={status === "saving" || !phoneValid}
-            className="btn-glass-primary rounded-full px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-glass-primary rounded-lg px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
             {status === "saving" ? "Сохраняем…" : "Сохранить"}
           </button>
 
           {status === "saved" ? (
-            <span className="text-sm font-medium text-sky-600" role="status">
+            <span className="text-sm font-medium text-brand" role="status">
               Сохранено ✓
             </span>
           ) : null}

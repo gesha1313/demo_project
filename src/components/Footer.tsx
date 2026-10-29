@@ -1,4 +1,12 @@
-import { navLinks, quickLinks, site } from "@/lib/site";
+import Link from "next/link";
+import { navLinks, site } from "@/lib/site";
+
+/** Колонки подвала по смыслу: бренд → разделы сайта → клиенту → контакты */
+const clientLinks = [
+  { href: "/cabinet", label: "Личный кабинет" },
+  { href: "/support", label: "Горячая линия" },
+  { href: "/register", label: "Регистрация" },
+] as const;
 
 export default function Footer() {
   return (
@@ -19,6 +27,42 @@ export default function Footer() {
             </div>
           </div>
 
+          <nav aria-label="Разделы сайта">
+            <div className="font-semibold">Разделы</div>
+            <div className="mt-4 space-y-2 text-sm">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block w-fit text-slate-300 transition-all duration-200 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                href="/blog"
+                className="block w-fit text-slate-300 transition-all duration-200 hover:text-white"
+              >
+                Блог
+              </Link>
+            </div>
+          </nav>
+
+          <nav aria-label="Для клиента">
+            <div className="font-semibold">Клиентам</div>
+            <div className="mt-4 space-y-2 text-sm">
+              {clientLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block w-fit text-slate-300 transition-all duration-200 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+
           <div>
             <div className="font-semibold">Контакты</div>
             <div className="mt-4 space-y-2 text-sm text-slate-300">
@@ -31,44 +75,20 @@ export default function Footer() {
               <p>{site.address}</p>
               <p>{site.hours}</p>
             </div>
-          </div>
 
-          <div>
-            <div className="font-semibold">Быстрые ссылки</div>
-            <div className="mt-4 space-y-2 text-sm">
-              {quickLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="block w-fit text-slate-300 transition-all duration-200 hover:translate-x-1 hover:text-white"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                href="/blog"
-                className="block w-fit text-slate-300 transition-all duration-200 hover:translate-x-1 hover:text-white"
-              >
-                Блог
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <div className="font-semibold">Социальные сети</div>
-            <div className="mt-4 flex gap-2">
+            <div className="mt-5 flex flex-wrap gap-2" aria-label="Социальные сети">
               <a
                 href={site.maxChannel}
                 aria-label="MAX — чат родственников"
                 title="MAX — чат родственников"
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-xs font-bold text-white transition-colors hover:bg-white/20"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-xs font-bold text-white transition-colors hover:bg-white/20"
               >
                 MAX
               </a>
               <a
                 href={site.telegram}
                 aria-label="Telegram"
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white transition-colors hover:bg-white/20"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white transition-colors hover:bg-white/20"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
                   <path d="M21.9 4.6c.2-1.1-.8-2-1.9-1.6L2.7 9.7c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.3c.3 1 1.6 1.3 2.3.5l2.4-2.5 4.3 3.2c.8.6 2 .2 2.2-.9l3.8-14.7ZM8.6 13.2l8.9-5.6-6.9 6.5-.2 3.3-1.8-4.2Z" />
@@ -77,7 +97,7 @@ export default function Footer() {
               <a
                 href={site.vk}
                 aria-label="ВКонтакте"
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white transition-colors hover:bg-white/20"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white transition-colors hover:bg-white/20"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
                   <path d="M12.8 17.3c-5.4 0-8.7-3.8-8.8-10h2.8c.1 4.6 2.2 6.5 3.7 6.9V7.3h2.7v4c1.5-.2 3-1.8 3.6-4h2.6c-.4 2.7-2 4.3-3.1 5 1.1.5 2.9 2 3.6 4.7h-2.9c-.5-1.9-1.9-3.4-3.8-3.6v3.6h-.4Z" />
@@ -86,25 +106,11 @@ export default function Footer() {
               <a
                 href={site.ok}
                 aria-label="Одноклассники"
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white transition-colors hover:bg-white/20"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white transition-colors hover:bg-white/20"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
                   <path d="M12 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 7.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm7.2 2.4a1.4 1.4 0 0 0-2-2 8.6 8.6 0 0 1-10.4 0 1.4 1.4 0 0 0-2 2 11.3 11.3 0 0 0 5.8 2.7l-3.3 3.3a1.4 1.4 0 0 0 2 2L12 18.2l2.7 2.7a1.4 1.4 0 0 0 2-2l-3.3-3.3a11.3 11.3 0 0 0 5.8-2.7Z" />
                 </svg>
-              </a>
-            </div>
-            <div className="mt-4 space-y-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="block w-fit text-xs text-slate-300 transition-all duration-200 hover:translate-x-1 hover:text-white"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a href="/cabinet" className="block w-fit text-xs text-slate-300 transition-all duration-200 hover:translate-x-1 hover:text-white">
-                Личный кабинет
               </a>
             </div>
           </div>
@@ -119,7 +125,7 @@ export default function Footer() {
           </div>
           <a
             href="#top"
-            className="glass-dark rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5"
+            className="glass-dark rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-transform duration-200"
           >
             ↑ Наверх
           </a>

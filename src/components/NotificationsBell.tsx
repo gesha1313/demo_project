@@ -14,8 +14,8 @@ type Notification = {
 const POLL_INTERVAL_MS = 20000;
 
 const KIND_STYLES: Record<string, string> = {
-  offered: "bg-sky-100/80 text-sky-700",
-  accepted: "bg-sky-100/80 text-sky-700",
+  offered: "bg-brand-100/80 text-brand",
+  accepted: "bg-brand-100/80 text-brand",
   declined: "bg-red-100/80 text-red-600",
   transferred: "bg-amber-100/80 text-amber-700",
   queued: "bg-amber-100/80 text-amber-700",
@@ -126,7 +126,7 @@ export default function NotificationsBell() {
 
       {/* Панель уведомлений: непрозрачная; на мобильных — почти во всю ширину */}
       {open ? (
-        <div className="fixed left-3 right-3 top-20 z-50 overflow-hidden rounded-xl border border-slate-200 bg-white p-2 shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[24rem]">
+        <div className="fixed left-3 right-3 top-20 z-50 overflow-hidden rounded-lg border border-slate-200 bg-white p-2 shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[24rem]">
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-sm font-semibold text-brand">Уведомления</span>
             {unread > 0 ? (
@@ -148,14 +148,14 @@ export default function NotificationsBell() {
                 return (
                   <div
                     key={item.id}
-                    className={`rounded-xl px-3 py-2.5 ${
+                    className={`rounded-lg px-3 py-2.5 ${
                       isNew ? "bg-slate-50" : "bg-white"
                     }`}
                   >
                     <div className="flex items-start gap-2">
                       <span
                         className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
-                          isNew ? "bg-sky-600" : "bg-slate-300"
+                          isNew ? "bg-brand" : "bg-slate-300"
                         }`}
                       />
                       <div className="min-w-0 flex-1">
@@ -171,7 +171,7 @@ export default function NotificationsBell() {
                           </span>
                           {KIND_LABELS[item.kind] ? (
                             <span
-                              className={`ml-auto shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                              className={`ml-auto shrink-0 rounded-lg px-2 py-0.5 text-[10px] font-semibold ${
                                 KIND_STYLES[item.kind] ?? KIND_STYLES.info
                               }`}
                             >

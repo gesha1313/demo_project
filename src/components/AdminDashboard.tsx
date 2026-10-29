@@ -54,9 +54,9 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-sky-100/80 text-sky-700",
+  new: "bg-brand-100/80 text-brand",
   in_progress: "bg-amber-100/80 text-amber-700",
-  done: "bg-sky-100/80 text-sky-700",
+  done: "bg-brand-100/80 text-brand",
   cancelled: "bg-slate-200/80 text-slate-700",
 };
 
@@ -218,10 +218,10 @@ export default function AdminDashboard({
                 setTab(t.id);
                 if (t.id === "chat") loadConversations();
               }}
-              className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
+              className={`rounded-lg px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
                 tab === t.id
-                  ? "bg-sky-700 text-white shadow-md shadow-sky-700/25"
-                  : "text-slate-600 hover:bg-white/60 hover:text-sky-700"
+                  ? "bg-brand text-white shadow-md shadow-brand/25"
+                  : "text-slate-600 hover:bg-white/60 hover:text-brand"
               }`}
             >
               {t.label}
@@ -233,7 +233,7 @@ export default function AdminDashboard({
       {tab === "requests" ? (
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {requests.length === 0 ? (
-            <p className="glass rounded-xl px-6 py-8 text-sm text-slate-700">
+            <p className="glass rounded-lg px-6 py-8 text-sm text-slate-700">
               {role === "admin"
                 ? "Заявок пока нет."
                 : "У вас пока нет назначенных заявок — распределение выполняет администратор."}
@@ -241,7 +241,7 @@ export default function AdminDashboard({
           ) : null}
 
           {requests.map((request) => (
-            <div key={request.id} className="glass rounded-xl p-6">
+            <div key={request.id} className="glass rounded-lg p-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-sm font-semibold text-brand">
@@ -252,7 +252,7 @@ export default function AdminDashboard({
                   </div>
                 </div>
                 <span
-                  className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                  className={`shrink-0 rounded-lg px-3 py-1 text-xs font-semibold ${
                     STATUS_STYLES[request.status] ?? STATUS_STYLES.new
                   }`}
                 >
@@ -271,7 +271,7 @@ export default function AdminDashboard({
                 {request.plan_name ? (
                   <div>
                     <span className="text-slate-600">Тариф: </span>
-                    <span className="rounded-full bg-sky-100/80 px-2.5 py-0.5 text-xs font-semibold text-sky-700">
+                    <span className="rounded-full bg-brand-100/80 px-2.5 py-0.5 text-xs font-semibold text-brand">
                       {request.plan_name}
                       {request.monthly_price
                         ? ` · ${request.monthly_price.toLocaleString("ru-RU")} ₽/мес`
@@ -293,7 +293,7 @@ export default function AdminDashboard({
                 ) : null}
 
                 {(request.description ?? request.message) ? (
-                  <p className="glass-strong mt-2 rounded-xl px-4 py-3 leading-6">
+                  <p className="glass-strong mt-2 rounded-lg px-4 py-3 leading-6">
                     {request.description ?? request.message}
                   </p>
                 ) : null}
@@ -344,7 +344,7 @@ export default function AdminDashboard({
                 <button
                   type="button"
                   onClick={() => void openChatWithUser(request.user_id)}
-                  className="ml-auto text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
+                  className="ml-auto text-sm font-semibold text-brand transition-all duration-200 hover:text-brand-dark"
                 >
                   Переписка →
                 </button>
@@ -367,7 +367,7 @@ export default function AdminDashboard({
 
               {/* Форма удаления с обязательной причиной */}
               {deletingRowId === request.id ? (
-                <div className="glass-strong mt-4 rounded-xl p-4">
+                <div className="glass-strong mt-4 rounded-lg p-4">
                   <label
                     htmlFor={`delete-reason-${request.id}`}
                     className="block text-sm font-medium text-brand"
@@ -408,7 +408,7 @@ export default function AdminDashboard({
                         setDeleteReason("");
                         setDeleteError(null);
                       }}
-                      className="btn-glass-ghost rounded-full px-5 py-2.5 text-sm font-semibold"
+                      className="btn-glass-ghost rounded-lg px-5 py-2.5 text-sm font-semibold"
                     >
                       Отмена
                     </button>
@@ -422,7 +422,7 @@ export default function AdminDashboard({
 
       {/* === ПОЛЬЗОВАТЕЛИ === */}
       {tab === "users" && role === "admin" ? (
-        <div className="glass mt-8 overflow-x-auto rounded-xl">
+        <div className="glass mt-8 overflow-x-auto rounded-lg">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
               <tr className="border-b border-white/60 text-xs uppercase tracking-wide text-slate-600">
@@ -549,7 +549,7 @@ function AdminChat({
   return (
     <div className="mt-8 grid gap-5 lg:grid-cols-[340px_1fr]">
       {/* Список диалогов */}
-      <div className="glass max-h-[70vh] space-y-2 overflow-y-auto rounded-xl p-4">
+      <div className="glass max-h-[70vh] space-y-2 overflow-y-auto rounded-lg p-4">
         {conversations.length === 0 ? (
           <p className="px-3 py-6 text-sm text-slate-600">Обращений в чат пока нет</p>
         ) : null}
@@ -559,7 +559,7 @@ function AdminChat({
             key={conversation.id}
             type="button"
             onClick={() => onSelect(conversation.id)}
-            className={`w-full rounded-xl px-4 py-3 text-left transition-all duration-200 ${
+            className={`w-full rounded-lg px-4 py-3 text-left transition-all duration-200 ${
               activeId === conversation.id
                 ? "glass-strong shadow-md"
                 : "hover:bg-white/50"
@@ -581,7 +581,7 @@ function AdminChat({
       </div>
 
       {/* Переписка */}
-      <div className="glass flex h-[70vh] min-h-[420px] flex-col overflow-hidden rounded-xl">
+      <div className="glass flex h-[70vh] min-h-[420px] flex-col overflow-hidden rounded-lg">
         {activeId === null ? (
           <div className="flex flex-1 items-center justify-center px-6 text-center text-sm text-slate-600">
             Выберите диалог слева, чтобы ответить клиенту
@@ -594,21 +594,21 @@ function AdminChat({
                 return (
                   <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                     <div
-                      className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm leading-6 ${
+                      className={`max-w-[80%] rounded-lg px-4 py-2.5 text-sm leading-6 ${
                         mine
-                          ? "bg-sky-700 text-white shadow-md shadow-sky-700/20"
+                          ? "bg-brand text-white shadow-md shadow-brand/20"
                           : "glass-strong text-slate-700"
                       }`}
                     >
                       {!mine ? (
-                        <span className="mb-0.5 block text-[10px] font-semibold text-sky-700">
+                        <span className="mb-0.5 block text-[10px] font-semibold text-brand">
                           {message.sender_email}
                         </span>
                       ) : null}
                       <p>{message.body}</p>
                       <span
                         className={`mt-1 block text-[10px] ${
-                          mine ? "text-sky-100/80" : "text-slate-600"
+                          mine ? "text-white/80" : "text-slate-600"
                         }`}
                       >
                         {message.created_at.slice(11, 16)}
@@ -638,7 +638,7 @@ function AdminChat({
                 <button
                   type="submit"
                   disabled={sending || !draft.trim()}
-                  className="btn-glass-primary shrink-0 rounded-full px-6 py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+                  className="btn-glass-primary shrink-0 rounded-lg px-6 py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {sending ? "…" : "Ответить"}
                 </button>

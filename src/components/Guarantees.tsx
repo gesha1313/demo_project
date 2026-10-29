@@ -29,7 +29,7 @@ export default function Guarantees() {
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {items.map((item, index) => (
             <Reveal key={item.title} delay={index * 100}>
-              <div className="glass h-full rounded-xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+              <div className="glass h-full rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <h3 className="text-lg font-semibold text-brand">{item.title}</h3>
                 <p className="mt-3 leading-7 text-slate-600">{item.text}</p>
               </div>
@@ -38,17 +38,17 @@ export default function Guarantees() {
         </div>
 
         <Reveal className="mt-8" delay={150}>
-          <div className="glass flex flex-wrap items-center gap-4 rounded-xl px-7 py-5 text-sm">
+          <div className="glass flex flex-wrap items-center gap-4 rounded-lg px-7 py-5 text-sm">
             <span className="font-semibold text-brand">Документы:</span>
             <a
               href="https://drive.google.com/uc?export=download&id=1oiYP_Hb3tZm9PJ-GmBfVCgdKdAkNpg80"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sky-700 hover:underline"
+              className="text-brand hover:underline"
             >
               Договор оферты (PDF)
             </a>
-            <a href="#" className="text-sky-700 hover:underline">
+            <a href="#" className="text-brand hover:underline">
               Политика конфиденциальности (PDF)
             </a>
           </div>

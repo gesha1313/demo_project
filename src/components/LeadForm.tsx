@@ -33,7 +33,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
 
   if (sent) {
     return (
-      <div className="glass-strong rounded-xl p-8 text-center">
+      <div className="glass-strong rounded-lg p-8 text-center">
         <p className="text-lg font-semibold text-brand">Заявка отправлена!</p>
         <p className="mt-2 text-sm text-slate-600">
           Мы перезвоним в течение 30 минут в рабочее время.
@@ -44,7 +44,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
 
   return (
     <form
-      className="glass-strong space-y-4 rounded-xl p-7"
+      className="glass-strong space-y-4 rounded-lg p-7"
       onSubmit={(e) => {
         e.preventDefault();
         setSending(true);
@@ -101,7 +101,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
             type="checkbox"
             checked={homeVisit}
             onChange={(e) => setHomeVisit(e.target.checked)}
-            className="h-4 w-4 accent-sky-700"
+            className="h-4 w-4 accent-brand"
           />
           Прошу консультацию на дому
         </label>
@@ -110,7 +110,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
       <button
         type="submit"
         disabled={sending}
-        className="btn-glass-primary w-full rounded-xl px-6 py-3.5 text-sm font-semibold disabled:cursor-not-allowed"
+        className="btn-glass-primary w-full rounded-lg px-6 py-3.5 text-sm font-semibold disabled:cursor-not-allowed"
       >
         {sending
           ? "Отправка…"

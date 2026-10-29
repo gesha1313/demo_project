@@ -1,22 +1,34 @@
 import Reveal from "./Reveal";
 
 const items = [
-  { number: "01", title: "Люди", text: "Кто будет рядом с вашим близким каждый день." },
-  { number: "02", title: "Формат", text: "Уход на дому или в пансионате — там, где комфортно человеку." },
-  { number: "03", title: "Открытость", text: "Вы понимаете, что происходит с вашим близким." },
+  {
+    number: "01",
+    title: "Комфорт",
+    text: "Уютные 2–3-местные номера, регулярная уборка и смена белья.",
+  },
+  {
+    number: "02",
+    title: "Забота",
+    text: "Гигиенические процедуры, здоровое питание и внимание к каждому постояльцу.",
+  },
+  {
+    number: "03",
+    title: "Сопровождение",
+    text: "Медицинское сопровождение, массажная техника и восстановительные тренажёры.",
+  },
 ];
 
 export default function Trust() {
   return (
     <section className="section-dark relative overflow-hidden py-14">
-      <div className="absolute -right-24 -top-20 h-72 w-72 animate-float rounded-full bg-sky-500/20 blur-3xl" />
-      <div className="absolute -left-24 bottom-0 h-72 w-72 animate-float-slow rounded-full bg-amber-400/15 blur-3xl" />
+      <div className="absolute -right-24 -top-20 h-72 w-72 animate-float rounded-full bg-brand/20 blur-3xl" />
+      <div className="absolute -left-24 bottom-0 h-72 w-72 animate-float-slow rounded-full bg-brand-300/15 blur-3xl" />
 
       <div className="relative mx-auto grid max-w-7xl gap-4 px-6 md:grid-cols-3">
         {items.map((item, index) => (
           <Reveal key={item.number} delay={index * 120}>
-            <div className="glass-dark h-full rounded-xl p-7 transition-all duration-300 hover:-translate-y-1">
-              <div className="text-3xl font-semibold text-sky-200">{item.number}</div>
+            <div className="glass-dark h-full rounded-lg p-7 transition-all duration-300">
+              <div className="text-3xl font-semibold text-white/80">{item.number}</div>
               <h3 className="mt-3 font-semibold text-white">{item.title}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
             </div>

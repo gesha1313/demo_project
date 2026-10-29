@@ -37,15 +37,15 @@ export default async function RegisterPage({
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-brand-50 to-brand-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-brand-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-brand-200/50 blur-3xl" />
 
         <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 py-16 md:py-24 lg:grid-cols-2">
           {/* Текстовый блок */}
           <div className="animate-fade-up">
-            <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" />
+            <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(63,105,150,0.9)]" />
               Регистрация
             </span>
 
@@ -61,7 +61,7 @@ export default async function RegisterPage({
             <ul className="mt-8 space-y-3">
               {benefits.map((benefit) => (
                 <li key={benefit} className="flex items-center gap-3">
-                  <span className="glass-strong icon-glow flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm text-sky-700">
+                  <span className="glass-strong icon-glow flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm text-brand">
                     ✓
                   </span>
                   <span className="text-slate-700">{benefit}</span>
@@ -71,7 +71,7 @@ export default async function RegisterPage({
 
             <p className="mt-8 max-w-md text-sm leading-6 text-slate-700">
               Уже зарегистрированы?{" "}
-              <Link href="/login" className="font-semibold text-sky-700 hover:text-sky-800">
+              <Link href="/login" className="font-semibold text-brand hover:text-brand-dark">
                 Войдите в личный кабинет
               </Link>
               .

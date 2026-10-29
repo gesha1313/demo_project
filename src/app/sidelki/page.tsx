@@ -57,13 +57,8 @@ export default function SidelkiPage() {
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               {tariffs.map((t, i) => (
                 <Reveal key={t.title} delay={i * 100}>
-                  <div className="glass relative flex h-full flex-col rounded-xl p-7 transition-transform duration-300 hover:-translate-y-1">
-                    {t.title.includes("12") ? (
-                      <span className="absolute -top-3 right-5 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white shadow-md">
-                        Популярный
-                      </span>
-                    ) : null}
-                    <span className="glass-strong w-fit rounded-full px-3 py-1 text-xs font-semibold text-sky-700">
+                  <div className="glass relative flex h-full flex-col rounded-lg p-7 transition-transform duration-300">
+                    <span className="glass-strong w-fit rounded-lg px-3 py-1 text-xs font-semibold text-brand">
                       {t.time}
                     </span>
                     <h2 className="mt-4 text-xl font-semibold text-brand">{t.title}</h2>
@@ -72,14 +67,14 @@ export default function SidelkiPage() {
                     <ul className="mt-4 space-y-2 text-sm text-slate-600">
                       {t.items.map((item) => (
                         <li key={item} className="flex gap-2">
-                          <span className="text-sky-700">—</span>
+                          <span className="text-brand">—</span>
                           {item}
                         </li>
                       ))}
                     </ul>
                     <Link
                       href="/register"
-                      className="btn-glass-primary mt-auto mt-6 w-full rounded-full px-6 py-3 text-center text-sm font-semibold"
+                      className="btn-glass-primary mt-auto mt-6 w-full rounded-lg px-6 py-3 text-center text-sm font-semibold"
                     >
                       Заказать
                     </Link>

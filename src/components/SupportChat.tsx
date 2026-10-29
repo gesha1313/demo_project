@@ -89,12 +89,12 @@ export default function SupportChat({ myId }: { myId: number }) {
   };
 
   return (
-    <div className="glass flex h-[70vh] min-h-[480px] flex-col overflow-hidden rounded-xl">
+    <div className="glass flex h-[70vh] min-h-[480px] flex-col overflow-hidden rounded-lg">
       {/* Шапка чата */}
       <div className="glass-strong flex items-center gap-3 border-b border-white/60 px-6 py-4">
         <span className="relative flex h-3 w-3">
-          <span className="absolute h-full w-full animate-ping rounded-full bg-sky-400/70" />
-          <span className="h-3 w-3 rounded-full bg-sky-500" />
+          <span className="absolute h-full w-full animate-ping rounded-full bg-brand-400/70" />
+          <span className="h-3 w-3 rounded-full bg-brand" />
         </span>
         <div>
           <div className="text-sm font-semibold text-brand">Горячая линия пансионата</div>
@@ -109,16 +109,16 @@ export default function SupportChat({ myId }: { myId: number }) {
           return (
             <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
               <div
-                className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm leading-6 ${
+                className={`max-w-[80%] rounded-lg px-4 py-2.5 text-sm leading-6 ${
                   mine
-                    ? "bg-sky-700 text-white shadow-md shadow-sky-700/20"
+                    ? "bg-brand text-white shadow-md shadow-brand/20"
                     : "glass-strong text-slate-700"
                 }`}
               >
                 <p>{message.body}</p>
                 <span
                   className={`mt-1 block text-[10px] ${
-                    mine ? "text-sky-100/80" : "text-slate-600"
+                    mine ? "text-white/80" : "text-slate-600"
                   }`}
                 >
                   {message.created_at.slice(11, 16)}
@@ -160,7 +160,7 @@ export default function SupportChat({ myId }: { myId: number }) {
           <button
             type="submit"
             disabled={sending || !draft.trim()}
-            className="btn-glass-primary shrink-0 rounded-full px-6 py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-glass-primary shrink-0 rounded-lg px-6 py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
             {sending ? "…" : "Отправить"}
           </button>

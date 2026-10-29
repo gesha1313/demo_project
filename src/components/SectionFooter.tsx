@@ -17,13 +17,13 @@ export default function SectionFooter({ href, next, hint }: SectionFooterProps) 
     <Reveal className="mt-12">
       <Link
         href={href}
-        className="group glass flex items-center justify-between gap-5 rounded-xl px-6 py-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(13,36,74,0.14)]"
+        className="group glass flex items-center justify-between gap-5 rounded-lg px-6 py-5 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.14)]"
       >
         <div>
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
             Дальше по цепочке
           </div>
-          <div className="mt-1.5 text-lg font-semibold text-brand transition-colors group-hover:text-sky-700">
+          <div className="mt-1.5 text-lg font-semibold text-brand transition-colors group-hover:text-brand">
             {next}
           </div>
         </div>
@@ -34,7 +34,7 @@ export default function SectionFooter({ href, next, hint }: SectionFooterProps) 
 
         <span
           aria-hidden
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-700 text-white shadow-md shadow-sky-700/25 transition-transform duration-300 group-hover:translate-x-1"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-white shadow-md shadow-brand/25 transition-transform duration-300"
         >
           →
         </span>

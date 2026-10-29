@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { PT_Serif } from "next/font/google";
 import ScrollRestoration from "@/components/ScrollRestoration";
 import FloatingActions from "@/components/FloatingActions";
 import { getCurrentUser } from "@/lib/auth";
@@ -8,12 +7,8 @@ import ScrollProgress from "@/components/ScrollProgress";
 import CookieBar from "@/components/CookieBar";
 import "./globals.css";
 
-const ptSerif = PT_Serif({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "700"],
-  variable: "--font-ptserif",
-  display: "swap",
-});
+/* Шрифт — системный Times New Roman (сдержанный «государственный»
+   стиль), веб-шрифт не загружается */
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -47,7 +42,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const user = await getCurrentUser();
 
   return (
-    <html lang="ru" className={`${ptSerif.variable} h-full antialiased`}>
+    <html lang="ru" className="h-full antialiased">
       <body className="min-h-full flex flex-col font-sans">
         <script dangerouslySetInnerHTML={{ __html: SCROLL_RESTORE_SCRIPT }} />
         {children}

@@ -23,7 +23,7 @@ export default function LogoutButton({ className = "" }: { className?: string })
       type="button"
       onClick={handleLogout}
       disabled={loading}
-      className={`btn-glass-ghost rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-50 ${className}`}
+      className={`btn-glass-ghost rounded-lg px-6 py-3 text-sm font-semibold disabled:opacity-50 ${className}`}
     >
       {loading ? "Выходим…" : "Выйти"}
     </button>

@@ -273,8 +273,8 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                         aria-pressed={active}
                         className={`rounded-full border px-4 py-2 text-sm transition-all duration-200 ${
                           active
-                            ? "border-sky-600 bg-sky-50/80 font-semibold text-sky-700 shadow-sm"
-                            : "glass border-transparent text-slate-600 hover:text-sky-700"
+                            ? "border-brand bg-brand-50/80 font-semibold text-brand shadow-sm"
+                            : "glass border-transparent text-slate-600 hover:text-brand"
                         }`}
                       >
                         {active ? "✓ " : ""}
@@ -335,7 +335,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
               </div>
 
               {error ? (
-                <p className="glass rounded-xl px-4 py-3 text-sm text-red-600" role="alert">
+                <p className="glass rounded-lg px-4 py-3 text-sm text-red-600" role="alert">
                   {error}
                 </p>
               ) : null}
@@ -344,7 +344,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                 type="button"
                 onClick={() => void handleSubmit()}
                 disabled={!formValid || submitting}
-                className="btn-glass-primary w-full rounded-full px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+                className="btn-glass-primary w-full rounded-lg px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting ? "Отправляем…" : "Оформить"}
               </button>
@@ -376,8 +376,8 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
         {phase === "matching" ? (
           <div className="flex flex-col items-center py-16 text-center">
             <span className="relative flex h-20 w-20 items-center justify-center">
-              <span className="absolute h-full w-full animate-ping rounded-full bg-sky-400/40" />
-              <span className="flex h-16 w-16 animate-spin items-center justify-center rounded-full border-4 border-sky-100 border-t-sky-600" />
+              <span className="absolute h-full w-full animate-ping rounded-full bg-brand-400/40" />
+              <span className="flex h-16 w-16 animate-spin items-center justify-center rounded-full border-4 border-brand-100 border-t-brand" />
             </span>
 
             <h2 className="mt-7 text-xl font-semibold text-brand md:text-2xl">
@@ -392,7 +392,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                 <span
                   key={index}
                   className={`h-1.5 w-8 rounded-full transition-colors duration-300 ${
-                    index <= stepIndex ? "bg-sky-600" : "bg-slate-200"
+                    index <= stepIndex ? "bg-brand" : "bg-slate-200"
                   }`}
                 />
               ))}
@@ -403,7 +403,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
         {/* ===================== РЕЗУЛЬТАТ: СВОБОДНЫХ НЕТ ===================== */}
         {phase === "result" && result && !result.matched ? (
           <div className="flex flex-col items-center py-10 text-center">
-            <span className="icon-glow glass-strong flex h-16 w-16 items-center justify-center rounded-xl text-sky-700">
+            <span className="icon-glow glass-strong flex h-16 w-16 items-center justify-center rounded-lg text-brand">
               <Icon name="clock" className="h-8 w-8" />
             </span>
 
@@ -419,7 +419,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
               <Link
                 href="/cabinet"
-                className="btn-glass-primary rounded-full px-6 py-3.5 text-sm font-semibold"
+                className="btn-glass-primary rounded-lg px-6 py-3.5 text-sm font-semibold"
               >
                 В личный кабинет
               </Link>
@@ -429,7 +429,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                   setPhase("form");
                   setResult(null);
                 }}
-                className="btn-glass-ghost rounded-full px-6 py-3.5 text-sm font-semibold"
+                className="btn-glass-ghost rounded-lg px-6 py-3.5 text-sm font-semibold"
               >
                 Попробовать позже
               </button>
@@ -441,7 +441,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
         {phase === "result" && result && result.matched ? (
           <div>
             <div className="flex items-start gap-4">
-              <span className="icon-glow glass-strong flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-2xl">
+              <span className="icon-glow glass-strong flex h-14 w-14 shrink-0 items-center justify-center rounded-lg text-2xl">
                 ✓
               </span>
               <div>
@@ -455,7 +455,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             </div>
 
             {/* Данные подобранной сиделки */}
-            <div className="glass mt-6 grid gap-4 rounded-xl p-5 sm:grid-cols-2">
+            <div className="glass mt-6 grid gap-4 rounded-lg p-5 sm:grid-cols-2">
               <div>
                 <div className="text-xs uppercase tracking-wide text-slate-600">Сиделка</div>
                 <div className="mt-1 text-lg font-semibold text-brand">
@@ -471,7 +471,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             </div>
 
             {/* Карта с меткой */}
-            <div className="glass mt-5 overflow-hidden rounded-xl p-2">
+            <div className="glass mt-5 overflow-hidden rounded-lg p-2">
               <div
                 ref={mapNodeRef}
                 className="h-[280px] w-full overflow-hidden rounded-lg bg-slate-200"
@@ -484,7 +484,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/cabinet/requests"
-                className="btn-glass-primary flex-1 rounded-full px-6 py-4 text-center text-sm font-semibold"
+                className="btn-glass-primary flex-1 rounded-lg px-6 py-4 text-center text-sm font-semibold"
               >
                 Мои заявки
               </Link>
@@ -501,7 +501,7 @@ export default function CaretakerWizard({ userName }: { userName: string }) {
                   setNotes("");
                   setResult(null);
                 }}
-                className="btn-glass-ghost rounded-full px-6 py-4 text-center text-sm font-semibold"
+                className="btn-glass-ghost rounded-lg px-6 py-4 text-center text-sm font-semibold"
               >
                 Оформить ещё одну
               </Link>

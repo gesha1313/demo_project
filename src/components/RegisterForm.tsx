@@ -7,13 +7,13 @@ import { isValidEmail, scorePassword } from "@/lib/validation";
 const SEGMENT_COLORS: Record<string, string> = {
   weak: "bg-red-500",
   medium: "bg-orange-400",
-  strong: "bg-sky-500",
+  strong: "bg-brand",
 };
 
 const LABEL_COLORS: Record<string, string> = {
   weak: "text-red-600",
   medium: "text-orange-500",
-  strong: "text-sky-600",
+  strong: "text-brand",
 };
 
 export default function RegisterForm({ nextPath = null }: { nextPath?: string | null }) {
@@ -176,7 +176,7 @@ export default function RegisterForm({ nextPath = null }: { nextPath?: string | 
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-md border border-slate-300 bg-white/70 transition-all checked:border-sky-600 checked:bg-sky-600 checked:bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%2220 6 9 17 4 12%22/></svg>')] checked:bg-[length:12px_12px] checked:bg-center checked:bg-no-repeat"
+              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-md border border-slate-300 bg-white/70 transition-all checked:border-brand checked:bg-brand checked:bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%2220 6 9 17 4 12%22/></svg>')] checked:bg-[length:12px_12px] checked:bg-center checked:bg-no-repeat"
             />
             <span>
               Соглашаюсь с обработкой персональных данных и политикой конфиденциальности
@@ -184,7 +184,7 @@ export default function RegisterForm({ nextPath = null }: { nextPath?: string | 
           </label>
 
           {error ? (
-            <p className="glass rounded-xl px-4 py-3 text-sm text-red-600" role="alert">
+            <p className="glass rounded-lg px-4 py-3 text-sm text-red-600" role="alert">
               {error}
             </p>
           ) : null}
@@ -192,14 +192,14 @@ export default function RegisterForm({ nextPath = null }: { nextPath?: string | 
           <button
             type="submit"
             disabled={!canSubmit}
-            className="btn-glass-primary w-full rounded-full px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-glass-primary w-full rounded-lg px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Создаём аккаунт…" : "Зарегистрироваться"}
           </button>
 
           <p className="text-center text-sm text-slate-700">
             Уже есть аккаунт?{" "}
-            <a href="/login" className="font-semibold text-sky-700 hover:text-sky-800">
+            <a href="/login" className="font-semibold text-brand hover:text-brand-dark">
               Войти
             </a>
           </p>

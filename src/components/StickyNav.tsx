@@ -38,10 +38,10 @@ export default function StickyNav() {
           <a
             key={link.href}
             href={link.href}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+            className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
               active === link.href
                 ? "bg-brand text-white"
-                : "text-slate-600 hover:bg-white/60 hover:text-sky-700"
+                : "text-slate-600 hover:bg-white/60 hover:text-brand"
             }`}
           >
             {link.label}

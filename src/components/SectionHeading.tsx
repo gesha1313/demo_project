@@ -15,7 +15,7 @@ export default function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <Reveal className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <span className="inline-block rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+      <span className="inline-block rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
         {eyebrow}
       </span>
       <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">

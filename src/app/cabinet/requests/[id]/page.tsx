@@ -25,12 +25,12 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-sky-100/80 text-sky-700",
+  new: "bg-brand-100/80 text-brand",
   in_progress: "bg-amber-100/80 text-amber-700",
-  done: "bg-sky-100/80 text-sky-700",
+  done: "bg-brand-100/80 text-brand",
   cancelled: "bg-slate-200/80 text-slate-700",
   offered: "bg-amber-100/80 text-amber-700",
-  accepted: "bg-sky-100/80 text-sky-700",
+  accepted: "bg-brand-100/80 text-brand",
   declined: "bg-slate-200/80 text-slate-700",
 };
 
@@ -180,16 +180,16 @@ export default async function RequestDetailPage({
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-brand-50 to-brand-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-brand-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-brand-200/50 blur-3xl" />
 
         <div className="relative mx-auto max-w-3xl px-6 py-16">
           {/* Заголовок */}
           <div className="animate-fade-up">
             <Link
               href={isAssignedCaretaker && !isOwner ? "/cabinet" : "/cabinet/requests"}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-brand transition-all duration-200 hover:text-brand-dark"
             >
               ← К заявкам
             </Link>
@@ -199,7 +199,7 @@ export default async function RequestDetailPage({
                 {request.kind === "caretaker" ? "Заявка на сиделку" : "Заявка в пансионат"} №{request.id}
               </h1>
               <span
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold ${
+                className={`rounded-lg px-4 py-1.5 text-sm font-semibold ${
                   STATUS_STYLES[request.status] ?? STATUS_STYLES.new
                 }`}
               >
@@ -215,7 +215,7 @@ export default async function RequestDetailPage({
           </div>
 
           {/* Основная информация */}
-          <div className="glass-strong animate-fade-up mt-8 rounded-xl p-7 md:p-8 [animation-delay:100ms]">
+          <div className="glass-strong animate-fade-up mt-8 rounded-lg p-7 md:p-8 [animation-delay:100ms]">
             <div className="grid gap-6 sm:grid-cols-2">
               {/* Подопечный */}
               <div>
@@ -270,7 +270,7 @@ export default async function RequestDetailPage({
                 {request.client_phone ? (
                   <a
                     href={`tel:${request.client_phone.replace(/[^+\d]/g, "")}`}
-                    className="text-sm text-sky-700 hover:text-sky-800"
+                    className="text-sm text-brand hover:text-brand-dark"
                   >
                     {request.client_phone}
                   </a>
@@ -288,7 +288,7 @@ export default async function RequestDetailPage({
                   {tasks.map((task) => (
                     <span
                       key={task}
-                      className="rounded-full bg-sky-50/90 px-3 py-1 text-sm text-sky-700"
+                      className="rounded-full bg-brand-50/90 px-3 py-1 text-sm text-brand"
                     >
                       {task}
                     </span>
@@ -303,7 +303,7 @@ export default async function RequestDetailPage({
                 ? (
                     <div className="mt-6">
                       <div className="text-xs uppercase tracking-wide text-slate-600">Пожелания</div>
-                      <p className="glass mt-2 rounded-xl px-5 py-4 leading-7 text-slate-600">
+                      <p className="glass mt-2 rounded-lg px-5 py-4 leading-7 text-slate-600">
                         {request.notes}
                       </p>
                     </div>
@@ -315,7 +315,7 @@ export default async function RequestDetailPage({
                       <div className="text-xs uppercase tracking-wide text-slate-600">
                         Описание ситуации
                       </div>
-                      <p className="glass mt-2 rounded-xl px-5 py-4 leading-7 text-slate-600">
+                      <p className="glass mt-2 rounded-lg px-5 py-4 leading-7 text-slate-600">
                         {request.description ?? request.message}
                       </p>
                     </div>
@@ -325,7 +325,7 @@ export default async function RequestDetailPage({
             {/* Сиделка / сотрудник */}
             {request.kind === "caretaker" ? (
               request.caretaker_name ? (
-                <div className="glass mt-6 rounded-xl px-5 py-4">
+                <div className="glass mt-6 rounded-lg px-5 py-4">
                   <div className="text-xs uppercase tracking-wide text-slate-600">Сиделка</div>
                   <div className="mt-1">
                     <span className="text-lg font-semibold text-brand">{request.caretaker_name}</span>
@@ -342,12 +342,12 @@ export default async function RequestDetailPage({
                   </div>
                 </div>
               ) : request.status === "new" ? (
-                <p className="glass mt-6 rounded-xl px-5 py-4 text-sm leading-6 text-amber-700">
+                <p className="glass mt-6 rounded-lg px-5 py-4 text-sm leading-6 text-amber-700">
                   Сейчас все сиделки заняты — заявка в очереди.
                 </p>
               ) : null
             ) : request.employee_email ? (
-              <div className="glass mt-6 rounded-xl px-5 py-4 text-sm">
+              <div className="glass mt-6 rounded-lg px-5 py-4 text-sm">
                 <span className="text-slate-700">Заявку ведёт: </span>
                 <span className="font-semibold text-brand">{request.employee_email}</span>
               </div>
@@ -360,7 +360,7 @@ export default async function RequestDetailPage({
             {request.kind === "caretaker" &&
             isOwner &&
             (request.status === "new" || request.status === "declined") ? (
-              <div className="glass rounded-xl p-6">
+              <div className="glass rounded-lg p-6">
                 <div className="text-sm font-semibold text-brand">Передумали?</div>
                 <p className="mt-1 text-sm leading-6 text-slate-700">
                   Заявка ещё не активна — её можно отменить.
@@ -380,7 +380,7 @@ export default async function RequestDetailPage({
             {request.kind === "caretaker" &&
             isOwner &&
             (request.status === "offered" || request.status === "accepted") ? (
-              <div className="glass rounded-xl p-6">
+              <div className="glass rounded-lg p-6">
                 <div className="text-sm font-semibold text-brand">
                   Не подходит сиделка или поменялись планы?
                 </div>

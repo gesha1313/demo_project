@@ -45,12 +45,12 @@ export default function Team() {
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {team.map((person, index) => (
             <Reveal key={person.name} delay={index * 100}>
-              <div className="glass flex h-full flex-col rounded-xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+              <div className="glass flex h-full flex-col rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <div className="glass-strong icon-glow flex h-14 w-14 items-center justify-center rounded-full text-lg font-bold text-brand">
                   {person.name.split(" ").map((w) => w[0]).join("")}
                 </div>
                 <h3 className="mt-5 text-lg font-semibold text-brand">{person.name}</h3>
-                <p className="mt-1 text-sm font-medium text-sky-700">{person.role}</p>
+                <p className="mt-1 text-sm font-medium text-brand">{person.role}</p>
                 <p className="mt-3 text-sm text-slate-700">{person.exp}</p>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{person.spec}</p>
                 <p className="mt-auto pt-4 text-xs leading-5 text-slate-600">{person.docs}</p>

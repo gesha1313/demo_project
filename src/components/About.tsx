@@ -9,9 +9,9 @@ type SectionProps = {
 };
 
 const points = [
-  "Опытные сотрудники",
-  "Понятные правила работы",
-  "Индивидуальное отношение",
+  "Проживание от 900 ₽/сутки",
+  "Питание по рекомендациям Роспотребнадзора",
+  "Соцпрограмма для одиноких",
 ];
 
 export default function About({ footer }: SectionProps) {
@@ -20,11 +20,11 @@ export default function About({ footer }: SectionProps) {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
-            <div className="glass-strong overflow-hidden rounded-xl p-2">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+            <div className="glass-strong overflow-hidden rounded-lg p-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                 <Image
-                  src="/photos/about.jpg"
-                  alt="Сиделка бережно поддерживает пожилую женщину под руку при прогулке"
+                  src="/photos/dosug-den-rozhdeniya.jpg"
+                  alt="Постояльцы пансионата отмечают день рождения за праздничным столом"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
@@ -35,20 +35,20 @@ export default function About({ footer }: SectionProps) {
 
           <Reveal delay={150}>
             <SectionHeading
-              eyebrow="О компании"
-              title="За заботой стоят конкретные люди"
-              description="Здесь мы расскажем о команде, опыте сотрудников, принципах работы и о том, почему нам можно доверить заботу о близком человеке."
+              eyebrow="Немного о нас"
+              title="«Народный» — дом, где о близком позаботятся"
+              description="Пансионат для пожилых в Нижнем Новгороде: комфортные номера, здоровое питание, медицинское сопровождение и увлекательная атмосфера — всё это входит в стоимость."
             />
 
             <p className="mt-5 border-l-4 border-brand/50 pl-4 text-lg italic leading-8 text-slate-700">
-              Чуткость, эмпатия и понимание — основа нашей работы.
+              Комфорт, забота и внимание — каждый день, а не по расписанию.
             </p>
 
             <div className="mt-6 space-y-3">
               {points.map((point) => (
                 <div
                   key={point}
-                  className="glass flex w-fit items-center rounded-full px-5 py-2.5 transition-all duration-300 hover:translate-x-1"
+                  className="glass flex w-fit items-center rounded-lg px-5 py-2.5 transition-all duration-300"
                 >
                   <span className="text-sm text-slate-700">{point}</span>
                 </div>

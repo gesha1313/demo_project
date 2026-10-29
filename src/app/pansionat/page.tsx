@@ -10,27 +10,27 @@ import SectionHeading from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "Пансионат",
   description:
-    "Пансионаты для пожилых в Нижнем Новгороде: Сормовский и Приокский районы. Размещение с уходом от 1 100 ₽ в сутки.",
+    "Пансионат «Народный» в Нижнем Новгороде (ул. 3-я Озёрная, 2): проживание с уходом и питанием от 900 ₽ в сутки, соцпрограмма «Проживание за пенсию».",
 };
 
-const cities = [
-  { name: "Нижний Новгород", active: true, href: "#districts" },
-  { name: "Москва", active: false },
-  { name: "Санкт-Петербург", active: false },
+const facts = [
+  { name: "900 ₽", note: "в сутки — акция для всех категорий" },
+  { name: "2–3", note: "места в номерах пансионата" },
+  { name: "24/7", note: "медицинское сопровождение и уход" },
 ];
 
-const districts = [
+const places = [
   {
-    name: "Сормовский район",
-    price: "от 1 100 ₽ / сутки",
-    photo: "/photos/life.jpg",
-    text: "Тихий зелёный район рядом с парком. Одноместные и двухместные комнаты, круглосуточная сиделка, пятиразовое питание, ежедневные прогулки.",
+    name: "Пансионат «Народный»",
+    price: "от 900 ₽ / сутки",
+    photo: "/photos/dosug-veranda.jpg",
+    text: "Нижний Новгород, ул. 3-я Озёрная, д. 2 (Сормовский район). Проживание в 2–3-местных номерах, здоровое питание по рекомендациям Роспотребнадзора, медицинское сопровождение, досуг: лото, музыкальный час, прогулки на веранде, ЛФК и тренажёры.",
   },
   {
-    name: "Приокский район",
-    price: "от 1 100 ₽ / сутки",
-    photo: "/photos/about.jpg",
-    text: "Рядом с набережной и поликлиникой. Просторные светлые комнаты, медицинское наблюдение, занятия и общение, видеосвязь с родственниками.",
+    name: "Соцпрограмма «Проживание за пенсию»",
+    price: "для одиноких",
+    photo: "/photos/dosug-loto.jpg",
+    text: "Специальная программа для одиноких пожилых людей: проживание и полный уход оформляются через пенсию — без дополнительных платежей родственников. Позвоните, расскажем условия и оформим вместе с вами.",
   },
 ];
 
@@ -42,31 +42,19 @@ export default function PansionatPage() {
         <PageHeader
           eyebrow="Пансионат"
           title="Проживание с уходом"
-          description="Выберите город — расскажем о пансионатах, ценах и условиях размещения."
+          description="Пансионат «Народный» в Нижнем Новгороде: комфорт, забота, медицинское сопровождение и увлекательная атмосфера."
         />
 
         <section className="section-band py-10 md:py-14">
           <div className="mx-auto max-w-7xl px-6">
-            <SectionHeading eyebrow="Города" title="Где мы работаем" />
+            <SectionHeading eyebrow="Коротко о главном" title="Почему к нам приезжают" />
             <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {cities.map((city, i) => (
-                <Reveal key={city.name} delay={i * 100}>
-                  {city.active ? (
-                    <Link
-                      href={city.href ?? "#districts"}
-                      className="glass block h-full rounded-xl p-8 text-center transition-transform duration-300 hover:-translate-y-1"
-                    >
-                      <div className="text-xl font-semibold text-brand">{city.name}</div>
-                      <div className="mt-2 text-sm text-sky-700">Выбрать район →</div>
-                    </Link>
-                  ) : (
-                    <div className="glass h-full cursor-not-allowed rounded-xl p-8 text-center opacity-60">
-                      <div className="text-xl font-semibold text-slate-600">{city.name}</div>
-                      <div className="glass-strong mt-3 w-fit mx-auto rounded-full px-3 py-1 text-xs font-semibold text-slate-600">
-                        Скоро
-                      </div>
-                    </div>
-                  )}
+              {facts.map((fact, i) => (
+                <Reveal key={fact.name} delay={i * 100}>
+                  <div className="glass h-full rounded-lg p-8 text-center">
+                    <div className="text-3xl font-bold text-brand">{fact.name}</div>
+                    <div className="mt-2 text-sm text-slate-600">{fact.note}</div>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -77,13 +65,13 @@ export default function PansionatPage() {
           <div className="mx-auto max-w-7xl px-6">
             <SectionHeading
               eyebrow="Нижний Новгород"
-              title="Наши пансионаты"
+              title="Наш пансионат"
               description="Цены указаны за сутки проживания с уходом и питанием."
             />
             <div className="mt-10 grid gap-5 md:grid-cols-2">
-              {districts.map((d, i) => (
+              {places.map((d, i) => (
                 <Reveal key={d.name} delay={i * 120}>
-                  <div className="glass flex h-full flex-col overflow-hidden rounded-xl">
+                  <div className="glass flex h-full flex-col overflow-hidden rounded-lg">
                     <div className="relative aspect-[16/8]">
                       <Image
                         src={d.photo}
@@ -96,14 +84,14 @@ export default function PansionatPage() {
                     <div className="flex flex-1 flex-col p-7">
                       <div className="flex flex-wrap items-center justify-between gap-3">
                         <h2 className="text-xl font-semibold text-brand">{d.name}</h2>
-                        <span className="glass-strong rounded-full px-4 py-1.5 text-sm font-bold text-brand">
+                        <span className="glass-strong rounded-lg px-4 py-1.5 text-sm font-bold text-brand">
                           {d.price}
                         </span>
                       </div>
                       <p className="mt-4 leading-7 text-slate-600">{d.text}</p>
                       <Link
                         href="/register"
-                        className="btn-glass-primary mt-auto mt-6 w-fit rounded-full px-6 py-3 text-sm font-semibold"
+                        className="btn-glass-primary mt-auto mt-6 w-fit rounded-lg px-6 py-3 text-sm font-semibold"
                       >
                         Оставить заявку
                       </Link>

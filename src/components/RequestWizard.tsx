@@ -83,9 +83,9 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                 <span
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 ${
                     passed
-                      ? "bg-sky-700 text-white"
+                      ? "bg-brand text-white"
                       : active
-                        ? "glass-strong text-sky-700 ring-2 ring-sky-500/40"
+                        ? "glass-strong text-brand ring-2 ring-brand/40"
                         : "bg-white/50 text-slate-600"
                   }`}
                 >
@@ -160,7 +160,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
               type="button"
               disabled={!step1Valid}
               onClick={() => setStep(2)}
-              className="btn-glass-primary w-full rounded-full px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-glass-primary w-full rounded-lg px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
             >
               Продолжить
             </button>
@@ -194,15 +194,15 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                     type="button"
                     onClick={() => setPlanId(plan.id)}
                     aria-pressed={selected}
-                    className={`relative w-full rounded-xl border-2 p-5 text-left transition-all duration-300 md:p-6 ${
+                    className={`relative w-full rounded-lg border-2 p-5 text-left transition-all duration-300 md:p-6 ${
                       selected
-                        ? "glass-strong border-sky-600 shadow-[0_16px_44px_rgba(37,99,235,0.22)] ring-4 ring-sky-500/25"
-                        : "glass border-transparent hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
+                        ? "glass-strong border-brand shadow-[0_16px_44px_rgba(63,105,150,0.22)] ring-4 ring-brand/25"
+                        : "glass border-transparent hover:border-brand-200 hover:shadow-[0_12px_32px_rgba(13,36,74,0.1)]"
                     }`}
                   >
                     {/* Бейдж выбранного тарифа */}
                     <span
-                      className={`absolute right-5 top-5 rounded-full bg-gradient-to-br from-sky-600 to-amber-600 px-3 py-1 text-xs font-semibold text-white shadow-md transition-all duration-300 ${
+                      className={`absolute right-5 top-5 rounded-lg bg-brand px-3 py-1 text-xs font-semibold text-white shadow-md transition-all duration-300 ${
                         selected ? "scale-100 opacity-100" : "scale-75 opacity-0"
                       }`}
                     >
@@ -212,11 +212,6 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="text-lg font-semibold text-brand">{plan.name}</h3>
-                          {plan.isPopular ? (
-                            <span className="rounded-full bg-sky-100/80 px-2.5 py-0.5 text-xs font-semibold text-sky-700">
-                              Популярный
-                            </span>
-                          ) : null}
                         </div>
                         {plan.note ? (
                           <p className="mt-0.5 text-sm text-slate-700">{plan.note}</p>
@@ -237,7 +232,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                           key={feature}
                           className="flex items-start gap-2 text-sm text-slate-600"
                         >
-                          <span className="mt-0.5 text-sky-700">✓</span>
+                          <span className="mt-0.5 text-brand">✓</span>
                           {feature}
                         </li>
                       ))}
@@ -248,7 +243,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
             </div>
 
             {error ? (
-              <p className="glass mt-5 rounded-xl px-4 py-3 text-sm text-red-600" role="alert">
+              <p className="glass mt-5 rounded-lg px-4 py-3 text-sm text-red-600" role="alert">
                 {error}
               </p>
             ) : null}
@@ -258,7 +253,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                 type="button"
                 onClick={() => setStep(1)}
                 disabled={submitting}
-                className="btn-glass-ghost rounded-full px-7 py-4 text-center font-semibold"
+                className="btn-glass-ghost rounded-lg px-7 py-4 text-center font-semibold"
               >
                 ← Назад к данным
               </button>
@@ -267,7 +262,7 @@ export default function RequestWizard({ plans }: { plans: PlanOption[] }) {
                 type="button"
                 onClick={handleSubmit}
                 disabled={planId === null || submitting}
-                className="btn-glass-primary flex-1 rounded-full px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+                className="btn-glass-primary flex-1 rounded-lg px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting ? "Создаём заявку…" : "Создать заявку"}
               </button>

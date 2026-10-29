@@ -11,19 +11,31 @@ type SectionProps = {
 const steps = [
   {
     number: "01",
-    title: "Расскажите о ситуации",
-    text: "Коротко обсудим состояние и потребности человека.",
+    title: "Позвонить нам",
+    text: "Ответим на вопросы и договоримся об экскурсии.",
   },
   {
     number: "02",
-    title: "Подберём вариант",
-    text: "Объясним доступные форматы и условия.",
+    title: "Приехать на экскурсию",
+    text: "Покажем пансионат: номера, столовую, веранду, досуг.",
   },
   {
     number: "03",
-    title: "Ответим на вопросы",
-    text: "Вы сможете спокойно принять решение.",
+    title: "Заключить договор",
+    text: "Все условия фиксируем в договоре — без устных обещаний.",
   },
+  {
+    number: "04",
+    title: "Заселиться",
+    text: "Можем организовать трансфер до пансионата.",
+  },
+];
+
+const documents = [
+  "Паспорт РФ",
+  "Медицинский полис",
+  "Страховое свидетельство (СНИЛС)",
+  "Выписка из медучреждения (если есть)",
 ];
 
 export default function HowToStart({ footer }: SectionProps) {
@@ -33,27 +45,40 @@ export default function HowToStart({ footer }: SectionProps) {
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
             <SectionHeading
-              eyebrow="Как начать"
-              title="Всё начинается с разговора"
-              description="Расскажите нам о ситуации вашего близкого. Мы зададим необходимые вопросы и поможем подобрать подходящий вариант."
+              eyebrow="Как заселиться"
+              title="Четыре простых шага"
+              description="Звоните — будем рады показать и рассказать о пансионате. При желании организуем трансфер."
             />
 
             <div className="mt-7 animate-fade-up [animation-delay:300ms]">
               <Link
-                href="/register"
-                className="btn-glass-primary inline-block rounded-full px-7 py-4 font-semibold"
+                href="#contacts"
+                className="btn-glass-primary inline-block rounded-lg px-7 py-4 font-semibold"
               >
-                Получить консультацию
+                Связаться с нами
               </Link>
+            </div>
+
+            {/* Документы для заселения */}
+            <div className="glass mt-7 rounded-lg p-6">
+              <h3 className="font-semibold text-brand">Какие нужны документы</h3>
+              <ul className="mt-3 space-y-2 text-sm text-slate-700">
+                {documents.map((doc) => (
+                  <li key={doc} className="flex gap-2">
+                    <span className="mt-0.5 text-brand">✓</span>
+                    {doc}
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
 
           <div className="space-y-4">
             {steps.map((step, index) => (
               <Reveal key={step.number} delay={index * 120}>
-                <div className="glass flex gap-5 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+                <div className="glass flex gap-5 rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                   <div
-                    className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-sky-700`}
+                    className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : index === 3 ? "icon-glow-delay-3" : ""} flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-brand`}
                   >
                     {step.number}
                   </div>

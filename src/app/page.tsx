@@ -16,15 +16,17 @@ import QuickForm from "@/components/QuickForm";
 import StickyNav from "@/components/StickyNav";
 import Guarantees from "@/components/Guarantees";
 import Footer from "@/components/Footer";
+import { site } from "@/lib/site";
 
-/** Структурированные данные для поисковых систем: организация и рейтинг отзывов */
+/** Структурированные данные для поисковых систем: организация и рейтинг отзывов.
+ *  Контакты — из site.ts, чтобы JSON-LD не расходился с сайтом. */
 const JSON_LD = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Патронаж",
-  telephone: "+7 (999) 139-39-04",
-  email: "sarkana999@gmail.com",
-  address: "г. Москва, ул. Тихая, 12",
+  name: site.name,
+  telephone: site.phone,
+  email: site.email,
+  address: site.address,
   aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "27" },
 });
 

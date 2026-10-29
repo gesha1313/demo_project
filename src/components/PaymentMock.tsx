@@ -42,8 +42,8 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
 
   if (paid) {
     return (
-      <div className="glass-strong rounded-xl p-8 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-teal-600 text-2xl text-white shadow-lg">
+      <div className="glass-strong rounded-lg p-8 text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand text-2xl text-white shadow-lg">
           ✓
         </div>
         <h2 className="mt-5 text-2xl font-semibold text-brand">Оплата прошла</h2>
@@ -52,7 +52,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
         </p>
         <Link
           href="/cabinet/requests"
-          className="btn-glass-primary mt-6 inline-block rounded-full px-6 py-3 text-sm font-semibold"
+          className="btn-glass-primary mt-6 inline-block rounded-lg px-6 py-3 text-sm font-semibold"
         >
           Мои заявки
         </Link>
@@ -61,20 +61,20 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
   }
 
   return (
-    <div className="glass-strong rounded-xl p-7 md:p-8">
+    <div className="glass-strong rounded-lg p-7 md:p-8">
       <h2 className="text-xl font-semibold text-brand">Оплата</h2>
 
       <div className="mt-4 space-y-1.5">
         {lines.map((line) => (
           <div key={line} className="flex items-center gap-2 text-sm text-slate-600">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
             {line}
           </div>
         ))}
       </div>
 
       {perMonthPrice ? (
-        <div className="glass mt-5 flex items-center justify-between gap-4 rounded-xl px-5 py-4">
+        <div className="glass mt-5 flex items-center justify-between gap-4 rounded-lg px-5 py-4">
           <div>
             <div className="text-xs uppercase tracking-wide text-slate-600">На сколько месяцев</div>
             <div className="text-sm text-slate-600">{perMonthPrice.toLocaleString("ru-RU")} ₽ / месяц</div>
@@ -94,7 +94,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
         </div>
       ) : null}
 
-      <div className="glass mt-5 flex items-center justify-between rounded-xl px-5 py-4">
+      <div className="glass mt-5 flex items-center justify-between rounded-lg px-5 py-4">
         <span className="text-sm font-medium text-slate-600">Итого к оплате</span>
         <span className="text-2xl font-semibold text-brand">{total.toLocaleString("ru-RU")} ₽</span>
       </div>
@@ -153,7 +153,7 @@ export default function PaymentMock({ amount, lines, perMonthPrice, onPaid }: Pa
         type="button"
         onClick={handlePay}
         disabled={paying}
-        className="btn-glass-primary mt-6 w-full rounded-full px-7 py-4 font-semibold disabled:opacity-60"
+        className="btn-glass-primary mt-6 w-full rounded-lg px-7 py-4 font-semibold disabled:opacity-60"
       >
         {paying ? "Обрабатываем оплату…" : `Оплатить ${total.toLocaleString("ru-RU")} ₽`}
       </button>

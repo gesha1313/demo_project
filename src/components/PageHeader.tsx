@@ -11,22 +11,22 @@ type PageHeaderProps = {
 export default function PageHeader({ eyebrow, title, description, links }: PageHeaderProps) {
   return (
     <section className="relative overflow-hidden py-8 md:py-12">
-      <div className="absolute -right-32 -top-24 h-80 w-80 animate-float rounded-full bg-sky-300/30 blur-3xl" />
-      <div className="absolute -left-24 bottom-0 h-72 w-72 animate-float-slow rounded-full bg-amber-200/40 blur-3xl" />
+      <div className="absolute -right-32 -top-24 h-80 w-80 animate-float rounded-full bg-brand-300/30 blur-3xl" />
+      <div className="absolute -left-24 bottom-0 h-72 w-72 animate-float-slow rounded-full bg-brand-200/40 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="max-w-2xl animate-fade-up">
           {/* Хлебные крошки: Главная / текущий раздел */}
           <nav aria-label="Хлебные крошки" className="mb-4 text-xs text-slate-600">
-            <Link href="/" className="transition-colors hover:text-sky-700">
+            <Link href="/" className="transition-colors hover:text-brand">
               Главная
             </Link>
             <span className="mx-1.5 text-slate-400">/</span>
             <span className="font-semibold text-slate-700">{eyebrow}</span>
           </nav>
 
-          <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" />
+          <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(63,105,150,0.9)]" />
             {eyebrow}
           </span>
 
@@ -45,7 +45,7 @@ export default function PageHeader({ eyebrow, title, description, links }: PageH
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-full glass px-4 py-2 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-white/70 hover:text-sky-700"
+                className="rounded-full glass px-4 py-2 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-white/70 hover:text-brand"
               >
                 {link.label} →
               </Link>

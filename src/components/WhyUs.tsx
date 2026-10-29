@@ -4,28 +4,40 @@ import SectionHeading from "./SectionHeading";
 
 const advantages = [
   {
-    title: "Квалифицированные медсёстры и сиделки",
-    text: "Сертификация, профильное образование и опыт работы от 3 лет.",
+    title: "Проживание в 2–3-местных номерах",
+    text: "Уютные комнаты с всем необходимым для комфортной жизни.",
   },
   {
-    title: "Индивидуальные планы ухода",
-    text: "План составляется под состояние и привычки конкретного человека.",
+    title: "Здоровое питание",
+    text: "Меню по рекомендациям Роспотребнадзора, пятиразовый режим.",
   },
   {
-    title: "Гибкие графики и экстренные выезды",
-    text: "Почасово, ежедневно, посменно. Подбор за день.",
+    title: "Медицинское сопровождение",
+    text: "Ежедневный контроль состояния здоровья постояльцев.",
   },
   {
-    title: "Строгий отбор сотрудников",
-    text: "Проверка благонадёжности, рекомендации, медосмотр и справки — обязательны.",
+    title: "Гигиенические процедуры",
+    text: "Помощь в самообслуживании и индивидуальная гигиена.",
   },
   {
-    title: "Отчётность семье и родственникам",
-    text: "Ежедневные отчёты, фото и записи о состоянии и самочувствии близкого.",
+    title: "Все досуговые мероприятия",
+    text: "Лото, музыкальный час, прогулки, ЛФК, игры и развлечения.",
   },
   {
-    title: "Гарантия качества",
-    text: "Если специалист не подошёл — бесплатно заменим в течение суток.",
+    title: "Уборка и смена белья",
+    text: "Регулярная уборка номеров и свежее бельё — без доплат.",
+  },
+  {
+    title: "Смехотерапия",
+    text: "Хорошие эмоции — часть заботы о здоровье и настроении.",
+  },
+  {
+    title: "Массажная техника",
+    text: "Массажное оборудование для здоровья и самочувствия.",
+  },
+  {
+    title: "Восстановительные тренажёры",
+    text: "Занятия для подвижности и сохранения активности.",
   },
 ];
 
@@ -35,14 +47,14 @@ export default function WhyUs() {
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Почему именно мы"
-          title="Аргументы, а не обещания"
-          description="Мы собрали всё, что снимает главные сомнения родственников, в один список."
+          title="Всё это уже входит в стоимость"
+          description="Проживание, питание, уход и досуг — один тариф без скрытых доплат."
         />
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {advantages.map((item, index) => (
-            <Reveal key={item.title} delay={index * 100} className={index < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
-              <div className="glass h-full rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+            <Reveal key={item.title} delay={index * 100} className="lg:col-span-1">
+              <div className="glass h-full rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <h3 className="font-semibold text-brand">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
               </div>
@@ -53,9 +65,9 @@ export default function WhyUs() {
         <Reveal className="mt-10 text-center" delay={150}>
           <Link
             href="/register"
-            className="btn-glass-primary inline-block rounded-full px-8 py-3.5 text-sm font-semibold"
+            className="btn-glass-primary inline-block rounded-lg px-8 py-3.5 text-sm font-semibold"
           >
-            Записаться на консультацию
+            Записаться на экскурсию
           </Link>
         </Reveal>
       </div>

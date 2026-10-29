@@ -47,7 +47,7 @@ export default function TransferButton({ requestId }: { requestId: number }) {
         </p>
       ) : null}
       {done ? (
-        <p className="mb-2 text-sm font-medium text-sky-600" role="status">
+        <p className="mb-2 text-sm font-medium text-brand" role="status">
           {done}
         </p>
       ) : null}
@@ -55,7 +55,7 @@ export default function TransferButton({ requestId }: { requestId: number }) {
         type="button"
         onClick={() => void handleTransfer()}
         disabled={busy}
-        className="btn-glass-ghost rounded-full px-6 py-3.5 text-sm font-semibold disabled:opacity-50"
+        className="btn-glass-ghost rounded-lg px-6 py-3.5 text-sm font-semibold disabled:opacity-50"
       >
         {busy ? "Переносим…" : "Перенести к другой сиделке"}
       </button>

@@ -24,14 +24,14 @@ export default async function AdminPage() {
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-brand-50 to-brand-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-brand-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-brand-200/50 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-6 py-16 md:py-20">
           <div className="animate-fade-up flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
                 {user.role === "admin" ? "Администратор" : "Сотрудник"}
               </span>
               <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
@@ -47,7 +47,7 @@ export default async function AdminPage() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/cabinet"
-                className="btn-glass-ghost rounded-full px-6 py-3 text-sm font-semibold"
+                className="btn-glass-ghost rounded-lg px-6 py-3 text-sm font-semibold"
               >
                 Личный кабинет
               </Link>

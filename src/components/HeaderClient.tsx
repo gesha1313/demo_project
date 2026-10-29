@@ -41,7 +41,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-label="Открыть меню"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/70 bg-white/50 backdrop-blur-md transition-colors hover:bg-white/70"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/70 bg-white/50 backdrop-blur-md transition-colors hover:bg-white/70"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}
               strokeLinecap="round" className="h-5 w-5 text-slate-800" aria-hidden="true">
@@ -51,14 +51,14 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
 
           {/* Логотип */}
           <Link href="/" className="group flex min-w-0 items-center gap-2.5">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)] transition-transform duration-200 group-hover:scale-105">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-[0_6px_16px_rgba(63,105,150,0.35)] transition-transform duration-200">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
                 strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
                 <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
               </svg>
             </div>
             <div className="min-w-0">
-              <div className="truncate text-lg font-bold leading-tight tracking-tight text-brand transition-colors group-hover:text-sky-800 min-[480px]:text-xl">
+              <div className="truncate text-lg font-bold leading-tight tracking-tight text-brand transition-colors group-hover:text-brand-dark min-[480px]:text-xl">
                 {site.name}
               </div>
               <div className="hidden text-xs text-slate-700 min-[560px]:block">{site.tagline}</div>
@@ -72,18 +72,20 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
 
             <a
               href={site.phoneHref}
-              className="hidden items-center gap-1.5 rounded-xl border-[1.5px] border-slate-400 bg-white/60 px-3.5 py-2.5 text-sm font-semibold text-slate-900 backdrop-blur-md transition-all duration-200 hover:border-sky-500 hover:bg-white/70 hover:ring-1 hover:ring-sky-500 hover:text-sky-700 min-[640px]:flex"
+              className="hidden items-center gap-1.5 rounded-lg border-[1.5px] border-slate-400 bg-white/60 px-3.5 py-2.5 text-sm font-semibold text-slate-900 backdrop-blur-md transition-all duration-200 hover:border-brand hover:bg-white/70 hover:ring-1 hover:ring-brand hover:text-brand min-[640px]:flex"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
-                strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-sky-700" aria-hidden="true">
+                strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-brand" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z" />
               </svg>
               {site.phone}
             </a>
 
+            {/* Главный CTA остаётся на первом экране страницы;
+                в шапке достаточно вторичной кнопки */}
             <Link
               href="/register"
-              className="btn-glass-primary hidden rounded-xl px-4 py-2.5 text-sm font-semibold sm:inline-block"
+              className="btn-glass-ghost hidden rounded-lg px-4 py-2.5 text-sm font-semibold sm:inline-block"
             >
               Консультация →
             </Link>
@@ -106,7 +108,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                 type="button"
                 onClick={closeMenu}
                 aria-label="Закрыть меню"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 transition-colors hover:bg-slate-100"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 transition-colors hover:bg-slate-100"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}
                   strokeLinecap="round" className="h-4 w-4" aria-hidden="true">
@@ -122,7 +124,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                     key={link.href}
                     href={link.href}
                     onClick={closeMenu}
-                    className="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-sky-50 hover:text-sky-700"
+                    className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-brand-50 hover:text-brand"
                   >
                     {link.label}
                   </a>
@@ -131,7 +133,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                     key={link.href}
                     href={link.href}
                     onClick={closeMenu}
-                    className="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-sky-50 hover:text-sky-700"
+                    className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-brand-50 hover:text-brand"
                   >
                     {link.label}
                   </Link>
@@ -145,7 +147,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                   <Link
                     href="/cabinet"
                     onClick={closeMenu}
-                    className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-800 transition-colors hover:bg-sky-50"
+                    className="block rounded-lg px-4 py-3 text-sm font-semibold text-slate-800 transition-colors hover:bg-brand-50"
                   >
                     Личный кабинет
                   </Link>
@@ -153,7 +155,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                     <Link
                       href="/admin"
                       onClick={closeMenu}
-                      className="block rounded-xl px-4 py-3 text-sm font-semibold text-sky-700 transition-colors hover:bg-sky-50"
+                      className="block rounded-lg px-4 py-3 text-sm font-semibold text-brand transition-colors hover:bg-brand-50"
                     >
                       Админ-панель
                     </Link>
@@ -163,7 +165,7 @@ export default function HeaderClient({ user }: { user: HeaderUser }) {
                 <Link
                   href="/login"
                   onClick={closeMenu}
-                  className="btn-glass-ghost block rounded-xl px-4 py-3 text-center text-sm font-semibold"
+                  className="btn-glass-ghost block rounded-lg px-4 py-3 text-center text-sm font-semibold"
                 >
                   Войти
                 </Link>

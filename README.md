@@ -117,35 +117,47 @@ git add . && git commit -m "db snapshot" && git push
 | --- | --- | --- |
 | Администратор | `admin@patronage.ru` | `Admin123!` |
 | Сотрудник | `employee@patronage.ru` | `Employee123!` |
+| Сиделка (демо) | `elena@patronage.ru` | `Caretaker123!` |
+| Сиделка (демо) | `olga@patronage.ru` | `Caretaker123!` |
+| Сиделка (демо) | `marina@patronage.ru` | `Caretaker123!` |
 
 ## Маршруты и воронка
 
 | Маршрут | Назначение |
 | --- | --- |
-| `/` | Главная: Hero, принципы, услуги, как начать, отзывы, CTA (карты больше нет) |
-| `/caretaker` | Услуга сиделки: анкета → анимация подбора → карта с меткой (только для авторизованных) |
-| `/about` | О пансионате: обычный день, команда, безопасность |
-| `/services` | Услуги и условия: форматы помощи, условия, стоимость, FAQ |
-| `/register` | Регистрация: email + пароль, индикатор надёжности пароля |
-| `/register/success` | «Аккаунт создан» + следующие шаги |
+| `/` | Главная: цепочка секций знакомства, форма заявки, sticky-навигация |
+| `/sidelki` | Услуга сиделки: тарифы 2 ч / 12 ч / сутки (старый `/services` редиректит сюда) |
+| `/pansionat` | Пансионат: районы Нижнего Новгорода, цены, фото |
+| `/social` | Социальная программа: господдержка и компенсации |
+| `/transport` | Перевозка маломобильных (раздел готовится) |
+| `/blog` | Блог: статьи об уходе и поддержка родственников |
+| `/about` | О пансионате: обычный день, безопасность |
+| `/caretaker` | Анкета подбора сиделки → карта с меткой (только для авторизованных) |
+| `/register` → `/register/success` | Регистрация: email + пароль, индикатор надёжности пароля |
 | `/login` | Вход (поддерживает `?next=` — возврат к цели, например к анкете) |
-| `/cabinet` | Личный кабинет: контакты, заявки обоих типов, горячая линия |
+| `/cabinet` | Личный кабинет: профиль, заявки, горячая линия |
 | `/cabinet/new` | Заявка в пансионат: визард с выбором тарифа |
-| `/cabinet/requests` | Все заявки: «Пансионат» и «Сиделка» визуально различаются |
+| `/cabinet/requests`, `/cabinet/requests/[id]` | Все заявки (пансионат и сиделка) и карточка заявки |
 | `/support` | Чат с горячей линией (клиентская сторона) |
 | `/admin` | Админ-панель: заявки, пользователи, чат (staff-only) |
+| `/pay/pansionat/[id]`, `/pay/caretaker/[id]` | Мок-оплата заявки (демо) |
 
 ## Услуга сиделки (`/caretaker`)
 
 Отдельный тип заявок — таблица `caretaker_requests` (ФИО и возраст
-подопечного, адрес, список услуг чекбоксами, дата начала, пожелания).
-Гостя редиректит на `/login?next=/caretaker`, после входа/регистрации
-он возвращается к анкете. По кнопке «Оформить»: POST `/api/caretaker`
-сохраняет заявку и «подбирает» сиделку (демо: случайные имя из пула,
-стаж, время приезда 20–100 мин) → анимация подбора → Яндекс-карта
-с красной меткой в пределах Нижнего Новгорода. В кабинете заявки
-на сиделку помечены зелёным бейджем «Сиделка» и зелёной полосой
-слева, пансионатные — синим.
+подопечного, адрес, список услуг чекбоксами, даты начала/конца,
+пожелания). Гостя редиректит на `/login?next=/caretaker`, после
+входа/регистрации он возвращается к анкете. По кнопке «Оформить»:
+POST `/api/caretaker` сохраняет заявку и предлагает её случайной
+**свободной сиделке из базы** (аккаунты с ролью `caretaker`, профили
+в `caretaker_profiles`): заявка получает статус `offered`, сиделка
+видит предложение в своём кабинете, а клиент — анимацию подбора и
+Яндекс-карту с меткой сиделки и временем приезда (20–100 мин).
+Если свободных сиделок нет — заявка встаёт в очередь (`new`)
+с уведомлением. Дальше: сиделка принимает или отклоняет предложение
+(`/api/caretaker/decide`, при отказе подбирается другая), клиент
+может заменить сиделку (`/api/caretaker/transfer`) или отменить
+заявку (`/api/caretaker/cancel`).
 
 Секции главной и внутренних страниц — переиспользуемые компоненты с
 опциональным «переходником» (`footer`): блок заканчивается ссылкой на
@@ -159,29 +171,43 @@ git add . && git commit -m "db snapshot" && git push
 Файл: `data/patronage.db` (создаётся автоматически). Схема — в `src/lib/db.ts`.
 
 ```
-users          аккаунты: email, password_hash, role (user|employee|admin)
-user_profiles  профиль (1:1): full_name, phone — телефон для связи
-sessions       сессии: token (httpOnly cookie) → user_id, expires_at
-requests       заявки: user_id → employee_id (кто ведёт), status, message
-conversations  диалоги горячей линии: user_id ↔ employee_id
-messages       сообщения диалогов: sender_id, body
+users               аккаунты: email, password_hash, role (user|employee|admin|caretaker)
+user_profiles       профиль (1:1): full_name, phone — телефон для связи
+sessions            legacy: сессии stateless (подписанная cookie), таблица не пишется
+plans               тарифы пансионата: monthly_price, note, is_popular
+plan_features       состав тарифа (N:1 → plans)
+requests            заявки в пансионат: user_id → employee_id (кто ведёт), статус, подопечный, тариф
+request_deletions   журнал удалённых заявок: кем и по какой причине
+caretaker_profiles  сиделки: full_name, experience_years, status (free|waiting|busy)
+caretaker_requests  заявки на сиделку: подопечный, задачи, даты, назначенная сиделка
+conversations       диалоги горячей линии: user_id ↔ employee_id
+messages            сообщения диалогов: sender_id, body
+notifications       уведомления (колокольчик): kind, title, body, is_read
 ```
 
-Роли: **клиент** (user) регистрируется и оставляет заявку; **сотрудник**
-(employee) ведёт назначенные ему заявки и отвечает в чате; **администратор**
-(admin) видит все заявки, распределяет их между сотрудниками и меняет роли.
+Роли: **клиент** (user) регистрируется и оставляет заявки; **сиделка**
+(caretaker) принимает и отклоняет предложенные ей заявки на уход;
+**сотрудник** (employee) ведёт назначенные ему заявки и отвечает в чате;
+**администратор** (admin) видит все заявки, распределяет их между
+сотрудниками и меняет роли.
 
 ## API
 
 | Метод и путь | Описание |
 | --- | --- |
-| `POST /api/auth/register` | Регистрация (email, пароль, комментарий) + заявка |
-| `POST /api/auth/login` | Вход, ставит cookie сессии |
+| `POST /api/auth/register` | Регистрация (email + пароль) |
+| `POST /api/auth/login` | Вход, ставит подписанную cookie |
 | `POST /api/auth/logout` | Выход |
 | `PUT /api/profile` | Имя и телефон для связи (кабинет) |
+| `POST /api/requests` | Заявка в пансионат (визард `/cabinet/new`) |
 | `GET/POST /api/chat` | Сообщения горячей линии клиента |
-| `GET /api/admin/requests` | Заявки (admin — все, employee — свои) |
-| `PATCH /api/admin/requests` | Статус заявки, назначение сотрудника |
+| `GET/POST /api/notifications` | Уведомления; POST — отметить прочитанными |
+| `POST /api/caretaker` | Заявка на сиделку: подбор свободной или очередь |
+| `GET /api/caretaker/requests` | Кабинет сиделки: статус, предложенные и принятые заявки |
+| `POST /api/caretaker/decide` | Решение сиделки: accept / decline (переподбор) |
+| `POST /api/caretaker/transfer` | Замена сиделки по инициативе клиента |
+| `POST /api/caretaker/cancel` | Отмена заявки на сиделку (только new/declined) |
+| `GET/PATCH/DELETE /api/admin/requests` | Заявки (admin — все, employee — свои): статус, назначение, удаление |
 | `GET/PATCH /api/admin/users` | Пользователи и роли (admin-only) |
 | `GET/POST /api/admin/chat` | Диалоги поддержки: список и ответ (staff) |
 
@@ -190,38 +216,45 @@ messages       сообщения диалогов: sender_id, body
 ```
 src/
 ├── app/                    # App Router: маршруты и корневой layout
-│   ├── layout.tsx          # <html lang="ru">, шрифт Manrope, метаданные
-│   ├── page.tsx            # Главная: композиция из секций
-│   ├── register/           # Регистрация + страница успеха
-│   ├── login/              # Вход
-│   ├── rooms/              # Номера и тарифы
-│   ├── cabinet/            # Личный кабинет клиента
-│   ├── support/            # Чат горячей линии (клиент)
+│   ├── layout.tsx          # <html lang="ru">, шрифт PT Serif, метаданные
+│   ├── page.tsx            # Главная: композиция из секций + JSON-LD
+│   ├── globals.css         # Tailwind 4 + токены темы + Liquid Glass материалы
+│   ├── about/ blog/ social/ transport/    # Контентные страницы
+│   ├── sidelki/ pansionat/                # Услуги и цены (/services → /sidelki)
+│   ├── register/ login/                   # Регистрация и вход
+│   ├── caretaker/ support/                # Анкета сиделки, чат горячей линии
+│   ├── cabinet/            # Личный кабинет клиента (+ new/, requests/[id]/)
 │   ├── admin/              # Админ-панель (staff-only)
-│   ├── api/                # Route Handlers (auth, profile, chat, admin/*)
-│   └── globals.css         # Tailwind 4 + токены темы + Liquid Glass материалы
-├── components/             # Секции и общие блоки
-├── lib/
-│   ├── db.ts               # SQLite: схема 3NF, миграции, демо-аккаунты
-│   ├── auth.ts             # Сессии, хеширование паролей, getCurrentUser
-│   ├── validation.ts       # Валидация email и оценка пароля (клиент+сервер)
-│   └── site.ts             # Название, телефон, e-mail, ссылки меню
-└── data/                   # patronage.db — создаётся при первом запуске
+│   ├── pay/                # Мок-оплата: pansionat/[id], caretaker/[id]
+│   └── api/                # Route Handlers: auth, profile, chat, notifications,
+│                           #   requests, caretaker/*, admin/*
+├── components/             # Секции лендинга, формы, кабинеты, виджеты
+└── lib/
+    ├── db.ts               # libSQL: схема 3NF, миграции, снапшот, демо-данные
+    ├── auth.ts             # Stateless-сессии (HMAC-cookie), getCurrentUser
+    ├── validation.ts       # Валидация email и оценка пароля (клиент+сервер)
+    ├── notify.ts           # Записи в notifications
+    ├── ymaps.ts            # Загрузчик JS API Яндекс.Карт
+    └── site.ts             # Название, телефон, e-mail, ссылки меню
+scripts/                    # export-db, push-turso, reset-db, turso-flow
+data/                       # patronage.db — создаётся при первом запуске
 ```
 
 Основные компоненты (`src/components/`): `Header`/`HeaderClient` (шапка
-с учётом авторизации), `Hero`, `DailyLife`, `Trust`, `Services`, `HowToStart`,
-`Conditions`, `About`, `Safety`, `Reviews`, `Pricing`, `Faq`, `CtaSection`,
-`Footer` — секции лендинга; `RegisterForm` и `LoginForm` — формы входа
-и регистрации; `ProfileCard` — телефон в кабинете; `SupportChat` и
-`AdminDashboard` — чат и админ-панель; `Reveal` и `SectionHeading` —
-анимация появления и общий заголовок секций.
+с учётом авторизации), `Hero`, `Trust`, `About`, `DailyLife`, `Safety`,
+`WhyUs`, `Services`, `HowToStart`, `Team`, `Reviews`, `Pricing`, `Faq`,
+`Contacts`, `Guarantees`, `Footer` — секции лендинга; `RegisterForm`,
+`LoginForm`, `QuickForm`, `LeadForm` — формы; `RequestWizard` и
+`CaretakerWizard` — визарды заявок; `CaretakerCabinet` — кабинет сиделки;
+`AdminDashboard` — админ-панель; `SupportChat` — чат горячей линии;
+`NotificationsBell`, `FloatingActions`, `CookieBar`, `StickyNav` — виджеты;
+`Reveal` и `SectionHeading` — анимация появления и общий заголовок секций.
 
-## Карта свободных сиделок (Яндекс.Карты)
+## Яндекс.Карты (анкета сиделки)
 
-На главной странице — карта с 5 красными метками «свободных сиделок»
-в пределах Нижнего Новгорода; метки переезжают на новые случайные
-точки каждые 5 минут (`src/components/CaregiversMap.tsx`).
+После оформления заявки на сиделку визард показывает карту с меткой
+в пределах Нижнего Новгорода (`src/components/CaretakerWizard.tsx`,
+загрузчик API — `src/lib/ymaps.ts`).
 
 Для стабильной работы нужен бесплатный ключ «JavaScript API и HTTP
 Геокодер»: https://developer.tech.yandex.ru/services/ →
@@ -236,18 +269,26 @@ NEXT_PUBLIC_YANDEX_MAPS_API_KEY=ваш_ключ
 загрузка блокируется — секция показывает заглушку с этой же инструкцией.
 На Vercel добавьте переменную в Settings → Environment Variables.
 
-## Дизайн: Liquid Glass
+## Дизайн: сдержанный «государственный» стиль
 
-Материалы «жидкого стекла» описаны в `globals.css` и переиспользуются классами:
+Шрифт — системный **Times New Roman** (без загрузки веб-шрифта). Палитра —
+синяя шкала `brand` (`--color-brand-50…400` + `brand`, `brand-dark` в
+`@theme`): ссылки, бейджи, иконки, кнопки и тёмные секции используют только
+её. Терракотовый (#b34700) — единственный тёплый акцент: главные
+кнопки-действия. Янтарный — только статусные бейджи «в работе» и звёзды рейтинга.
 
-- `.glass` / `.glass-strong` — светлые полупрозрачные панели (blur + светящаяся кромка);
+Внешний вид: плоские поверхности, скругления 8px (`rounded-lg`), тонкие
+рамки вместо пышных теней, без hover-подъёмов карточек; появление при
+скролле — короткая прозрачность без сдвигов. Классы материалов в `globals.css`:
+
+- `.glass` / `.glass-strong` — плотные светлые панели (92–98% белого,
+  видимая синеватая рамка);
 - `.glass-dark` — тёмное стекло для тёмных секций и CTA-блока;
-- `.section-band` — светлая полоса-секция (ритм: секции чередуются с фоном);
-- `.section-dark` — тёмная navy-полоса (контрастный акцент);
-- `.btn-glass-primary` — глянцевая кнопка с бегущим бликом;
-- `.btn-glass-ghost` — вторичная стеклянная кнопка;
-- `.input-glass` — стеклянные поля ввода;
-- `.icon-glow` — пульсирующий ореол за иконками.
+- `.section-band` — светлая полоса-секция (ритм чередования с фоном);
+- `.section-dark` — однотонная тёмно-синяя полоса (контрастный акцент);
+- `.btn-glass-primary` — тёплая терракотовая главная кнопка (одна на экран);
+- `.btn-glass-ghost` — вторичная кнопка с синей рамкой;
+- `.input-glass` — поля ввода с видимыми рамками и синим фокус-рингом.
 
 Главная страница построена как «цепочка знакомства»: каждый раздел
 заканчивается компонентом `SectionFooter` — переходом к следующему

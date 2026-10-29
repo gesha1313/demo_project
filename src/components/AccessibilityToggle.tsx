@@ -33,7 +33,7 @@ export default function AccessibilityToggle() {
       title={on ? "Вернуть обычную версию" : "Версия для слабовидящих"}
       className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-200 md:h-11 md:w-11 ${
         on
-          ? "border-sky-300 bg-sky-100/80 text-sky-800"
+          ? "border-brand-300 bg-brand-100/80 text-brand-dark"
           : "border-white/70 bg-white/50 text-slate-700 hover:bg-white/70"
       }`}
     >

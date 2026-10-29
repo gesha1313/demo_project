@@ -9,7 +9,7 @@ import { dbAll, dbGet, getDb } from "@/lib/db";
 const STATUS_META: Record<string, { label: string; className: string; hint: string }> = {
   free: {
     label: "Свободна",
-    className: "bg-sky-100/80 text-sky-700",
+    className: "bg-brand-100/80 text-brand",
     hint: "Вы в очереди на подбор — новые заявки придут вам первыми",
   },
   waiting: {
@@ -19,7 +19,7 @@ const STATUS_META: Record<string, { label: string; className: string; hint: stri
   },
   busy: {
     label: "В работе",
-    className: "bg-sky-100/80 text-sky-700",
+    className: "bg-brand-100/80 text-brand",
     hint: "Вы приняли заявку — новые предложения не приходят",
   },
 };
@@ -88,15 +88,15 @@ export default async function CaretakerCabinet({
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-sky-50 to-amber-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-sky-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-amber-200/50 blur-3xl" />
+      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-brand-50 to-brand-100">
+        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-brand-300/40 blur-3xl" />
+        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-brand-200/50 blur-3xl" />
 
         <div className="relative mx-auto max-w-4xl px-6 py-16">
           {/* Приветствие и статус */}
           <div className="animate-fade-up flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
                 Кабинет сиделки
               </span>
               <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
@@ -111,7 +111,7 @@ export default async function CaretakerCabinet({
 
             <div className="flex flex-col items-start gap-3 md:items-end">
               <span
-                className={`glass rounded-full px-5 py-2.5 text-sm font-semibold ${statusMeta.className}`}
+                className={`glass rounded-lg px-5 py-2.5 text-sm font-semibold ${statusMeta.className}`}
               >
                 Статус: {statusMeta.label}
               </span>
@@ -123,7 +123,7 @@ export default async function CaretakerCabinet({
           <div className="mt-12 space-y-5">
             {offers.length === 0 ? (
               <Reveal>
-                <div className="glass rounded-xl p-8 text-center">
+                <div className="glass rounded-lg p-8 text-center">
                   <p className="text-slate-600">
                     Заявок пока нет. Как только клиент оформит заказ на сиделку,
                     он появится здесь.
@@ -134,8 +134,8 @@ export default async function CaretakerCabinet({
               offers.map((offer, index) => (
                 <Reveal key={offer.id} delay={Math.min(index * 80, 320)}>
                   <article
-                    className={`glass rounded-xl p-6 md:p-7 ${
-                      offer.status === "accepted" ? "border-l-4 border-l-sky-400" : ""
+                    className={`glass rounded-lg p-6 md:p-7 ${
+                      offer.status === "accepted" ? "border-l-4 border-l-brand-400" : ""
                     }`}
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -149,7 +149,7 @@ export default async function CaretakerCabinet({
                       </div>
 
                       {offer.status === "accepted" ? (
-                        <span className="rounded-full bg-sky-100/80 px-3 py-1 text-xs font-semibold text-sky-700">
+                        <span className="rounded-full bg-brand-100/80 px-3 py-1 text-xs font-semibold text-brand">
                           Принята · вы в работе
                         </span>
                       ) : (
@@ -168,7 +168,7 @@ export default async function CaretakerCabinet({
                         {offer.client_phone ? (
                           <a
                             href={`tel:${offer.client_phone.replace(/[^+\d]/g, "")}`}
-                            className="text-sky-700 hover:text-sky-800"
+                            className="text-brand hover:text-brand-dark"
                           >
                             {offer.client_phone}
                           </a>
@@ -193,7 +193,7 @@ export default async function CaretakerCabinet({
                         {(JSON.parse(offer.tasks) as string[]).map((task) => (
                           <span
                             key={task}
-                            className="rounded-full bg-sky-50/90 px-2.5 py-0.5 text-xs text-sky-700"
+                            className="rounded-full bg-brand-50/90 px-2.5 py-0.5 text-xs text-brand"
                           >
                             {task}
                           </span>
@@ -213,7 +213,7 @@ export default async function CaretakerCabinet({
                     </div>
 
                     {offer.notes ? (
-                      <p className="glass-strong mt-4 rounded-xl px-4 py-3 text-sm leading-6 text-slate-600">
+                      <p className="glass-strong mt-4 rounded-lg px-4 py-3 text-sm leading-6 text-slate-600">
                         {offer.notes}
                       </p>
                     ) : null}
@@ -227,7 +227,7 @@ export default async function CaretakerCabinet({
                     <div className="mt-4">
                       <Link
                         href={`/cabinet/requests/${offer.id}`}
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-700 transition-all duration-200 hover:translate-x-1 hover:text-sky-800"
+                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all duration-200 hover:text-brand-dark"
                       >
                         Подробнее →
                       </Link>
@@ -241,7 +241,7 @@ export default async function CaretakerCabinet({
           <p className="mt-10 text-center text-sm text-slate-600">
             Приняли заявку — статус меняется на «В работе», новые предложения
             не приходят. Отказались — вернётесь в очередь «Свободна»,{" "}
-            <Link href="/" className="text-sky-700 hover:text-sky-800">
+            <Link href="/" className="text-brand hover:text-brand-dark">
               если других заявок нет
             </Link>
             .

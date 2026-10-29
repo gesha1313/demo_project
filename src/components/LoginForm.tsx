@@ -98,7 +98,7 @@ export default function LoginForm({ nextPath = null }: { nextPath?: string | nul
           </div>
 
           {error ? (
-            <p className="glass rounded-xl px-4 py-3 text-sm text-red-600" role="alert">
+            <p className="glass rounded-lg px-4 py-3 text-sm text-red-600" role="alert">
               {error}
             </p>
           ) : null}
@@ -106,7 +106,7 @@ export default function LoginForm({ nextPath = null }: { nextPath?: string | nul
           <button
             type="submit"
             disabled={!canSubmit}
-            className="btn-glass-primary w-full rounded-full px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-glass-primary w-full rounded-lg px-7 py-4 text-center font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Входим…" : "Войти"}
           </button>
@@ -115,7 +115,7 @@ export default function LoginForm({ nextPath = null }: { nextPath?: string | nul
             Нет аккаунта?{" "}
             <a
               href={nextPath ? `/register?next=${encodeURIComponent(nextPath)}` : "/register"}
-              className="font-semibold text-sky-700 hover:text-sky-800"
+              className="font-semibold text-brand hover:text-brand-dark"
             >
               Зарегистрироваться
             </a>
