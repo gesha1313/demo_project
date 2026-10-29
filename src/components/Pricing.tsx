@@ -35,7 +35,7 @@ const categories = [
 
 export default function Pricing({ footer }: SectionProps) {
   return (
-    <section id="pricing" className="section-band relative overflow-hidden py-10 md:py-14">
+    <section id="pricing" className="section-band relative overflow-hidden py-12 md:py-16">
       <div className="absolute -right-32 top-16 h-80 w-80 animate-float rounded-full bg-brand-200/40 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6">
@@ -48,7 +48,18 @@ export default function Pricing({ footer }: SectionProps) {
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {categories.map((category, index) => (
             <Reveal key={category.name} delay={index * 120}>
-              <div className="glass h-full rounded-lg p-7 transition-all duration-300">
+              <div
+                className={`relative h-full rounded-lg p-6 transition-all duration-300 ${
+                  index === 1
+                    ? "glass-strong border-2 border-brand shadow-[0_10px_30px -12px_rgba(47,85,120,0.35)]"
+                    : "glass"
+                }`}
+              >
+                {index === 1 ? (
+                  <span className="absolute -top-3 left-1/2 w-max -translate-x-1/2 rounded-lg bg-brand px-3 py-1 text-xs font-semibold text-white">
+                    Чаще всего выбирают
+                  </span>
+                ) : null}
                 <span className="inline-block rounded-lg bg-brand-100/80 px-3 py-1 text-xs font-semibold text-brand">
                   {category.name}
                 </span>
@@ -72,9 +83,9 @@ export default function Pricing({ footer }: SectionProps) {
 
         {/* Социальная программа */}
         <Reveal className="mt-5" delay={200}>
-          <div className="glass-strong flex flex-col gap-6 rounded-lg p-8 md:flex-row md:items-center md:justify-between">
+          <div className="glass-strong flex flex-col gap-6 rounded-lg p-6 md:p-8 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="text-xl font-semibold text-brand">
+              <h3 className="text-lg font-semibold text-brand">
                 Соц. программа «Проживание за пенсию»
               </h3>
               <p className="mt-2 text-slate-700">

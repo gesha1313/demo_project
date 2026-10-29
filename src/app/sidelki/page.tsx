@@ -47,7 +47,7 @@ export default function SidelkiPage() {
           description="Проверенные специалисты с опытом и медицинской подготовкой. Подбираем под характер и привычки человека — если не подошло, заменим бесплатно в течение суток."
         />
 
-        <section className="section-band py-10 md:py-14">
+        <section className="section-band py-12 md:py-16">
           <div className="mx-auto max-w-7xl px-6">
             <SectionHeading
               eyebrow="Тарифы"
@@ -57,11 +57,11 @@ export default function SidelkiPage() {
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               {tariffs.map((t, i) => (
                 <Reveal key={t.title} delay={i * 100}>
-                  <div className="glass relative flex h-full flex-col rounded-lg p-7 transition-transform duration-300">
+                  <div className="glass relative flex h-full flex-col rounded-lg p-6 transition-transform duration-300">
                     <span className="glass-strong w-fit rounded-lg px-3 py-1 text-xs font-semibold text-brand">
                       {t.time}
                     </span>
-                    <h2 className="mt-4 text-xl font-semibold text-brand">{t.title}</h2>
+                    <h2 className="mt-4 text-lg font-semibold text-brand">{t.title}</h2>
                     <div className="mt-2 text-2xl font-bold text-brand">{t.price}</div>
                     <p className="mt-3 text-sm leading-6 text-slate-600">{t.text}</p>
                     <ul className="mt-4 space-y-2 text-sm text-slate-600">

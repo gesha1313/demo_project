@@ -18,11 +18,13 @@ export default function SectionHeading({
       <span className="inline-block rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
         {eyebrow}
       </span>
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
+      <h2 className="mt-4 text-2xl font-semibold tracking-tight text-brand md:text-3xl">
         {title}
       </h2>
+      {/* Тёплый акцент: короткая янтарная черта под заголовком */}
+      <span aria-hidden className="mt-3 block h-[3px] w-10 rounded-full bg-amber-500/70" />
       {description ? (
-        <p className="mt-4 text-lg leading-8 text-slate-600">{description}</p>
+        <p className="mt-3 text-base leading-7 text-slate-600">{description}</p>
       ) : null}
     </Reveal>
   );

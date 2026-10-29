@@ -43,7 +43,7 @@ const advantages = [
 
 export default function WhyUs() {
   return (
-    <section id="why-us" className="relative py-10 md:py-14">
+    <section id="why-us" className="relative py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Почему именно мы"

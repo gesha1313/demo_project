@@ -28,15 +28,15 @@ export default function CookieBar() {
   };
 
   return (
-    <div className="glass-strong fixed bottom-4 left-4 right-4 z-40 flex flex-col gap-3 rounded-lg p-4 shadow-xl sm:right-auto sm:max-w-md sm:flex-row sm:items-center">
+    <div className="glass-strong fixed bottom-2 left-2 right-2 z-40 flex flex-col gap-2 rounded-lg p-3 shadow-xl sm:bottom-4 sm:left-4 sm:right-auto sm:max-w-md sm:flex-row sm:items-center sm:gap-3 sm:p-4">
       <p className="text-xs leading-5 text-slate-700">
-        Мы используем файлы cookie для корректной работы сайта. Оставаясь здесь,
-        вы соглашаетесь с обработкой данных согласно политике конфиденциальности.
+        Мы используем файлы cookie для работы сайта. Оставаясь здесь, вы
+        соглашаетесь с обработкой данных согласно политике конфиденциальности.
       </p>
       <button
         type="button"
         onClick={accept}
-        className="btn-glass-primary shrink-0 rounded-lg px-5 py-2.5 text-xs font-semibold"
+        className="btn-glass-primary shrink-0 rounded-lg px-5 py-2 text-xs font-semibold"
       >
         Принято
       </button>

@@ -18,7 +18,7 @@ const items = [
 
 export default function Guarantees() {
   return (
-    <section id="documents" className="relative py-10 md:py-14">
+    <section id="documents" className="relative py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Гарантии и документы"
@@ -29,9 +29,9 @@ export default function Guarantees() {
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {items.map((item, index) => (
             <Reveal key={item.title} delay={index * 100}>
-              <div className="glass h-full rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+              <div className="glass h-full rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <h3 className="text-lg font-semibold text-brand">{item.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600">{item.text}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
               </div>
             </Reveal>
           ))}

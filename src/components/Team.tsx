@@ -34,7 +34,7 @@ const team = [
 
 export default function Team() {
   return (
-    <section id="team" className="section-band relative py-10 md:py-14">
+    <section id="team" className="section-band relative py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Команда"
@@ -45,8 +45,8 @@ export default function Team() {
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {team.map((person, index) => (
             <Reveal key={person.name} delay={index * 100}>
-              <div className="glass flex h-full flex-col rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
-                <div className="glass-strong icon-glow flex h-14 w-14 items-center justify-center rounded-full text-lg font-bold text-brand">
+              <div className="glass flex h-full flex-col rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+                <div className="bg-brand-100/70 flex h-14 w-14 items-center justify-center rounded-full text-lg font-bold text-brand">
                   {person.name.split(" ").map((w) => w[0]).join("")}
                 </div>
                 <h3 className="mt-5 text-lg font-semibold text-brand">{person.name}</h3>

@@ -56,7 +56,7 @@ const services = [
 
 export default function Services({ footer }: SectionProps) {
   return (
-    <section id="services" className="section-band relative overflow-hidden py-10 md:py-14">
+    <section id="services" className="section-band relative overflow-hidden py-12 md:py-16">
       <div className="absolute -left-32 top-24 h-80 w-80 animate-float-slow rounded-full bg-brand-200/40 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6">
@@ -69,15 +69,15 @@ export default function Services({ footer }: SectionProps) {
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
           {services.map((service, index) => (
             <Reveal key={service.title} delay={index * 120} className={index < 2 ? "lg:col-span-3" : "lg:col-span-2"}>
-              <div className="glass group flex h-full flex-col rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+              <div className="glass group flex h-full flex-col rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <div
-                  className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-12 w-12 items-center justify-center rounded-lg text-brand`}
+                  className={`bg-brand-100/70 ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : ""} flex h-12 w-12 items-center justify-center rounded-lg text-brand`}
                 >
                   <Icon name={service.icon} className="h-6 w-6" />
                 </div>
 
-                <h3 className="mt-6 text-xl font-semibold text-brand">{service.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600">{service.text}</p>
+                <h3 className="mt-6 text-lg font-semibold text-brand">{service.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{service.text}</p>
 
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
                   <span className="glass-strong rounded-lg px-3 py-1 font-semibold text-brand">

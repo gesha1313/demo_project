@@ -42,7 +42,7 @@ export default function Faq({ footer }: SectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="relative py-10 md:py-14">
+    <section id="faq" className="relative py-12 md:py-16">
       <div className="mx-auto max-w-4xl px-6">
         <SectionHeading eyebrow="FAQ" title="Частые вопросы" align="center" />
 

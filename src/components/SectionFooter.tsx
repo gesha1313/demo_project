@@ -23,7 +23,7 @@ export default function SectionFooter({ href, next, hint }: SectionFooterProps) 
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
             Дальше по цепочке
           </div>
-          <div className="mt-1.5 text-lg font-semibold text-brand transition-colors group-hover:text-brand">
+          <div className="mt-1.5 text-base font-semibold text-brand transition-colors group-hover:text-brand">
             {next}
           </div>
         </div>
@@ -34,7 +34,7 @@ export default function SectionFooter({ href, next, hint }: SectionFooterProps) 
 
         <span
           aria-hidden
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-white shadow-md shadow-brand/25 transition-transform duration-300"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-md shadow-brand/25"
         >
           →
         </span>

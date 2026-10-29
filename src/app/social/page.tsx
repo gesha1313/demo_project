@@ -22,10 +22,10 @@ export default function SocialPage() {
           description="Рассказываем, как получить уход по социальным программам, и помогаем оформить всё за вас."
         />
 
-        <section className="py-10 md:py-14">
+        <section className="py-12 md:py-16">
           <div className="mx-auto max-w-4xl px-6">
             <Reveal>
-              <div className="glass-strong rounded-lg p-8 md:p-12">
+              <div className="glass-strong rounded-lg p-6 md:p-8 md:p-12">
                 <div className="space-y-5 leading-8 text-slate-600">
                   <p>
                     Мы работаем в системе государственного заказа социальных услуг и включены в

@@ -50,12 +50,12 @@ export default function BlogPage() {
           links={[{ href: "#posts", label: "Статьи" }, { href: "#psychology", label: "Психологическая помощь" }]}
         />
 
-        <section id="posts" className="relative py-10 md:py-14">
+        <section id="posts" className="relative py-12 md:py-16">
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid gap-5 md:grid-cols-3">
               {posts.map((post, index) => (
                 <Reveal key={post.title} delay={index * 100}>
-                  <article className="glass flex h-full flex-col rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+                  <article className="glass flex h-full flex-col rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                     <div className="flex items-center gap-2 text-xs">
                       <span className="glass-strong rounded-lg px-3 py-1 font-semibold text-brand">
                         {post.tag}
@@ -77,10 +77,10 @@ export default function BlogPage() {
           </div>
         </section>
 
-        <section id="psychology" className="section-band relative py-10 md:py-14">
+        <section id="psychology" className="section-band relative py-12 md:py-16">
           <div className="mx-auto max-w-4xl px-6">
             <Reveal>
-              <div className="glass-strong rounded-lg p-8 md:p-12">
+              <div className="glass-strong rounded-lg p-6 md:p-8 md:p-12">
                 <div className="text-xs font-semibold uppercase tracking-widest text-brand">
                   Психологическая помощь и поддержка родственников
                 </div>

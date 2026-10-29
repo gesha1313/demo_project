@@ -59,7 +59,7 @@ const cases = [
 
 export default function Reviews({ footer }: SectionProps) {
   return (
-    <section id="reviews" className="relative py-10 md:py-14">
+    <section id="reviews" className="relative py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Отзывы и кейсы"
@@ -76,11 +76,11 @@ export default function Reviews({ footer }: SectionProps) {
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review, index) => (
             <Reveal key={review.author} delay={index * 100}>
-              <div className="glass flex h-full flex-col rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
-                <div className="text-3xl leading-none text-brand/60">&ldquo;</div>
-                <p className="mt-3 leading-7 text-slate-600">{review.text}</p>
+              <div className="glass flex h-full flex-col rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+                <div className="text-2xl leading-none text-brand/60">&ldquo;</div>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{review.text}</p>
                 <div className="mt-auto flex items-center gap-3 pt-6">
-                  <div className="glass-strong flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold text-brand">
+                  <div className="bg-brand-100/70 flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold text-brand">
                     {review.author[0]}
                   </div>
                   <div>
@@ -96,7 +96,7 @@ export default function Reviews({ footer }: SectionProps) {
         <div className="mt-10 grid gap-5 md:grid-cols-2">
           {cases.map((item, index) => (
             <Reveal key={item.title} delay={index * 120}>
-              <div className="glass-strong h-full rounded-lg p-7">
+              <div className="glass-strong h-full rounded-lg p-6">
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-lg font-semibold text-brand">{item.title}</h3>
                   <span className="shrink-0 rounded-full bg-brand-100/80 px-3 py-1 text-xs font-semibold text-brand">

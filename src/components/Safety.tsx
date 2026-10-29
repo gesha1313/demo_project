@@ -29,7 +29,7 @@ const items = [
 
 export default function Safety({ footer }: SectionProps) {
   return (
-    <section id="safety" className="section-band relative overflow-hidden py-10 md:py-14">
+    <section id="safety" className="section-band relative overflow-hidden py-12 md:py-16">
       <div className="absolute -left-32 bottom-0 h-80 w-80 animate-float-slow rounded-full bg-brand-200/40 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6">
@@ -41,9 +41,9 @@ export default function Safety({ footer }: SectionProps) {
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {items.map((item, index) => (
             <Reveal key={item.title} delay={index * 120}>
-              <div className="glass h-full rounded-lg p-7 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
+              <div className="glass h-full rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                 <h3 className="text-lg font-semibold text-brand">{item.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600">{item.text}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
               </div>
             </Reveal>
           ))}

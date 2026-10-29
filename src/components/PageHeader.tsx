@@ -30,12 +30,12 @@ export default function PageHeader({ eyebrow, title, description, links }: PageH
             {eyebrow}
           </span>
 
-          <h1 className="mt-4 text-4xl font-semibold leading-[1.1] tracking-tight text-brand md:text-5xl">
+          <h1 className="mt-4 text-3xl font-semibold leading-[1.12] tracking-tight text-brand sm:text-4xl md:text-5xl">
             {title}
           </h1>
 
           {description ? (
-            <p className="mt-5 text-lg leading-8 text-slate-600">{description}</p>
+            <p className="mt-4 text-base leading-7 text-slate-600">{description}</p>
           ) : null}
         </div>
 

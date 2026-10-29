@@ -40,7 +40,7 @@ const documents = [
 
 export default function HowToStart({ footer }: SectionProps) {
   return (
-    <section id="how" className="relative py-10 md:py-14">
+    <section id="how" className="relative py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
@@ -78,7 +78,7 @@ export default function HowToStart({ footer }: SectionProps) {
               <Reveal key={step.number} delay={index * 120}>
                 <div className="glass flex gap-5 rounded-lg p-6 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(13,36,74,0.13)]">
                   <div
-                    className={`glass-strong icon-glow ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : index === 3 ? "icon-glow-delay-3" : ""} flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-brand`}
+                    className={`bg-brand-100/70 ${index === 1 ? "icon-glow-delay-1" : index === 2 ? "icon-glow-delay-2" : index === 3 ? "icon-glow-delay-3" : ""} flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-semibold text-brand`}
                   >
                     {step.number}
                   </div>

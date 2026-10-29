@@ -45,13 +45,13 @@ export default function PansionatPage() {
           description="Пансионат «Народный» в Нижнем Новгороде: комфорт, забота, медицинское сопровождение и увлекательная атмосфера."
         />
 
-        <section className="section-band py-10 md:py-14">
+        <section className="section-band py-12 md:py-16">
           <div className="mx-auto max-w-7xl px-6">
             <SectionHeading eyebrow="Коротко о главном" title="Почему к нам приезжают" />
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               {facts.map((fact, i) => (
                 <Reveal key={fact.name} delay={i * 100}>
-                  <div className="glass h-full rounded-lg p-8 text-center">
+                  <div className="glass h-full rounded-lg p-6 md:p-8 text-center">
                     <div className="text-3xl font-bold text-brand">{fact.name}</div>
                     <div className="mt-2 text-sm text-slate-600">{fact.note}</div>
                   </div>
@@ -61,7 +61,7 @@ export default function PansionatPage() {
           </div>
         </section>
 
-        <section id="districts" className="py-10 md:py-14">
+        <section id="districts" className="py-12 md:py-16">
           <div className="mx-auto max-w-7xl px-6">
             <SectionHeading
               eyebrow="Нижний Новгород"
@@ -83,7 +83,7 @@ export default function PansionatPage() {
                     </div>
                     <div className="flex flex-1 flex-col p-7">
                       <div className="flex flex-wrap items-center justify-between gap-3">
-                        <h2 className="text-xl font-semibold text-brand">{d.name}</h2>
+                        <h2 className="text-lg font-semibold text-brand">{d.name}</h2>
                         <span className="glass-strong rounded-lg px-4 py-1.5 text-sm font-bold text-brand">
                           {d.price}
                         </span>

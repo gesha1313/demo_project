@@ -1,5 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import PhotoRibbon from "@/components/PhotoRibbon";
+import QuoteSection from "@/components/QuoteSection";
 import Trust from "@/components/Trust";
 import About from "@/components/About";
 import DailyLife from "@/components/DailyLife";
@@ -42,6 +44,7 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
+        <PhotoRibbon />
         <QuickForm />
         <StickyNav />
         <Trust />
@@ -71,6 +74,7 @@ export default function Home() {
             hint: "Понятные цены без скрытых доплат",
           }}
         />
+        <QuoteSection />
         <Pricing
           footer={{
             href: "#faq",

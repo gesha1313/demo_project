@@ -72,14 +72,9 @@ body {
 }
 
 body {
-  /* Тонированная подложка вместо белой: стекло читается на контрасте,
-     страницы не «сливаются в одно» */
-  background:
-    radial-gradient(60rem 42rem at 88% -12%, rgba(167, 201, 173, 0.24), transparent 60%),
-    radial-gradient(52rem 38rem at -12% 28%, rgba(214, 197, 164, 0.2), transparent 62%),
-    radial-gradient(46rem 32rem at 50% 112%, rgba(191, 214, 178, 0.18), transparent 60%),
-    linear-gradient(180deg, #f6f4ec 0%, #efeade 100%);
-  background-attachment: fixed;
+  /* Ровный тёплый тон «бумаги»: без пятен и градиентов — карточки
+     читаются на контрасте, страница выглядит опрятно при любом скролле */
+  background: #f7f2e9;
   color: #2c3e50;
   font-family: var(--font-sans);
   font-size: 1rem;
@@ -89,6 +84,28 @@ body {
 ::selection {
   background: var(--color-brand);
   color: #ffffff;
+}
+
+/* Фотолента «Жизнь пансионата»: бесшовная прокрутка дублированной
+   полосы (translateX -50%), пауза при наведении */
+.photo-ribbon-track {
+  animation: ribbon 55s linear infinite;
+}
+
+.photo-ribbon:hover .photo-ribbon-track {
+  animation-play-state: paused;
+}
+
+@keyframes ribbon {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-ribbon-track {
+    animation: none;
+  }
 }
 
 /* Клавиатурная навигация: явное кольцо фокуса на интерактивных
@@ -258,15 +275,10 @@ body {
 }
 
 /* Мобильные устройства: убираем тяжёлые для GPU эффекты,
-   чтобы скролл оставался плавным (fixed-фон, постоянные
-   анимации и сильный blur — главные источники лагов).
-   Светлые панели (.glass/.input-glass) blur больше не используют;
-   остаётся приглушить только тёмное стекло */
+   чтобы скролл оставался плавным (постоянные анимации и сильный
+   blur — главные источники лагов). Светлые панели (.glass/.input-glass)
+   blur больше не используют; остаётся приглушить только тёмное стекло */
 @media (max-width: 767px) {
-  body {
-    background-attachment: scroll;
-  }
-
   .animate-float,
   .animate-float-slow {
     animation: none;

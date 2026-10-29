@@ -18,12 +18,12 @@ export default function TransportPage() {
           eyebrow="Перевозка"
           title="Транспортировка маломобильных людей"
         />
-        <section className="py-10 md:py-14">
+        <section className="py-12 md:py-16">
           <div className="mx-auto max-w-3xl px-6">
             <Reveal>
               <div className="glass rounded-lg p-10 text-center">
-                <div className="text-xl font-semibold text-brand">Раздел готовится</div>
-                <p className="mt-3 leading-7 text-slate-600">
+                <div className="text-lg font-semibold text-brand">Раздел готовится</div>
+                <p className="mt-3 text-sm leading-6 text-slate-600">
                   Скоро здесь появится информация о транспортировке к врачам,
                   в больницу и на реабилитацию с сопровождением.
                 </p>

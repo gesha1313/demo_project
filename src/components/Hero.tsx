@@ -5,7 +5,7 @@ const advantages = ["Здоровое питание", "Медицинское �
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden py-10 md:py-14">
+    <section id="top" className="relative overflow-hidden py-12 md:py-16">
       {/* Декоративные световые пятна */}
       <div className="absolute -right-32 -top-32 h-96 w-96 animate-float rounded-full bg-brand-300/35 blur-3xl" />
       <div className="absolute -left-24 bottom-0 h-80 w-80 animate-float-slow rounded-full bg-brand-200/45 blur-3xl" />
@@ -18,11 +18,11 @@ export default function Hero() {
             Пансионат для пожилых в Нижнем Новгороде
           </div>
 
-          <h1 className="max-w-2xl animate-fade-up text-4xl font-semibold leading-[1.08] tracking-tight text-brand [animation-delay:50ms] md:text-5xl">
+          <h1 className="max-w-2xl animate-fade-up text-3xl font-semibold leading-[1.12] tracking-tight text-brand [animation-delay:50ms] sm:text-4xl md:text-5xl">
             Комфорт, забота и медицинское сопровождение для ваших близких
           </h1>
 
-          <p className="mt-6 max-w-xl animate-fade-up text-lg leading-8 text-slate-600 [animation-delay:100ms]">
+          <p className="mt-6 max-w-xl animate-fade-up text-base leading-7 text-slate-600 [animation-delay:100ms] md:text-lg md:leading-8">
             Пансионат «Народный»: проживание в 2–3-местных номерах, здоровое
             питание, ежедневный уход и увлекательная атмосфера. Для одиноких
             есть социальная программа «Проживание за пенсию».
@@ -96,7 +96,7 @@ export default function Hero() {
           </p>
 
           {/* Информационная карточка */}
-          <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 rounded-lg p-5 md:block">
+          <div className="glass-strong absolute -bottom-7 -left-5 hidden w-64 rounded-lg p-6 md:block">
             <div className="text-sm font-semibold text-brand">Акция: 900 ₽ в сутки</div>
             <p className="mt-2 text-sm leading-6 text-slate-700">
               Действует для всех категорий проживания. Приезжайте на

@@ -33,7 +33,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
 
   if (sent) {
     return (
-      <div className="glass-strong rounded-lg p-8 text-center">
+      <div className="glass-strong rounded-lg p-6 md:p-8 text-center">
         <p className="text-lg font-semibold text-brand">Заявка отправлена!</p>
         <p className="mt-2 text-sm text-slate-600">
           Мы перезвоним в течение 30 минут в рабочее время.
@@ -44,7 +44,7 @@ export default function LeadForm({ variant }: LeadFormProps) {
 
   return (
     <form
-      className="glass-strong space-y-4 rounded-lg p-7"
+      className="glass-strong space-y-4 rounded-lg p-6"
       onSubmit={(e) => {
         e.preventDefault();
         setSending(true);

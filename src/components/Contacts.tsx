@@ -5,7 +5,7 @@ import LeadForm from "./LeadForm";
 
 export default function Contacts() {
   return (
-    <section id="contacts" className="relative py-10 md:py-14">
+    <section id="contacts" className="relative py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeading
           eyebrow="Контакты"
@@ -16,7 +16,7 @@ export default function Contacts() {
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           <Reveal>
             <div className="flex h-full flex-col gap-5">
-              <div className="glass rounded-lg p-7">
+              <div className="glass rounded-lg p-6">
                 <div className="space-y-3 text-sm text-slate-600">
                   <p>
                     <span className="font-semibold text-brand">Адрес:</span> {site.address}
