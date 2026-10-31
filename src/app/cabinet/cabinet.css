@@ -1,0 +1,434 @@
+/* ============================================================
+   Личный кабинет — собственная визуальная тема
+   «Заботливый сервис»: глубокий зелёный + терракотовый акцент
+   на тёплом светлом фоне. Заголовки — Lora, интерфейс — Inter.
+
+   Все цвета и формы вынесены в CSS-переменные (:root) —
+   тема меняется в одном месте, не задевая остальной сайт.
+   ============================================================ */
+
+:root {
+  /* Зелёная шкала (основной цвет) */
+  --cb-green-50: #f0f5f1;
+  --cb-green-100: #dce8df;
+  --cb-green-200: #b9d2c0;
+  --cb-green-300: #8fb49a;
+  --cb-green-400: #6b9379;
+  --cb-green-500: #4a6b50;
+  --cb-green-600: #3e5a43;
+  --cb-green-700: #33483a;
+  --cb-green-800: #283a2f;
+  --cb-green-900: #1e2c23;
+
+  /* Терракотовый акцент — только главные действия */
+  --cb-terra: #a8501f;
+  --cb-terra-hover: #93431a;
+  --cb-terra-soft: #f7e8de;
+
+  /* Поверхности */
+  --cb-bg: #f7f8f5;
+  --cb-bg-2: #f0f3ec;
+  --cb-card: #ffffff;
+  --cb-border: rgba(51, 72, 58, 0.1);
+  --cb-border-strong: rgba(51, 72, 58, 0.16);
+
+  /* Текст (основной — тёмный серо-зелёный, не чёрный) */
+  --cb-text: #2e3a31;
+  --cb-text-muted: #5c6b5e; /* ≥ 4.5:1 на белом */
+  --cb-text-faint: #6f7d71;
+
+  /* Форма и тени */
+  --cb-radius-card: 22px;
+  --cb-radius-btn: 13px;
+  --cb-radius-tile: 15px;
+  --cb-shadow:
+    0 1px 2px rgba(30, 44, 35, 0.06),
+    0 8px 24px rgba(30, 44, 35, 0.08);
+  --cb-shadow-lift:
+    0 2px 4px rgba(30, 44, 35, 0.08),
+    0 14px 32px rgba(30, 44, 35, 0.13);
+  --cb-shadow-btn: 0 6px 16px rgba(168, 80, 31, 0.22);
+
+  /* Типографика (переменные шрифтов приходят из next/font) */
+  --cb-font-heading: var(--font-lora), "Times New Roman", Georgia, serif;
+  --cb-font-ui: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* --- База страницы кабинета ------------------------------- */
+
+.cabinet-page {
+  background: linear-gradient(180deg, var(--cb-bg) 0%, var(--cb-bg-2) 100%);
+  color: var(--cb-text);
+  font-family: var(--cb-font-ui);
+}
+
+.cabinet-page h1,
+.cabinet-page h2,
+.cabinet-page h3 {
+  font-family: var(--cb-font-heading);
+  color: var(--cb-green-800);
+}
+
+.cabinet-page ::selection {
+  background: var(--cb-green-200);
+  color: var(--cb-green-900);
+}
+
+/* Клавиатурный фокус — заметное, но мягкое кольцо */
+.cabinet-page :focus-visible {
+  outline: 2px solid var(--cb-green-400);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* --- Карточки --------------------------------------------- */
+
+.cb-card {
+  background: var(--cb-card);
+  border: 1px solid var(--cb-border);
+  border-radius: var(--cb-radius-card);
+  box-shadow: var(--cb-shadow);
+  padding: 28px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+@media (min-width: 768px) {
+  .cb-card {
+    padding: 32px;
+  }
+}
+
+.cb-card--hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--cb-shadow-lift);
+}
+
+/* Карточка с зелёным акцентом слева (контакты) */
+.cb-card--accent {
+  border-left: 4px solid var(--cb-green-300);
+}
+
+/* Внутренняя «подкарточка» (детали заявки) */
+.cb-subcard {
+  background: var(--cb-green-50);
+  border: 1px solid var(--cb-green-100);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+/* --- Типографика ------------------------------------------- */
+
+.cb-h1 {
+  font-size: clamp(28px, 4.2vw, 38px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.cb-h2 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.cb-lead {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--cb-text-muted);
+}
+
+.cb-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cb-text-faint);
+}
+
+.cb-muted {
+  color: var(--cb-text-muted);
+}
+
+/* --- Бейджи и статус-пилюли -------------------------------- */
+
+.cb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  background: var(--cb-green-100);
+  color: var(--cb-green-700);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+}
+
+.cb-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.cb-pill--new {
+  background: var(--cb-green-100);
+  color: var(--cb-green-700);
+}
+
+.cb-pill--in_progress {
+  background: #f7efd9;
+  color: #7a5312;
+}
+
+.cb-pill--done {
+  background: var(--cb-green-200);
+  color: var(--cb-green-800);
+}
+
+.cb-pill--cancelled {
+  background: #e8eae6;
+  color: #5c6b5e;
+}
+
+/* --- Кнопки ------------------------------------------------- */
+
+.cb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: var(--cb-radius-btn);
+  font-family: var(--cb-font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+    box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+/* Главная — терракотовая, с мягким градиентом */
+.cb-btn--primary {
+  background: linear-gradient(180deg, #b45924 0%, var(--cb-terra) 100%);
+  color: #fff;
+  box-shadow: var(--cb-shadow-btn);
+}
+
+.cb-btn--primary:hover {
+  background: linear-gradient(180deg, #a8501f 0%, var(--cb-terra-hover) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(168, 80, 31, 0.28);
+}
+
+.cb-btn--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(168, 80, 31, 0.2);
+}
+
+.cb-btn--primary:disabled {
+  background: #b3b8b2;
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Вторичная — светлая с тонкой рамкой */
+.cb-btn--secondary {
+  background: var(--cb-card);
+  border: 1px solid var(--cb-green-200);
+  color: var(--cb-green-700);
+}
+
+.cb-btn--secondary:hover {
+  background: var(--cb-green-50);
+  border-color: var(--cb-green-300);
+}
+
+/* Третичная — текстовая/призрачная */
+.cb-btn--ghost {
+  background: transparent;
+  color: var(--cb-text-muted);
+  padding: 0 14px;
+}
+
+.cb-btn--ghost:hover {
+  background: var(--cb-green-50);
+  color: var(--cb-green-700);
+}
+
+/* «Выйти» внутри кабинета: глушим глобальный btn-glass-ghost,
+   делаем третичной текстовой (сам компонент общий для сайта) */
+.cabinet-page .cb-logout {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: var(--cb-text-muted);
+}
+
+.cabinet-page .cb-logout:hover {
+  background: var(--cb-green-50);
+  color: var(--cb-green-700);
+  transform: none;
+}
+
+/* --- Иконки-плитки ------------------------------------------ */
+
+.cb-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--cb-radius-tile);
+  background: var(--cb-green-100);
+  color: var(--cb-green-700);
+  flex-shrink: 0;
+}
+
+.cb-tile--solid {
+  background: linear-gradient(180deg, var(--cb-green-500), var(--cb-green-600));
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(74, 107, 80, 0.3);
+}
+
+/* Аватар с инициалами */
+.cb-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--cb-green-400), var(--cb-green-600));
+  color: #fff;
+  font-family: var(--cb-font-heading);
+  font-weight: 600;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* --- Пустое состояние --------------------------------------- */
+
+.cb-empty {
+  border: 1.5px dashed var(--cb-green-200);
+  background: linear-gradient(180deg, rgba(240, 245, 241, 0.7), rgba(255, 255, 255, 0.4));
+  border-radius: 16px;
+  padding: 36px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.cb-empty__circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cb-green-100);
+  color: var(--cb-green-600);
+  margin-bottom: 16px;
+}
+
+.cb-empty__title {
+  font-family: var(--cb-font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--cb-green-800);
+}
+
+.cb-empty__text {
+  margin-top: 8px;
+  max-width: 42ch;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--cb-text-muted);
+}
+
+/* --- Список с галочками -------------------------------------- */
+
+.cb-check {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cb-check li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--cb-text-muted);
+}
+
+.cb-check svg {
+  margin-top: 2px;
+  color: var(--cb-green-500);
+  flex-shrink: 0;
+}
+
+/* --- Поля ввода (переопределяем глобальное стекло
+       только внутри кабинета; сам класс input-glass сохранён) -- */
+
+.cabinet-page .input-glass {
+  background: #fff;
+  border: 1px solid var(--cb-border-strong);
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 13px 16px;
+  font-family: var(--cb-font-ui);
+  font-size: 15px;
+  color: var(--cb-text);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.cabinet-page .input-glass::placeholder {
+  color: #98a29a;
+}
+
+.cabinet-page .input-glass:focus {
+  background: #fff;
+  border-color: var(--cb-green-300);
+  box-shadow: 0 0 0 4px rgba(74, 107, 80, 0.12);
+}
+
+/* --- Ссылки-действия ----------------------------------------- */
+
+.cb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cb-green-600);
+  transition: color 0.18s ease;
+}
+
+.cb-link:hover {
+  color: var(--cb-green-800);
+}
+
+/* --- Мобильная адаптация -------------------------------------- */
+
+@media (max-width: 640px) {
+  .cb-card {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  /* Кнопки шапки — в столбик на всю ширину */
+  .cb-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cb-actions .cb-btn {
+    width: 100%;
+  }
+}

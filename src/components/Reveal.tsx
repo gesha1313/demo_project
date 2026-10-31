@@ -25,7 +25,10 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
     const el = ref.current;
     if (!el) return;
 
+    let revealed = false;
     const show = () => {
+      if (revealed) return;
+      revealed = true;
       el.classList.remove(...HIDDEN_CLASSES);
       el.classList.add(...VISIBLE_CLASSES);
     };
@@ -35,18 +38,27 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
       return;
     }
 
+    // Страховка: при клиентской навигации IntersectionObserver иногда
+    // не выдаёт событие для уже видимого элемента — без таймаута контент
+    // навсегда оставался бы невидимым (opacity-0). show() идемпотентен.
+    const fallback = window.setTimeout(show, delay + 800);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           show();
           observer.disconnect();
+          window.clearTimeout(fallback);
         }
       },
       { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return (

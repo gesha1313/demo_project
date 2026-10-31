@@ -51,15 +51,15 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
   };
 
   return (
-    <div className="glass rounded-lg p-7 md:p-8">
-      <h2 className="text-lg font-semibold text-brand">Контакты для связи</h2>
-      <p className="mt-1 text-sm text-slate-700">
+    <div className="cb-card cb-card--hover h-full">
+      <h2 className="cb-h2">Контакты для связи</h2>
+      <p className="cb-lead mt-1">
         Оставьте имя и телефон — сотрудник пансионата перезвонит вам.
       </p>
 
       <form className="mt-6 space-y-4" onSubmit={handleSave}>
         <div>
-          <label htmlFor="full-name" className="mb-2 block text-sm font-medium text-brand">
+          <label htmlFor="full-name" className="cb-label mb-2 block">
             Ваше имя
           </label>
           <input
@@ -73,7 +73,7 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
         </div>
 
         <div>
-          <label htmlFor="phone" className="mb-2 block text-sm font-medium text-brand">
+          <label htmlFor="phone" className="cb-label mb-2 block">
             Телефон для связи
           </label>
           <input
@@ -95,13 +95,13 @@ export default function ProfileCard({ initialFullName, initialPhone }: ProfileCa
           <button
             type="submit"
             disabled={status === "saving" || !phoneValid}
-            className="btn-glass-primary rounded-lg px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="cb-btn cb-btn--primary disabled:cursor-not-allowed"
           >
             {status === "saving" ? "Сохраняем…" : "Сохранить"}
           </button>
 
           {status === "saved" ? (
-            <span className="text-sm font-medium text-brand" role="status">
+            <span className="text-sm font-medium text-[var(--cb-green-700)]" role="status">
               Сохранено ✓
             </span>
           ) : null}

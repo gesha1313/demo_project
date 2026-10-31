@@ -1,14 +1,31 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Inter, Lora } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Reveal from "@/components/Reveal";
 import ProfileCard from "@/components/ProfileCard";
 import LogoutButton from "@/components/LogoutButton";
 import { getCurrentUser, isStaff } from "@/lib/auth";
 import { dbGet, getDb } from "@/lib/db";
 import CaretakerCabinet from "@/components/CaretakerCabinet";
+import "./cabinet.css";
+
+/* Шрифты темы кабинета: Lora — заголовки (характер бренда),
+   Inter — интерфейс (кнопки, подписи, поля). Кириллица включена. */
+const lora = Lora({
+  subsets: ["latin", "cyrillic"],
+  weight: ["500", "600"],
+  variable: "--font-lora",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Личный кабинет",
@@ -24,10 +41,10 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-brand-100/80 text-brand",
-  in_progress: "bg-amber-100/80 text-amber-700",
-  done: "bg-brand-100/80 text-brand",
-  cancelled: "bg-slate-200/80 text-slate-700",
+  new: "cb-pill cb-pill--new",
+  in_progress: "cb-pill cb-pill--in_progress",
+  done: "cb-pill cb-pill--done",
+  cancelled: "cb-pill cb-pill--cancelled",
 };
 
 const formatPrice = (price: number) => price.toLocaleString("ru-RU");
@@ -78,6 +95,14 @@ export default async function CabinetPage({
 
   const displayName = user.fullName?.trim() || user.email;
 
+  // Инициалы для аватара в приветствии
+  const initials = displayName
+    .split(/[\s@.]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+
   // Последняя заявка на сиделку (отдельный тип заявок)
   const caretaker = await dbGet<{
     id: number;
@@ -111,41 +136,33 @@ export default async function CabinetPage({
 
   // Карточка статуса последней заявки — одна на обе композиции
   const statusCard = (
-    <div className="glass h-full rounded-lg p-7 md:p-8">
+    <div className="cb-card cb-card--hover h-full">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-lg font-semibold text-brand">
-          {request ? "Последняя заявка" : "Заявки"}
+        <h2 className="cb-h2">
+          {request ? "Последняя заявка" : `Заявки · ${totalCount}`}
         </h2>
         {request ? (
-          <span
-            className={`rounded-lg px-3 py-1 text-xs font-semibold ${
-              STATUS_STYLES[request.status] ?? STATUS_STYLES.new
-            }`}
-          >
+          <span className={STATUS_STYLES[request.status] ?? STATUS_STYLES.new}>
             {STATUS_LABELS[request.status] ?? request.status}
           </span>
         ) : null}
       </div>
 
       {request ? (
-        <div className="mt-5 space-y-3 text-sm">
-          <div className="glass-strong rounded-lg px-5 py-4">
+        <div className="mt-5 space-y-4 text-[15px] leading-relaxed">
+          <div className="cb-subcard">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="text-xs font-semibold uppercase tracking-wide text-brand">
-                Заявка №{request.id} · {request.created_at.slice(0, 10)}
-              </div>
+              <div className="cb-label">Заявка №{request.id} · {request.created_at.slice(0, 10)}</div>
               {request.ward_name ? (
-                <span className="rounded-full bg-slate-100/80 px-3 py-0.5 text-xs font-medium text-slate-600">
-                  {request.ward_name}
-                </span>
+                <span className="cb-pill cb-pill--cancelled">{request.ward_name}</span>
               ) : null}
             </div>
 
             {request.plan_name ? (
-              <div className="mt-2 text-sm font-medium text-brand">
+              <div className="mt-2 font-medium text-[var(--cb-green-700)]">
                 Тариф: {request.plan_name}
                 {request.monthly_price ? (
-                  <span className="font-normal text-slate-700">
+                  <span className="font-normal cb-muted">
                     {" "}· {formatPrice(request.monthly_price)} ₽/мес
                   </span>
                 ) : null}
@@ -153,54 +170,46 @@ export default async function CabinetPage({
             ) : null}
 
             {(request.description ?? request.message) ? (
-              <p className="mt-1 leading-6 text-slate-600">
-                {request.description ?? request.message}
-              </p>
+              <p className="mt-1 cb-muted">{request.description ?? request.message}</p>
             ) : null}
           </div>
 
-          <p className="text-slate-700">
+          <p className="cb-muted">
             {request.employee_email
               ? `Вашей заявкой занимается: ${request.employee_email}`
               : "Заявка ждёт распределения к сотруднику."}
           </p>
 
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link
-              href="/cabinet/requests"
-              className="inline-flex items-center gap-2 font-semibold text-brand transition-all duration-200 hover:text-brand-dark"
-            >
+            <Link href="/cabinet/requests" className="cb-link">
               Подробнее — все заявки{totalCount > 1 ? ` (${totalCount})` : ""} →
             </Link>
-            <Link
-              href="/cabinet/new"
-              className="inline-flex items-center gap-2 font-semibold text-brand transition-all duration-200 hover:text-brand-dark"
-            >
+            <Link href="/cabinet/new" className="cb-link">
               Создать следующую заявку →
             </Link>
           </div>
         </div>
       ) : (
-        <div className="glass mt-5 flex flex-col items-center gap-3 rounded-lg px-7 py-10 text-center sm:flex-row sm:text-left">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-[0_6px_16px_rgba(62,107,79,0.35)]">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
-              strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6" aria-hidden="true">
-              <path d="M12 5v14M5 12h14" />
+        <div className="cb-empty mt-5">
+          <div className="cb-empty__circle" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}
+              strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+              <path d="M14 2v6h6M12 18v-6M9 15h6" />
             </svg>
           </div>
-          <div>
-            <p className="font-semibold text-brand">Заявок пока нет</p>
-            <p className="mt-1 text-sm leading-6 text-slate-700">
-              Создайте первую — расскажите о подопечном и выберите тариф,
-              а мы перезвоним и всё обсудим.
-            </p>
-            <Link
-              href="/cabinet/new"
-              className="btn-glass-primary mt-4 inline-block rounded-lg px-6 py-3 text-sm font-semibold"
-            >
-              Создать заявку
-            </Link>
-          </div>
+          <p className="cb-empty__title">Заявок пока нет</p>
+          <p className="cb-empty__text">
+            Создайте первую — расскажите о подопечном и выберите тариф,
+            а мы перезвоним и всё обсудим.
+          </p>
+          <Link href="/cabinet/new" className="cb-btn cb-btn--primary mt-5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}
+              strokeLinecap="round" className="h-4 w-4" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Создать заявку
+          </Link>
         </div>
       )}
     </div>
@@ -208,75 +217,95 @@ export default async function CabinetPage({
 
   // Карточка последней заявки на сиделку — визуально отличается от пансионатных
   const caretakerCard = caretaker ? (
-    <div className="glass h-full rounded-lg border-l-4 border-l-brand-400 p-7 md:p-8">
+    <div className="cb-card cb-card--hover h-full" style={{ borderTop: "3px solid var(--cb-green-300)" }}>
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-lg font-semibold text-brand">Заявка на сиделку</h2>
-        <span className="rounded-full bg-brand-100/80 px-3 py-1 text-xs font-semibold text-brand">
-          Сиделка · №{caretaker.id}
-        </span>
+        <h2 className="cb-h2">Заявка на сиделку</h2>
+        <span className="cb-badge">Сиделка · №{caretaker.id}</span>
       </div>
 
-          <div className="mt-5 space-y-3 text-sm">
-            <div className="glass-strong rounded-lg px-5 py-4">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="font-medium text-brand">{caretaker.ward_name}</span>
-                {caretaker.address ? (
-                  <span className="text-xs text-slate-700">{caretaker.address}</span>
-                ) : null}
-              </div>
-              {caretaker.status === "new" ? (
-                <div className="mt-2 text-amber-700">
-                  Сейчас все сиделки заняты — заявка в очереди, свяжемся при освобождении
-                </div>
-              ) : caretaker.caretaker_name ? (
-                <div className="mt-2 text-slate-600">
-                  {caretaker.status === "accepted" ? (
-                    <>
-                      Сиделка приняла заявку:{" "}
-                      <span className="font-semibold text-brand">{caretaker.caretaker_name}</span>
-                      {caretaker.caretaker_experience
-                        ? ` · стаж ${caretaker.caretaker_experience} лет`
-                        : ""}
-                    </>
-                  ) : (
-                    <>
-                      Предложена сиделке:{" "}
-                      <span className="font-semibold text-brand">{caretaker.caretaker_name}</span>
-                      {caretaker.caretaker_experience
-                        ? ` · стаж ${caretaker.caretaker_experience} лет`
-                        : ""}{" "}
-                      · ждём её ответа
-                    </>
-                  )}
-                </div>
-              ) : null}
+      <div className="mt-5 space-y-4 text-[15px] leading-relaxed">
+        <div className="cb-subcard">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="font-medium text-[var(--cb-green-700)]">{caretaker.ward_name}</span>
+            {caretaker.address ? (
+              <span className="text-sm cb-muted">{caretaker.address}</span>
+            ) : null}
+          </div>
+          {caretaker.status === "new" ? (
+            <div className="mt-2" style={{ color: "#7a5312" }}>
+              Сейчас все сиделки заняты — заявка в очереди, свяжемся при освобождении
             </div>
+          ) : caretaker.caretaker_name ? (
+            <div className="mt-2 cb-muted">
+              {caretaker.status === "accepted" ? (
+                <>
+                  Сиделка приняла заявку:{" "}
+                  <span className="font-semibold text-[var(--cb-green-700)]">{caretaker.caretaker_name}</span>
+                  {caretaker.caretaker_experience
+                    ? ` · стаж ${caretaker.caretaker_experience} лет`
+                    : ""}
+                </>
+              ) : (
+                <>
+                  Предложена сиделке:{" "}
+                  <span className="font-semibold text-[var(--cb-green-700)]">{caretaker.caretaker_name}</span>
+                  {caretaker.caretaker_experience
+                    ? ` · стаж ${caretaker.caretaker_experience} лет`
+                    : ""}{" "}
+                  · ждём её ответа
+                </>
+              )}
+            </div>
+          ) : null}
+        </div>
 
-        <Link
-          href="/cabinet/requests"
-          className="inline-flex items-center gap-2 font-semibold text-brand transition-all duration-200 hover:text-brand-dark"
-        >
+        <Link href="/cabinet/requests" className="cb-link">
           Подробнее — все заявки →
         </Link>
       </div>
     </div>
   ) : (
-    <div className="glass flex h-full flex-col rounded-lg p-7 md:p-8">
+    <div className="cb-card cb-card--hover flex h-full flex-col">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-lg font-semibold text-brand">Услуга сиделки</h2>
-        <span className="rounded-full bg-brand-100/80 px-3 py-1 text-xs font-semibold text-brand">
-          Сиделка
-        </span>
+        <h2 className="cb-h2">Услуга сиделки</h2>
+        <span className="cb-badge">Сиделка</span>
       </div>
-      <p className="mt-4 text-sm leading-6 text-slate-700">
+      <p className="cb-lead mt-3">
         Нужна сиделка на дом? Заполните короткую анкету — подберём свободную
         рядом с вами и покажем на карте.
       </p>
-      <Link
-        href="/caretaker"
-        className="btn-glass-primary mt-auto w-fit rounded-lg px-6 py-3 text-sm font-semibold"
-      >
+
+      {/* Три коротких пункта вместо «дыры» между текстом и кнопкой */}
+      <ul className="cb-check mt-5">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2}
+            strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+          Подбор свободной сиделки рядом с вами
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2}
+            strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+          Показ выбранной сиделки на карте
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2}
+            strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+          Перезвоним и всё обсудим
+        </li>
+      </ul>
+
+      <Link href="/caretaker" className="cb-btn cb-btn--primary mt-auto w-fit self-start">
         Оформить заявку
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}
+          strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
       </Link>
     </div>
   );
@@ -284,32 +313,26 @@ export default async function CabinetPage({
   // Карточка горячей линии — широкая (внизу) или компактная (половина сетки)
   const supportCard = (compact: boolean) =>
     compact ? (
-      <div className="glass flex h-full flex-col rounded-lg p-7 md:p-8">
-        <h2 className="text-lg font-semibold text-brand">Горячая линия</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+      <div className="cb-card cb-card--hover flex h-full flex-col">
+        <h2 className="cb-h2">Горячая линия</h2>
+        <p className="cb-lead mt-2">
           Есть вопрос о проживании, уходе или документах? Напишите в чат —
           сотрудник поддержки ответит вам напрямую.
         </p>
-        <Link
-          href="/support"
-          className="btn-glass-primary mt-6 w-fit rounded-lg px-6 py-3 text-sm font-semibold"
-        >
+        <Link href="/support" className="cb-btn cb-btn--primary mt-6 w-fit">
           Открыть чат
         </Link>
       </div>
     ) : (
-      <div className="glass flex h-full flex-col items-start gap-5 rounded-lg p-7 md:flex-row md:items-center md:justify-between md:p-8">
+      <div className="cb-card cb-card--hover flex h-full flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-brand">Горячая линия</h2>
-          <p className="mt-1 max-w-lg text-sm leading-6 text-slate-600">
+          <h2 className="cb-h2">Горячая линия</h2>
+          <p className="cb-lead mt-1 max-w-lg">
             Есть вопрос о проживании, уходе или документах? Напишите в чат —
             сотрудник поддержки ответит вам напрямую.
           </p>
         </div>
-        <Link
-          href="/support"
-          className="btn-glass-primary shrink-0 rounded-lg px-6 py-3 text-sm font-semibold"
-        >
+        <Link href="/support" className="cb-btn cb-btn--primary shrink-0">
           Открыть чат
         </Link>
       </div>
@@ -318,103 +341,108 @@ export default async function CabinetPage({
   return (
     <>
       <Header />
-      <main className="relative flex-1 overflow-hidden bg-gradient-to-br from-white via-brand-50 to-brand-100">
-        <div className="absolute -right-32 -top-24 h-96 w-96 animate-float rounded-full bg-brand-300/40 blur-3xl" />
-        <div className="absolute -left-28 bottom-0 h-96 w-96 animate-float-slow rounded-full bg-brand-200/50 blur-3xl" />
-
-        <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-20">
-          {/* Приветствие */}
-          <div className="animate-fade-up flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <main className={`cabinet-page ${lora.variable} ${inter.variable} relative flex-1`}>
+        <div className="relative mx-auto max-w-[1200px] px-4 py-10 sm:px-6 md:px-8 md:py-14">
+          {/* Шапка страницы: слева — приветствие, справа — действия */}
+          <header className="animate-fade-up flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+              <span className="cb-badge">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--cb-green-400)]" aria-hidden="true" />
                 Личный кабинет
               </span>
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-brand md:text-4xl">
-                Здравствуйте, {displayName}
-              </h1>
-              <p className="mt-1 text-sm text-slate-700">Аккаунт: {user.email}</p>
-              <p className="mt-2 text-slate-600">
+
+              <div className="mt-4 flex items-center gap-4">
+                <span className="cb-avatar h-14 w-14 text-lg" aria-hidden="true">
+                  {initials || "П"}
+                </span>
+                <h1 className="cb-h1">Здравствуйте, {displayName}</h1>
+              </div>
+
+              <p className="mt-3 text-sm cb-muted">Аккаунт: {user.email}</p>
+              <p className="cb-lead mt-1 max-w-xl">
                 {showForm && !user.phone
                   ? "Оставьте номер телефона, чтобы мы могли вам перезвонить."
                   : "Всё о заявках и связь с пансионатом — в одном месте."}
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <Link
-                href="/cabinet/new"
-                className="btn-glass-primary rounded-lg px-6 py-3 text-sm font-semibold"
-              >
+            <div className="cb-actions flex flex-wrap items-center gap-3">
+              <Link href="/cabinet/new" className="cb-btn cb-btn--primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2}
+                  strokeLinecap="round" className="h-4 w-4" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
                 Создать заявку
               </Link>
               {isStaff(user) ? (
-                <Link
-                  href="/admin"
-                  className="btn-glass-ghost rounded-lg px-6 py-3 text-sm font-semibold"
-                >
+                <Link href="/admin" className="cb-btn cb-btn--secondary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
+                    strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+                    <path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10Z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
                   Админ-панель
                 </Link>
               ) : null}
-              <LogoutButton />
+              <LogoutButton className="cb-logout" />
             </div>
-          </div>
+          </header>
 
           {showForm ? (
-            /* До сохранения контактов: форма + заявки рядом, линия во всю ширину */
-            <div className="mt-12 grid gap-6 lg:grid-cols-2">
-              <Reveal>
-                <ProfileCard initialFullName={user.fullName} initialPhone={user.phone} />
-              </Reveal>
+            /* До сохранения контактов: форма + заявки рядом, линия во всю ширину.
+               Карточки кабинета — функциональный контент, без scroll-reveal:
+               анимация появления здесь оставляла «дыры» при смене веток */
+            <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-2">
+              <ProfileCard initialFullName={user.fullName} initialPhone={user.phone} />
 
-              <Reveal delay={120}>{statusCard}</Reveal>
+              {statusCard}
 
-              <Reveal delay={180}>{caretakerCard}</Reveal>
+              {caretakerCard}
 
-              <Reveal delay={240} className="lg:col-span-2">
-                {supportCard(false)}
-              </Reveal>
+              <div className="lg:col-span-2">{supportCard(false)}</div>
             </div>
           ) : (
-            /* Контакты сохранены: вместо формы — компактная полоска,
+            /* Контакты сохранены: компактная карточка контактов,
                заявки (пансионат и сиделка) встают рядом */
-            <div className="mt-12 space-y-6">
-              <div className="glass animate-fade-up flex flex-col gap-4 rounded-lg px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-[0_6px_16px_rgba(62,107,79,0.35)]">
-                    <svg
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
-                      strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true"
-                    >
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z" />
+            <div className="mt-10 space-y-6">
+              <div className="animate-fade-up">
+                <div className="cb-card cb-card--accent cb-card--hover flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-4">
+                    <span className="cb-tile cb-tile--solid h-12 w-12" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
+                        strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z" />
+                      </svg>
+                    </span>
+                    <div>
+                      <div className="cb-label">
+                        {user.fullName?.trim() || "Ваш профиль"}
+                      </div>
+                      <div className="mt-0.5 text-xl font-semibold text-[var(--cb-green-800)]">
+                        {user.phone}
+                      </div>
+                      <div className="mt-0.5 text-sm cb-muted">
+                        Контакты сохранены — перезвоним на этот номер
+                      </div>
+                    </div>
+                  </div>
+
+                  <Link href="/cabinet?edit=1" className="cb-btn cb-btn--secondary w-fit shrink-0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9}
+                      strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                     </svg>
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-600">
-                      {user.fullName?.trim() || "Ваш профиль"}
-                    </div>
-                    <div className="mt-0.5 block text-xl font-bold text-brand">
-                      {user.phone}
-                    </div>
-                    <div className="text-xs text-slate-600">
-                      Контакты сохранены — перезвоним на этот номер
-                    </div>
-                  </div>
+                    Изменить данные
+                  </Link>
                 </div>
-
-                <Link
-                  href="/cabinet?edit=1"
-                  className="w-fit shrink-0 rounded-lg border-[1.5px] border-slate-400 bg-white/60 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-all duration-200 hover:border-brand hover:text-brand"
-                >
-                  Изменить данные
-                </Link>
               </div>
 
-              <div className="grid gap-6 lg:grid-cols-2">
-                <Reveal>{statusCard}</Reveal>
-                <Reveal delay={120}>{caretakerCard}</Reveal>
+              <div className="grid items-stretch gap-6 lg:grid-cols-2">
+                {statusCard}
+                {caretakerCard}
               </div>
 
-              <Reveal delay={180}>{supportCard(false)}</Reveal>
+              {supportCard(false)}
             </div>
           )}
         </div>
